@@ -11,13 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('classes', function (Blueprint $table) {
+        Schema::create('schoolShiftDetail', function (Blueprint $table) {
             $table->id();
-            $table->string('className');
-            $table->foreignId('majorID')->constrained('major','id');
-            $table->foreignId('curriculumID')->constrained('curriculum','id');
-            $table->string('grade');
-            $table->integer('totalStudent')->nullable();
+            $table->String("dateInWeek");
+            $table->foreignId('schoolShiftID')->constrained('schoolShift','id');
+            $table->foreignId('classroomID')->constrained('classroom','id');
+            $table->foreignId('shiftsID')->constrained('_shifts','id');
             $table->timestamps();
         });
     }
@@ -27,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('classes');
+        Schema::dropIfExists('schoolShiftDetail');
     }
 };

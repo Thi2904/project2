@@ -83,8 +83,9 @@
                         <option value="4">Security</option>
                     </select>
                 </div>
+
                 <div class="form-element">
-                    <label for="className">Class name</label>
+                    <label for="className">Tên lớp</label>
                     <input name="className" type="text" id="className" placeholder="Enter class name">
                 </div>
                 <div class="form-element">
@@ -92,8 +93,10 @@
                     <input name="grade" type="text" id="grade" placeholder="Enter grade">
                 </div>
                 <div class="form-element">
-                    <label for="studentNum">Total Student</label>
-                    <input name="totalStudent" type="text" id="studentNum" placeholder="Enter quantity of student">
+                    <label for="className">Chương trình học</label>
+                    <select class="select-element" name="curriculumID" id="curriculumID">
+                        <option value="1">BTEC 2022</option>
+                    </select>
                 </div>
                 <div class="form-element">
                     <button type="submit">Add</button>
@@ -137,8 +140,10 @@
                                 <input name="grade" value="{{$class->grade}}" type="text" id="grade" placeholder="Enter grade">
                             </div>
                             <div class="form-element">
-                                <label for="studentNum">Total Student</label>
-                                <input name="totalStudent" value="{{$class->totalStudent}}" type="text" id="studentNum" placeholder="Enter quantity of student">
+                                <label for="className">Chương trình học</label>
+                                <select class="select-element" name="curriculumID" id="curriculumID">
+                                    <option value="1">BTEC 2022</option>
+                                </select>
                             </div>
                             <div class="form-element">
                                 <button type="submit">Update</button>

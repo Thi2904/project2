@@ -49,8 +49,7 @@
 
         <form>
             <div class="form-input">
-                <input name="keyword" type="search" placeholder="Search...">
-                <button type="submit" class="search-btn"><i class='bx bx-search' ></i></button>
+
             </div>
         </form>
         {{--            <input type="checkbox" id="switch-mode" hidden>--}}

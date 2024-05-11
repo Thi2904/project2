@@ -14,9 +14,9 @@ return new class extends Migration
         Schema::create('subjects', function (Blueprint $table) {
             $table->id();
             $table->String('subjectName');
+            $table->String('codeName');
             $table->integer('subjectTime');
-            $table->String("dateStart");
-            $table->String("dateEnd");
+            $table->text('description')->nullable();
             $table->foreignId('majorID')->constrained('major','id');
             $table->foreignId('curriculumID')->constrained('curriculum','id');
             $table->timestamps();

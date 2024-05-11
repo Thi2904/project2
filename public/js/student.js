@@ -33,36 +33,7 @@ const searchButton = document.querySelector('#content nav form .form-input butto
 const searchButtonIcon = document.querySelector('#content nav form .form-input button .bx');
 const searchForm = document.querySelector('#content nav form');
 
-searchButton.addEventListener('click', function (e) {
-    if(window.innerWidth < 576) {
-        e.preventDefault();
-        searchForm.classList.toggle('show');
-        if(searchForm.classList.contains('show')) {
-            searchButtonIcon.classList.replace('bx-search', 'bx-x');
-        } else {
-            searchButtonIcon.classList.replace('bx-x', 'bx-search');
-        }
-    }
-})
 
-
-
-
-
-if(window.innerWidth < 768) {
-    sidebar.classList.add('hide');
-} else if(window.innerWidth > 576) {
-    searchButtonIcon.classList.replace('bx-x', 'bx-search');
-    searchForm.classList.remove('show');
-}
-
-
-window.addEventListener('resize', function () {
-    if(this.innerWidth > 576) {
-        searchButtonIcon.classList.replace('bx-x', 'bx-search');
-        searchForm.classList.remove('show');
-    }
-})
 
 // ADD NEW CHUYEN NGANH
 if( document.querySelector("#show-add") ) {
@@ -98,8 +69,8 @@ if(document.querySelector(".button-edit")){
             popupElement.classList.add("active");
             var addButton = popupElement.querySelector('button');
             var addContent = popupElement.querySelector('h2');
-            addButton.innerText = 'Edit';
-            addContent.innerText = 'Edit Class';
+            addButton.innerText = 'Chỉnh sửa';
+            addContent.innerText = 'Chỉnh sửa';
 
         });
     });
@@ -112,6 +83,46 @@ if(document.querySelector(".alert .alert-success")){
     setTimeout(function() {
         document.querySelector(".alert .alert-success").classList.add('unactive')
     },1000)
-}else{
-
 }
+
+var clickSearchCount = 0;
+document.querySelector(".click_search")
+    .addEventListener("click", function () {
+        var searchElement = document.querySelector('.search_form')
+        if (clickSearchCount === 0) {
+            searchElement.classList.add("active_search");
+            clickSearchCount++;
+        }else{
+            searchElement.classList.remove("active_search");
+            clickSearchCount = 0;
+        }
+    })
+
+//Xuong dong input
+// Lặp qua tất cả các ô input và thêm sự kiện cho mỗi ô input
+var textInputs = document.querySelectorAll(".text-input");
+textInputs.forEach(function(input) {
+    input.addEventListener("input", function(event) {
+        var maxLength = parseInt(event.target.getAttribute("maxlength"));
+        var text = event.target.value;
+        if (text.length > maxLength) {
+            event.target.value = text.substring(0, maxLength);
+            event.preventDefault();
+            var startIndex = event.target.selectionStart;
+            var endIndex = event.target.selectionEnd;
+            event.target.value = text.substring(0, startIndex) + "\n" + text.substring(endIndex, text.length);
+            event.target.setSelectionRange(startIndex + 1, startIndex + 1);
+        }
+    });
+
+    input.addEventListener("keypress", function(event) {
+        if (event.key === "Enter") {
+            event.preventDefault();
+            var form = event.target.form;
+            var index = Array.prototype.indexOf.call(form, event.target);
+            if (form.elements[index + 1]) {
+                form.elements[index + 1].focus();
+            }
+        }
+    });
+});

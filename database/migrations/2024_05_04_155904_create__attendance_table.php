@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('excused_absences ', function (Blueprint $table) {
+        Schema::create('excused_absences', function (Blueprint $table) {
             $table->id();
             $table->foreignId("studentID")->constrained("students","id");
             $table->string('numberOfAbsent');
@@ -19,7 +19,7 @@ return new class extends Migration
             $table->timestamps();
         });
 
-        Schema::create('unexcused_absences ', function (Blueprint $table) {
+        Schema::create('unexcused_absences', function (Blueprint $table) {
             $table->id();
             $table->foreignId("studentID")->constrained("students","id");
             $table->string('numberOfLate');

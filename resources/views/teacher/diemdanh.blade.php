@@ -4,6 +4,24 @@
 
 @section('content')
     <div class="content">
+        <div class="onTheTable">
+            <div class="onTheTable_element">
+                <b style="color: var(--blue-hover)">Số lượng: </b>
+                <span>{{sizeof($students)}} </span>
+            </div>
+            <div class="onTheTable_element">
+                <b style="color: #04cb04">Đi học: </b>
+                <span>{{sizeof($students)}}  </span>
+            </div>
+            <div class="onTheTable_element">
+                <b style="color: #dede20">Đi muộn: </b>
+                <span>0 </span>
+            </div>
+            <div class="onTheTable_element">
+                <b style="color: red">Nghỉ học: </b>
+                <span>0 </span>
+            </div>
+        </div>
         <table class="table table-bordered">
             <thead>
             <tr>
@@ -14,28 +32,27 @@
             </thead>
             <tbody>
             @foreach ($students as $student)
-            <tr>
-                <td>{{ $student->id }}</td>
-                <td>{{ $student->studentName }}</td>
-                <td class="d-flex justify-content-between">
-                    <div class="">
-                        <input id="go" type="radio" name="Di hoc">
-                        <label for="go"> Di hoc</label>
-                    </div>
-                    <div class="">
-                        <input id="late" type="radio" name="Di muon">
-                        <label for="late"> Di muon </label>
+                <tr>
+                    <td>{{ $student->id }}</td>
+                    <td>{{ $student->studentName }}</td>
+                    <td class="d-flex justify-content-between">
+                        <div class="">
+                            <input id="ear{{ $student->id }}" type="radio" name="options{{ $student->id }}" value="ear">
+                            <label for="ear{{ $student->id }}"> Đi học</label>
+                        </div>
+                        <div class="">
+                            <input id="late{{ $student->id }}" type="radio" name="options{{ $student->id }}" value="late">
+                            <label for="late{{ $student->id }}"> Đi muộn </label>
 
-                    </div>
-                    <div class="">
-                        <input id="no" type="radio" name="Nghi hoc">
-                        <label for="no"> Nghi </label>
+                        </div>
+                        <div class="">
+                            <input id="off{{ $student->id }}" type="radio" name="options{{ $student->id }}" value="off">
+                            <label for="off{{ $student->id }}"> Nghỉ học </label>
+                        </div>
 
-                    </div>
 
-
-                </td>
-            </tr>
+                    </td>
+                </tr>
             @endforeach
             </tbody>
         </table>

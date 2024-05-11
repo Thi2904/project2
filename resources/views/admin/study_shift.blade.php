@@ -46,7 +46,7 @@
 @endsection('tro')
 
 @section('narno')
-    <h3>Total Subject</h3>
+    <h3>Total Study Shift</h3>
 
 @endsection('narno')
 
@@ -128,8 +128,8 @@
     </style>
     <div class="head">
         <h3>List of Study Shift</h3>
-        <div class="">
-            <button id="show-add" class="button-add">Add</button>
+        <div style="display: flex">
+            <button style="margin-right: 12px" id="show-add" class="button-add">Add</button>
 
             <div class="popup">
                 <div class="close-btn">&times;</div>
@@ -137,33 +137,56 @@
                     @csrf
                     <h2 class="nameAction">Add Study Shift</h2>
                     <div class="form-element">
-                        <label for="className">Class name</label>
-                        <input name="className" type="text" id="className" placeholder="Enter class name">
+                        <label for="className">Tên lớp</label>
+                        <input name="className" type="text" id="className" placeholder="Nhập tên lớp">
                     </div>
                     <div class="form-element">
-                        <label for="className"> Specialized name</label>
-                        <select class="select-element" name="" id="">
-                            <option value="1">Dev</option>
-                            <option value="2">Des</option>
-                            <option value="3">Marketing</option>
-                            <option value="4">Security</option>
+                        <label for="studentNum">Tên giảng viên</label>
+                        <input name="totalStudent" type="text" id="studentNum" placeholder="Nhập tên giảng viên">
+                    </div>
+                    <div class="form-element">
+                        <label for="studentNum">Tên cơ sở</label>
+                        <input name="totalStudent" type="text" id="studentNum" placeholder="Nhập tên cơ sở">
+                    </div>
+                    <div class="form-element">
+                        <label for="studentNum">Tên phòng </label>
+                        <input name="totalStudent" type="text" id="studentNum" placeholder="Nhập tên phòng">
+                    </div>
+
+                    <div class="form-element">
+                        <label for="grade">Thời gian bắt đầu </label>
+                        <input name="grade" type="text" id="grade" placeholder="Nhập thời gian bắt đầu">
+                    </div>
+                    <div class="form-element">
+                        <label for="grade">Thời gian ca học</label>
+                        <select class="select-element" name="majorID" id="majorID">
+                            <option value="1">8:00-10:00</option>
+                            <option value="2">8:00-12:00</option>
+                            <option value="3">10:00-12:00</option>
+                            <option value="4">13:30-15:30</option>
+                            <option value="5">13:30-17:30</option>
+                            <option value="5">15:30-17:30</option>
                         </select>
                     </div>
-                    <div class="form-element">
-                        <label for="grade">Grade</label>
-                        <input name="grade" type="text" id="grade" placeholder="Enter grade">
-                    </div>
-                    <div class="form-element">
-                        <label for="studentNum">Total Student</label>
-                        <input name="totalStudent" type="text" id="studentNum" placeholder="Enter quantity of student">
-                    </div>
+
                     <div class="form-element">
                         <button type="submit">Add</button>
                     </div>
                 </form>
             </div>
-            <i class='bx bx-search' ></i>
-            <i class='bx bx-filter' ></i>
+            <div style="display: flex">
+                <div style="margin-right: 12px" class="">
+                    <label>
+                        <input type="text" class="search_form" placeholder="Tìm kiếm"/>
+                    </label>
+                </div>
+                <div >
+                    <i class='click_search bx bx-search' ></i>
+                    <i class='bx bx-filter' ></i>
+                </div>
+
+
+            </div>
         </div>
     </div>
     <table>

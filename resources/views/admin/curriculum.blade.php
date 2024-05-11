@@ -125,11 +125,25 @@
             width: 110px;
             font-size: 14px;
         }
+
+
     </style>
     <div class="head-list">
-        <div class="">
-            <i class='bx bx-search' ></i>
-            <i class='bx bx-filter' ></i>
+        <div style="display: flex">
+            <div style="margin-right: 12px" class="">
+                <label>
+                    <form action="">
+                        <input type="text" class="search_form" placeholder="Tìm kiếm"/>
+                        <button type="submit"></button>
+                    </form>
+                </label>
+            </div>
+            <div >
+                <i class='click_search bx bx-search' ></i>
+                <i class='bx bx-filter' ></i>
+            </div>
+
+
         </div>
     </div>
     <div class="body-list">
@@ -184,12 +198,20 @@
                                 @csrf
                                 <h2 class="nameAction">Add Subject</h2>
                                 <div class="form-element">
-                                    <label for="subjectName">Name subject</label>
+                                    <label for="subjectName">Tên môn</label>
                                     <input name="subjectName" type="text" id="subjectName" placeholder="Enter name">
                                 </div>
                                 <div class="form-element">
-                                    <label for="grade">Grade</label>
-                                    <input name="gradeName" type="text" id="gradeName" placeholder="Enter grade name">
+                                    <label for="subjectName">Mã môn</label>
+                                    <input name="subjectName" type="text" id="subjectName" placeholder="Enter name">
+                                </div>
+                                <div class="form-element">
+                                    <label for="subjectName">Thời lượng môn</label>
+                                    <input name="subjectName" type="text" id="subjectName" placeholder="Enter name">
+                                </div>
+                                <div class="form-element">
+                                    <label for="subjectName">Mô tả môn học</label>
+                                    <textarea id="multi-line-input" rows="4" cols="50" maxlength="150"></textarea>
 
                                 </div>
 

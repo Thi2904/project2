@@ -54,7 +54,6 @@ Route::delete('/deleteStudent/{student}', [AdminController::class, 'deleteStuden
 Route::get('/admin/specialized', [\App\Http\Controllers\AdminController::class, 'showSpecialized'])->name('showSpecialized');
 Route::get('/admin/studyShift', [\App\Http\Controllers\AdminController::class, 'studyShift'])->name('studyShift');
 Route::get('/admin/subject', [\App\Http\Controllers\AdminController::class, 'showSubject'])->name('showSubject');
-Route::get('/admin/showStudyShift', [\App\Http\Controllers\AdminController::class, 'showStudyShift'])->name('showStudyShift');
 Route::get('/admin/showCurriculum', [\App\Http\Controllers\AdminController::class, 'showCurriculum'])->name('showCurriculum');
 
 Route::get('/teacher/beforediemdanh', [\App\Http\Controllers\TeachController::class, 'classForCheckin'])->name('teacher.classForCheckin');

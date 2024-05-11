@@ -82,9 +82,7 @@
             display: flex;
             flex-wrap: wrap;
         }
-        .popup.active{
-            top: 8%;
-        }
+
         .select-element{
             margin-top: 5px;
             display: block;
@@ -117,9 +115,18 @@
         }
     </style>
     <div class="head-list">
-        <div class="">
-            <i class='bx bx-search' ></i>
-            <i class='bx bx-filter' ></i>
+        <div style="display: flex">
+            <div style="margin-right: 12px" class="">
+                <label>
+                    <input type="text" class="search_form" placeholder="Tìm kiếm"/>
+                </label>
+            </div>
+            <div >
+                <i class='click_search bx bx-search' ></i>
+                <i class='bx bx-filter' ></i>
+            </div>
+
+
         </div>
     </div>
     <div class="body-list">
@@ -144,15 +151,10 @@
                                 <div class="close-btn">&times;</div>
                                 <form action="{{ route('addStudent')}}" method="POST">
                                     @csrf
-                                    <h2 class="nameAction">Add Subject</h2>
+                                    <h2 class="nameAction">Add Curriculum</h2>
                                     <div class="form-element">
                                         <label for="subjectName">Name Curriculum</label>
                                         <input name="subjectName" type="text" id="subjectName" placeholder="Enter name">
-                                    </div>
-                                    <div class="form-element">
-                                        <label for="grade">Grade</label>
-                                        <input name="gradeName" type="text" id="gradeName" placeholder="Enter grade name">
-
                                     </div>
 
                                     <div class="form-element">

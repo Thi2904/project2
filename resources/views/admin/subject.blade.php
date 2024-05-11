@@ -120,9 +120,18 @@
     </style>
     <div class="head">
         <h3>List of Subject</h3>
-        <div class="">
-            <i class='bx bx-search' ></i>
-            <i class='bx bx-filter' ></i>
+        <div style="display: flex">
+            <div style="margin-right: 12px" class="">
+                <label>
+                    <input type="text" class="search_form" placeholder="Tìm kiếm"/>
+                </label>
+            </div>
+            <div >
+                <i class='click_search bx bx-search' ></i>
+                <i class='bx bx-filter' ></i>
+            </div>
+
+
         </div>
     </div>
     <table>
@@ -141,19 +150,28 @@
             </td>
             <td>K14</td>
             <td>
-                <button class="show-edit button-edit">Edit</button>
+                <button style="margin-right: 12px;" class="show-edit button-edit"><i class='bx bx-edit'></i></button>
                 <div class="popup-edit">
                     <div class="close-btn">&times;</div>
                     <form action="" method="POST">
                         @csrf
-                        <h2 class="nameAction">Edit Subject</h2>
+                        <h2 class="nameAction">Chỉnh sửa môn học</h2>
                         <div class="form-element">
-                            <label for="className">Subject name</label>
-                            <input name="className" value="" type="text" id="className" placeholder="Enter class name">
+                            <label for="subjectName">Tên môn</label>
+                            <input name="subjectName" type="text" id="subjectName" placeholder="Enter name">
                         </div>
                         <div class="form-element">
-                            <label for="grade">Grade</label>
-                            <input name="grade" value="" type="text" id="grade" placeholder="Enter grade">
+                            <label for="subjectName">Mã môn</label>
+                            <input name="subjectName" type="text" id="subjectName" placeholder="Enter name">
+                        </div>
+                        <div class="form-element">
+                            <label for="subjectName">Thời lượng môn</label>
+                            <input name="subjectName" type="text" id="subjectName" placeholder="Enter name">
+                        </div>
+                        <div class="form-element">
+                            <label for="subjectName">Mô tả môn học</label>
+                            <textarea id="multi-line-input" rows="4" cols="50" maxlength="150"></textarea>
+
                         </div>
 
                         <div class="form-element">
@@ -163,7 +181,7 @@
 
 
                 </div>
-                <button class="button-delete" type="submit">Delete</button>
+                <button style="margin-right: 12px;" class="button-delete"><i class='bx bx-trash'></i></button>
             </td>
         </tr>
         </tbody>
