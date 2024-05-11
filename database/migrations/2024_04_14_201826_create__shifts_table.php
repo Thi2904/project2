@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('_study_shifts', function (Blueprint $table) {
+        Schema::create('_shifts', function (Blueprint $table) {
             $table->id();
             $table->time('time_in');
             $table->time('time_out');

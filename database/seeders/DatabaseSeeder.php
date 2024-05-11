@@ -37,5 +37,14 @@ class DatabaseSeeder extends Seeder
             "password" => Hash::make("145678923"),
             "role" => "admin"
         ]);
+
+        DB::table('_shifts')->insert([
+            ['time_in' => '08:00:00', 'time_out' => '10:00:00', 'comments' => ''],
+            ['time_in' => '10:00:00', 'time_out' => '12:00:00', 'comments' => ''],
+            ['time_in' => '08:00:00', 'time_out' => '12:00:00', 'comments' => ''],
+            ['time_in' => '13:30:00', 'time_out' => '15:30:00', 'comments' => ''],
+            ['time_in' => '15:30:00', 'time_out' => '17:30:00', 'comments' => ''],
+            ['time_in' => '13:30:00', 'time_out' => '17:30:00', 'comments' => ''],
+        ]);
     }
 }
