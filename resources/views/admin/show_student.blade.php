@@ -111,9 +111,9 @@
                                 <label for="Date of Birth">Date of Birth</label>
                                 <input name="DoB" type="text" id="DoB" placeholder="dd/mm/yyyy">
                             </div>
-                            <div class="form-element">
-                                <input name="classID" type="hidden" id="classID">
-                            </div>
+{{--                            <div class="form-element">--}}
+{{--                                <input name="classID" type="hidden" id="classID">--}}
+{{--                            </div>--}}
                             <div class="form-element">
                                 <button type="submit">Update</button>
                             </div>

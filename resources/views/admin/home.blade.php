@@ -75,17 +75,17 @@
                 @csrf
                 <h2 class="nameAction">Add class</h2>
                 <div class="form-element">
-                    <label for="className">Class name</label>
-                    <input name="className" type="text" id="className" placeholder="Enter class name">
-                </div>
-                <div class="form-element">
                     <label for="className"> Specialized name</label>
-                    <select class="select-element" name="" id="">
+                    <select class="select-element" name="majorID" id="majorID">
                         <option value="1">Dev</option>
                         <option value="2">Des</option>
                         <option value="3">Marketing</option>
                         <option value="4">Security</option>
                     </select>
+                </div>
+                <div class="form-element">
+                    <label for="className">Class name</label>
+                    <input name="className" type="text" id="className" placeholder="Enter class name">
                 </div>
                 <div class="form-element">
                     <label for="grade">Grade</label>

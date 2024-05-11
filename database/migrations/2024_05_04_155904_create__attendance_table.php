@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('absentManage', function (Blueprint $table) {
+        Schema::create('excused_absences ', function (Blueprint $table) {
             $table->id();
             $table->foreignId("studentID")->constrained("students","id");
             $table->string('numberOfAbsent');
@@ -19,7 +19,7 @@ return new class extends Migration
             $table->timestamps();
         });
 
-        Schema::create('lateManage', function (Blueprint $table) {
+        Schema::create('unexcused_absences ', function (Blueprint $table) {
             $table->id();
             $table->foreignId("studentID")->constrained("students","id");
             $table->string('numberOfLate');
@@ -27,7 +27,7 @@ return new class extends Migration
             $table->timestamps();
         });
 
-        Schema::create('onTimeManage', function (Blueprint $table) {
+        Schema::create('onTime', function (Blueprint $table) {
             $table->id();
             $table->foreignId("studentID")->constrained("students","id");
             $table->string('numberOfOnTime');
@@ -35,12 +35,22 @@ return new class extends Migration
             $table->timestamps();
         });
 
-        Schema::create('_roll_call', function (Blueprint $table) {
+
+        Schema::create('late', function (Blueprint $table) {
             $table->id();
             $table->foreignId("studentID")->constrained("students","id");
-            $table->foreignId("absentID")->constrained("absentManage","id");
-            $table->foreignId("lateID")->constrained("lateManage","id");
-            $table->foreignId("beOnTimeID")->constrained("onTimeManage","id");
+            $table->string('numberOfOnTime');
+            $table->foreignId('subjectID')->constrained('subjects','id');
+            $table->timestamps();
+        });
+
+        Schema::create('attendance', function (Blueprint $table) {
+            $table->id();
+            $table->String("dateInWeek");
+            $table->foreignId('schoolShiftID')->constrained('schoolShift','id');
+            $table->foreignId('studentID')->constrained('students','id');
+            $table->enum('status', ['đi học', 'nghỉ có phép', 'nghỉ không phép', 'trễ'])->default('đi học');
+            $table->text('reason')->nullable();
             $table->timestamps();
         });
     }
@@ -50,9 +60,10 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('absentManage');
-        Schema::dropIfExists('lateManage');
-        Schema::dropIfExists('onTimeManage');
-        Schema::dropIfExists('_roll_call');
+        Schema::dropIfExists('excused_absences');
+        Schema::dropIfExists('unexcused_absences');
+        Schema::dropIfExists('onTime');
+        Schema::dropIfExists('late');
+        Schema::dropIfExists('attendance');
     }
 };

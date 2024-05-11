@@ -15,7 +15,6 @@ return new class extends Migration
             $table->id();
             $table->string('className');
             $table->foreignId('majorID')->constrained('major','id');
-            $table->string('curriculum');
             $table->string('grade');
             $table->integer('totalStudent');
             $table->timestamps();

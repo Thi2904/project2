@@ -11,13 +11,22 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('class_study_shifts', function (Blueprint $table) {
+        Schema::create('schoolShift', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('studyShiftsID')->constrained('_study_shifts','id');
+
             $table->foreignId('subjectID')->constrained('subjects','id');
             $table->foreignId('classID')->constrained('classes','id');
             $table->foreignId('teacherID')->constrained('teachers','id');
             $table->timestamps();
+
+            Schema::create('schoolShiftDetail', function (Blueprint $table) {
+                $table->id();
+                $table->String("dateInWeek");
+                $table->foreignId('schoolShiftID')->constrained('schoolShift','id');
+                $table->foreignId('classroomID')->constrained('classroom','id');
+                $table->foreignId('shiftsID')->constrained('shifts','id');
+                $table->timestamps();
+            });
         });
     }
     /**

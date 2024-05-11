@@ -102,8 +102,7 @@ class AdminController extends Controller
             'phoneNumber' => 'required|string|max:255',
             'email' => 'required|string|max:255',
             'address' => 'required|string|max:255',
-            'DoB' => 'required|string|max:255',
-            'classID' => 'required|string|max:255'
+            'DoB' => 'required|string|max:255'
         ]);
 
         // update the class record in the database
