@@ -21,4 +21,9 @@ class curriculums extends Model
         return $this->belongsTo(Major::class, 'majorID');
     }
 
+    public function subjects()
+    {
+        return $this->hasMany(subjects::class, 'curriculumID');
+    }
+
 }

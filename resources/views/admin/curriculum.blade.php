@@ -184,13 +184,17 @@
                             </form>
 
                         </div>
+                        <form action="{{ route('deleteCurriculum',['curriculum' => $curriculum->id]) }}" onsubmit="return confirm('Do you want delete this curriculum ? ')" style="display: inline;" method="POST">
+                            @csrf
+                            @method('DELETE')
                         <button style="margin-right: 12px;" class="button-delete"><i class='bx bx-trash'></i></button>
+                        </form>
                     </div>
                     <button style="margin-right: 12px;"  id="{{$curriculum->id}}" data-popup-id="{{$curriculum->id}}" class="show-add button-add-student">Add new Subject</button>
                     <div class="head list_student">
                         <div id="popup-{{$curriculum->id}}" class="popup">
                             <div class="close-btn">&times;</div>
-                            <form action="{{ route('addStudent')}}" method="POST">
+                            <form action="{{ route('addSubject')}}" method="POST">
                                 @csrf
                                 <h2 class="nameAction">Add Subject</h2>
                                 <div class="form-element">
@@ -199,15 +203,21 @@
                                 </div>
                                 <div class="form-element">
                                     <label for="subjectName">Mã môn</label>
-                                    <input name="subjectName" type="text" id="subjectName" placeholder="Enter name">
+                                    <input name="codeName" type="text" id="codeName" placeholder="Enter name">
                                 </div>
                                 <div class="form-element">
                                     <label for="subjectName">Thời lượng môn</label>
-                                    <input name="subjectName" type="text" id="subjectName" placeholder="Enter name">
+                                    <input name="subjectTime" type="text" id="subjectTime" placeholder="Enter name">
                                 </div>
                                 <div class="form-element">
-                                    <label for="subjectName">Mô tả môn học</label>
-                                    <textarea id="multi-line-input" rows="4" cols="50" maxlength="150"></textarea>
+                                    <input name="majorID" type="hidden" id="majorID" value="{{ $major -> id }}" placeholder="Enter name">
+                                </div>
+                                <div class="form-element">
+                                    <input name="curriculumID" type="hidden" id="curriculumID" value="{{ $curriculum -> id }}" placeholder="Enter name">
+                                </div>
+                                <div class="form-element">
+                                    <label for="description">Mô tả môn học</label>
+                                    <textarea name="description" id="multi-line-input" rows="4" cols="50" maxlength="150"></textarea>
                                 </div>
                                 <div class="form-element">
                                     <button type="submit">Add</button>

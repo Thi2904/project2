@@ -53,11 +53,15 @@ Route::post('/editStudent/{student}', [AdminController::class, 'editStudent'])->
 Route::delete('/deleteStudent/{student}', [AdminController::class, 'deleteStudent'])->name('deleteStudent');
 
 Route::get('/admin/specialized', [\App\Http\Controllers\SubjectController::class, 'showSpecialized'])->name('showSpecialized');
+Route::get('/admin/showCurriculum/{major}', [\App\Http\Controllers\SubjectController::class, 'showCurriculum'])->name('showCurriculum');
 Route::post('/addCurriculum', [\App\Http\Controllers\SubjectController::class,'addCurriculum'])->name('addCurriculum');
 Route::post('/editCurriculum/{curriculum}', [SubjectController::class, 'editCurriculum'])->name('editCurriculum');
+Route::delete('/deleteCurriculum/{curriculum}', [SubjectController::class, 'deleteCurriculum'])->name('deleteCurriculum');
+
 Route::get('/admin/studyShift', [\App\Http\Controllers\SubjectController::class, 'studyShift'])->name('studyShift');
 Route::get('/admin/subject', [\App\Http\Controllers\SubjectController::class, 'showSubject'])->name('showSubject');
-Route::get('/admin/showCurriculum/{major}', [\App\Http\Controllers\SubjectController::class, 'showCurriculum'])->name('showCurriculum');
+Route::post('/addSubject', [\App\Http\Controllers\SubjectController::class,'addSubject'])->name('addSubject');
+Route::delete('/deleteSubject/{subject}', [SubjectController::class, 'deleteSubject'])->name('deleteSubject');
 
 Route::get('/teacher/beforediemdanh', [\App\Http\Controllers\TeachController::class, 'classForCheckin'])->name('teacher.classForCheckin');
 Route::get('/teacher/beforediemdanh/{class}', [\App\Http\Controllers\TeachController::class, 'studentForCheckin'])->name('class.showdiemdanh');

@@ -138,17 +138,20 @@
         <thead>
         <tr>
             <th>Subject</th>
-            <th>Grade</th>
+            <th>Total time</th>
+            <th>Description</th>
+            {{--            <th>Grade</th>--}}
             <th>Status</th>
-
         </tr>
         </thead>
         <tbody>
+        @foreach($subjects as $subject)
         <tr>
             <td>
-                <p>Java</p>
+                <p>{{$subject -> subjectName}}</p>
             </td>
-            <td>K14</td>
+            <td>{{$subject -> subjectTime}}</td>
+            <td>{{$subject -> description}}</td>
             <td>
                 <button style="margin-right: 12px;" class="show-edit button-edit"><i class='bx bx-edit'></i></button>
                 <div class="popup-edit">
@@ -181,9 +184,14 @@
 
 
                 </div>
-                <button style="margin-right: 12px;" class="button-delete"><i class='bx bx-trash'></i></button>
+                <form action="{{ route('deleteSubject',['subject' => $subject->id]) }}" onsubmit="return confirm('Do you want delete this subject ? ')" style="display: inline;" method="POST">
+                    @csrf
+                    @method('DELETE')
+                    <button style="margin-right: 12px;" class="button-delete"><i class='bx bx-trash'></i></button>
+                </form>
             </td>
         </tr>
+        @endforeach
         </tbody>
     </table>
 

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\curriculums;
 use App\Models\major;
+use App\Models\subjects;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -40,6 +41,25 @@ class SubjectController extends Controller
         $curriculum ->update($data);
         return redirect()->back()->with('success', 'Edit curriculum successfully.');
     }
+
+    public function showSubject()
+    {
+        $subjects = DB::table("subjects")->get();
+        return view('admin.subject', ['subjects' => $subjects]);
+    }
+    public function addSubject(Request $request)
+    {
+        $data = $request->validate([
+            'subjectName' => 'required|string|max:255',
+            'codeName' => 'required|string|max:255',
+            'subjectTime' => 'required|string|max:255',
+            'description' => 'required|string',
+            'majorID' => 'required|exists:major,id',
+            'curriculumID' => 'required|exists:curriculum,id'
+        ]);
+        $subjects = subjects::create($data);
+        return redirect()->back()->with('success', 'Added new curriculum successfully.');
+    }
     public function showStudyShift()
     {
         return view('admin.show_study_shift');
@@ -48,9 +68,16 @@ class SubjectController extends Controller
     {
         return view('admin.study_shift');
     }
-    public function showSubject()
+
+    public function deleteCurriculum(curriculums $curriculum)
     {
-        return view('admin.subject');
+        $curriculum->delete();
+        return redirect()->back()->with('success', 'Deleted curriculum successfully.');
     }
 
+    public function deleteSubject(subjects $subject)
+    {
+        $subject->delete();
+        return redirect()->back()->with('success', 'Deleted subject successfully.');
+    }
 }
