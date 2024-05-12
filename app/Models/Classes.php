@@ -12,10 +12,22 @@ class Classes extends Model
     protected $fillable = [
         'className',
         'grade',
+        'majorID',
+        'curriculumID',
         'totalStudent'
     ];
-    public function students()
+    public function student()
     {
         return $this->hasMany(Student::class, 'classID');
+    }
+
+    public function major()
+    {
+        return $this->belongsTo(Major::class, 'majorID');
+    }
+
+    public function curriculum()
+    {
+        return $this->belongsTo(curriculums::class, 'curriculumID');
     }
 }

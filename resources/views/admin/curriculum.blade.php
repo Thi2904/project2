@@ -157,35 +157,31 @@
             </tr>
             </thead>
             <tbody>
+            @foreach($curriculums as $curriculum)
             <tr>
-                <td>1</td>
-                <td><a href="{{route('showSubject')}}">BTEC 2017</a></td>
-                <td>15</td>
+                <td>{{$curriculum -> id}}</td>
+                <td><a href="{{route('showSubject',['major' => $major->id],['curriculum' => $curriculum->id])}}">{{$curriculum -> curriculumName}}</a></td>
+                <td></td>
                 <td style="display: flex;">
                     <div class="">
                         <button style="margin-right: 12px;" class="show-edit button-edit"><i class='bx bx-edit'></i></button>
                         <div class="popup-edit">
                             <div class="close-btn">&times;</div>
-                            <form action="" method="POST">
+                            <form action="{{ route('editCurriculum', ['curriculum' => $curriculum->id]) }}" method="POST">
                                 @csrf
-                                <h2 class="nameAction">Edit class</h2>
+                                <h2 class="nameAction">Edit Curriculum</h2>
                                 <div class="form-element">
-                                    <label for="className">Class name</label>
-                                    <input name="className" value="" type="text" id="className" placeholder="Enter class name">
+                                    <label for="curriculumName">Curriculum name</label>
+                                    <input name="curriculumName" type="text" id="curriculumName" placeholder="Enter curriculum name">
                                 </div>
-                                <div class="form-element">
-                                    <label for="grade">Grade</label>
-                                    <input name="grade" value="" type="text" id="grade" placeholder="Enter grade">
-                                </div>
-                                <div class="form-element">
-                                    <label for="studentNum">Total Student</label>
-                                    <input name="totalStudent" value="" type="text" id="studentNum" placeholder="Enter quantity of student">
-                                </div>
+{{--                                <div class="form-element">--}}
+{{--                                    <label for="note">Curriculum note</label>--}}
+{{--                                    <input name="note" type="text" id="note" placeholder="Enter curriculum note">--}}
+{{--                                </div>--}}
                                 <div class="form-element">
                                     <button type="submit">Update</button>
                                 </div>
                             </form>
-
 
                         </div>
                         <button style="margin-right: 12px;" class="button-delete"><i class='bx bx-trash'></i></button>
@@ -212,9 +208,7 @@
                                 <div class="form-element">
                                     <label for="subjectName">Mô tả môn học</label>
                                     <textarea id="multi-line-input" rows="4" cols="50" maxlength="150"></textarea>
-
                                 </div>
-
                                 <div class="form-element">
                                     <button type="submit">Add</button>
                                 </div>
@@ -225,6 +219,7 @@
 
                 </td>
             </tr>
+            @endforeach
             </tbody>
         </table>
 

@@ -3,10 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Models\Classes;
+use App\Models\curriculums;
 use App\Models\Student;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\View\View;
 
 class AdminController extends Controller
 {
@@ -15,51 +17,45 @@ class AdminController extends Controller
         $keyword = $request->input('keyword');
         if ($keyword) {
             $classes = DB::table('classes')->where('className','LIKE', '%' . $keyword . '%')
-            ->paginate(3);
+                ->paginate(3);
 
         }else{
             $classes = DB::table('classes')->paginate(3);
         }
-
-        return view('admin.home', ['classes' => $classes]);
+        $curriculums = DB::table('curriculum')->get();
+        $majors = DB::table('major')->get();
+        return view('admin.home', ['classes' => $classes, 'curriculums' => $curriculums, 'majors' => $majors]);
     }
 
     public function addClass(Request $request)
     {
-
         $data = $request->validate([
             'className' => 'required|string|max:255',
             'grade' => 'required|string|max:255',
-            'totalStudent' => 'required|integer|max:50'
+            'curriculumID' => 'required|exists:curriculum,id',
+            'majorID' => 'required|exists:major,id'
         ]);
 
-
-        // Create the class record in the database
         $classes = Classes::create($data);
 
-        // Perform any additional actions or redirects as needed
         return redirect()->back()->with('success', 'Added new class successfully.');
     }
+
 
     public function editClass(Request $request, Classes $class)
     {
         $data = $request->validate([
             'className' => 'required|string|max:255',
             'grade' => 'required|string|max:255',
-            'totalStudent' => 'required|integer|max:50'
+            'curriculumID' => 'required|exists:curriculum,id'
         ]);
-
-        // update the class record in the database
         $class->update($data);
-
         return redirect()->back()->with('success', 'Updated class successfully.');
     }
 
     public function deleteClass(Classes $class)
     {
-        // Delete the class record from the database
         $class->delete();
-
         return redirect()->back()->with('success', 'Deleted class successfully.');
     }
 
@@ -82,16 +78,11 @@ class AdminController extends Controller
             'studentName' => 'required|string|max:255',
             'phoneNumber' => 'required|string|max:255',
             'email' => 'required|string|max:255',
-            'address' => 'required|string|max:255',
-            'DoB' => 'required|string|max:255',
-            'classID' => 'required|string|max:255'
+            'gender' => 'required|string|max:255',
+            'classID' => 'required|exists:classes,id'
         ]);
 
-
-        // Create the class record in the database
         $student = Student::create($data);
-
-        // Perform any additional actions or redirects as needed
         return redirect()->back()->with('success', 'Added new student successfully.');
     }
 
@@ -101,41 +92,16 @@ class AdminController extends Controller
             'studentName' => 'required|string|max:255',
             'phoneNumber' => 'required|string|max:255',
             'email' => 'required|string|max:255',
-            'address' => 'required|string|max:255',
-            'DoB' => 'required|string|max:255'
+            'gender' => 'required|string|max:255'
         ]);
-
-        // update the class record in the database
         $student->update($data);
-
         return redirect()->back()->with('success', 'Updated student successfully.');
     }
 
     public function deleteStudent(Student $student)
     {
-        // Delete the class record from the database
         $student->delete();
-
         return redirect()->back()->with('success', 'Deleted student successfully.');
     }
-    public function showSpecialized()
-    {
-        return view('admin.specialized');
-    }
-    public function showStudyShift()
-    {
-        return view('admin.show_study_shift');
-    }
-    public function studyShift()
-    {
-        return view('admin.study_shift');
-    }
-    public function showSubject()
-    {
-        return view('admin.subject');
-    }
-    public function showCurriculum()
-    {
-        return view('admin.curriculum');
-    }
+
 }

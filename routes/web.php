@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\SubjectController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -47,14 +48,16 @@ Route::delete('/deleteClass/{class}', [AdminController::class, 'deleteClass'])->
 
 Route::get('/admin/student', [\App\Http\Controllers\AdminController::class, 'showClassAndStudent'])->name('admin.student');
 Route::get('/admin/student/{class}', [\App\Http\Controllers\AdminController::class, 'showStudent'])->name('class.show');
-Route::post('/add-student', [\App\Http\Controllers\AdminController::class,'addStudent'])->name('addStudent');
+Route::post('/addStudent', [\App\Http\Controllers\AdminController::class,'addStudent'])->name('addStudent');
 Route::post('/editStudent/{student}', [AdminController::class, 'editStudent'])->name('editStudent');
 Route::delete('/deleteStudent/{student}', [AdminController::class, 'deleteStudent'])->name('deleteStudent');
 
-Route::get('/admin/specialized', [\App\Http\Controllers\AdminController::class, 'showSpecialized'])->name('showSpecialized');
-Route::get('/admin/studyShift', [\App\Http\Controllers\AdminController::class, 'studyShift'])->name('studyShift');
-Route::get('/admin/subject', [\App\Http\Controllers\AdminController::class, 'showSubject'])->name('showSubject');
-Route::get('/admin/showCurriculum', [\App\Http\Controllers\AdminController::class, 'showCurriculum'])->name('showCurriculum');
+Route::get('/admin/specialized', [\App\Http\Controllers\SubjectController::class, 'showSpecialized'])->name('showSpecialized');
+Route::post('/addCurriculum', [\App\Http\Controllers\SubjectController::class,'addCurriculum'])->name('addCurriculum');
+Route::post('/editCurriculum/{curriculum}', [SubjectController::class, 'editCurriculum'])->name('editCurriculum');
+Route::get('/admin/studyShift', [\App\Http\Controllers\SubjectController::class, 'studyShift'])->name('studyShift');
+Route::get('/admin/subject', [\App\Http\Controllers\SubjectController::class, 'showSubject'])->name('showSubject');
+Route::get('/admin/showCurriculum/{major}', [\App\Http\Controllers\SubjectController::class, 'showCurriculum'])->name('showCurriculum');
 
 Route::get('/teacher/beforediemdanh', [\App\Http\Controllers\TeachController::class, 'classForCheckin'])->name('teacher.classForCheckin');
 Route::get('/teacher/beforediemdanh/{class}', [\App\Http\Controllers\TeachController::class, 'studentForCheckin'])->name('class.showdiemdanh');

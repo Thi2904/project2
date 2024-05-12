@@ -160,16 +160,12 @@
                             <div class="close-btn">&times;</div>
                             <form action="{{ route('addStudent')}}" method="POST">
                                 @csrf
+                                <input type="hidden" name="classID" value="{{ $class->id }}">
                                 <h2 class="nameAction">Add Student</h2>
                                 <div class="form-element">
                                     <label for="studentName">Name</label>
                                     <input name="studentName" type="text" id="studentName" placeholder="Enter name">
-                                </div>
-                                <div class="form-element">
-                                    <label for="StudentID">StudentID</label>
-                                    <input name="StudentID" type="text" id="StudentID" placeholder="Enter ID">
-                                </div>
-                                <div class="form-element">
+                                </div><div class="form-element">
                                     <label for="email">Email</label>
                                     <input name="email" type="text" id="email" placeholder="Enter email">
                                 </div>
@@ -178,15 +174,11 @@
                                     <input name="phoneNumber" type="text" id="phoneNumber" placeholder="Enter phone number">
                                 </div>
                                 <div class="form-element">
-                                    <label for="address">Address</label>
-                                    <input name="address" type="text" id="address" placeholder="Enter address">
-                                </div>
-                                <div class="form-element">
-                                    <label for="Date of Birth">Date of Birth</label>
-                                    <input name="DoB" type="text" id="DoB" placeholder="dd/mm/yyyy">
-                                </div>
-                                <div class="form-element">
-                                    <input name="classID" type="hidden" id="classID" value="{{ $class->id }}">
+                                    <label for="gender"> Specialized name</label>
+                                    <select class="select-element" name="gender" id="gender">
+                                        <option value="Male">Male</option>
+                                        <option value="Female">Female</option>
+                                    </select>
                                 </div>
                                 <div class="form-element">
                                     <button type="submit">Add</button>
@@ -195,9 +187,6 @@
                         </div>
                     </td>
                 </tr>
-
-
-
             @endforeach
             </tbody>
         </table>

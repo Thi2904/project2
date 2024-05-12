@@ -38,6 +38,25 @@ class DatabaseSeeder extends Seeder
             "role" => "admin"
         ]);
 
+        DB::table("major")->insert([
+            "majorName" => "Dev"
+        ]);
+        DB::table("major")->insert([
+            "majorName" => "Des"
+        ]);
+        DB::table("major")->insert([
+            "majorName" => "Marketing"
+        ]);
+        DB::table("major")->insert([
+            "majorName" => "Security"
+        ]);
+
+        DB::table("curriculum")->insert([
+            "curriculumName" => "Chương trình BTEC 2022",
+            "note" => "abc",
+            "majorID" => 1
+        ]);
+
         DB::table('_shifts')->insert([
             ['time_in' => '08:00:00', 'time_out' => '10:00:00', 'comments' => ''],
             ['time_in' => '10:00:00', 'time_out' => '12:00:00', 'comments' => ''],

@@ -140,32 +140,35 @@
             </tr>
             </thead>
             <tbody>
+            @foreach($majors as $major)
                 <tr>
-                    <td>1</td>
-                    <td><a href="{{route('showCurriculum')}}">Dev</a></td>
-                    <td>15</td>
+                    <td>{{$major -> id}}</td>
+                    <td><a href="{{ route('showCurriculum', ['major' => $major->id]) }}">{{ $major->majorName }}</a></td>
+                    <td></td>
                     <td style="display: flex;">
                         <a href="#" class="show-add button-add-student">Add Curriculum</a>
                         <div class="head list_student">
                             <div class="popup">
                                 <div class="close-btn">&times;</div>
-                                <form action="{{ route('addStudent')}}" method="POST">
+                                <form action="{{ route('addCurriculum')}}" method="POST">
                                     @csrf
                                     <h2 class="nameAction">Add Curriculum</h2>
                                     <div class="form-element">
-                                        <label for="subjectName">Name Curriculum</label>
-                                        <input name="subjectName" type="text" id="subjectName" placeholder="Enter name">
+                                        <label for="curriculumName">Name Curriculum</label>
+                                        <input name="curriculumName" type="text" id="curriculumName" placeholder="Enter name">
                                     </div>
-
+                                    <div class="form-element">
+                                        <input name="majorID" type="hidden" id="majorID" value="{{$major -> id}}">
+                                    </div>
                                     <div class="form-element">
                                         <button type="submit">Add</button>
                                     </div>
                                 </form>
                             </div>
-
                         </div>
                     </td>
                 </tr>
+            @endforeach
             </tbody>
         </table>
 
