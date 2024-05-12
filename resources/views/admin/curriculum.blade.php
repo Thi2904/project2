@@ -160,7 +160,7 @@
             @foreach($curriculums as $curriculum)
             <tr>
                 <td>{{$curriculum -> id}}</td>
-                <td><a href="{{route('showSubject',['major' => $major->id],['curriculum' => $curriculum->id])}}">{{$curriculum -> curriculumName}}</a></td>
+                <td><a href="{{route('showSubject',['major' => $major->id,'curriculum' => $curriculum->id])}}">{{$curriculum -> curriculumName}}</a></td>
                 <td></td>
                 <td style="display: flex;">
                     <div class="">
@@ -186,9 +186,9 @@
                         </div>
                         <button style="margin-right: 12px;" class="button-delete"><i class='bx bx-trash'></i></button>
                     </div>
-                    <a style="margin-right: 12px;" href="#" class="show-add button-add-student">Add new Subject</a>
+                    <button style="margin-right: 12px;"  id="{{$curriculum->id}}" data-popup-id="{{$curriculum->id}}" class="show-add button-add-student">Add new Subject</button>
                     <div class="head list_student">
-                        <div class="popup">
+                        <div id="popup-{{$curriculum->id}}" class="popup">
                             <div class="close-btn">&times;</div>
                             <form action="{{ route('addStudent')}}" method="POST">
                                 @csrf

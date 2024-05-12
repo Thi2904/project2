@@ -142,24 +142,23 @@
             <tbody>
             @foreach($majors as $major)
                 <tr>
-                    <td>{{$major -> id}}</td>
+                    <td>{{ $major->id }}</td>
                     <td><a href="{{ route('showCurriculum', ['major' => $major->id]) }}">{{ $major->majorName }}</a></td>
                     <td></td>
                     <td style="display: flex;">
-                        <a href="#" class="show-add button-add-student">Add Curriculum</a>
+                        <button id="{{ $major->id }}" data-popup-id="{{$major->id}}" class="show-add button-add-student">Add Curriculum</button>
                         <div class="head list_student">
-                            <div class="popup">
+                            <div id="popup-{{$major->id}}" class="popup">
                                 <div class="close-btn">&times;</div>
                                 <form action="{{ route('addCurriculum')}}" method="POST">
                                     @csrf
+                                    <input name="majorID" type="hidden" class="majorID" value="{{ $major->id }}">
                                     <h2 class="nameAction">Add Curriculum</h2>
                                     <div class="form-element">
                                         <label for="curriculumName">Name Curriculum</label>
                                         <input name="curriculumName" type="text" id="curriculumName" placeholder="Enter name">
                                     </div>
-                                    <div class="form-element">
-                                        <input name="majorID" type="hidden" id="majorID" value="{{$major -> id}}">
-                                    </div>
+
                                     <div class="form-element">
                                         <button type="submit">Add</button>
                                     </div>

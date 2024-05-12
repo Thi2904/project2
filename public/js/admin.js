@@ -82,15 +82,18 @@ document.querySelector(".popup-edit .close-btn")
 
     });
 var clickSearchCount = 0;
-document.querySelector(".click_search")
-    .addEventListener("click", function () {
-        var searchElement = document.querySelector('.search_form')
-        if (clickSearchCount === 0) {
-            searchElement.classList.add("active_search");
-            clickSearchCount++;
-        }else{
-            searchElement.classList.remove("active_search");
-            clickSearchCount = 0;
-        }
-    })
+if(document.querySelector(".click_search")){
+    document.querySelector(".click_search")
+        .addEventListener("click", function () {
+            var searchElement = document.querySelector('.search_form')
+            if (clickSearchCount === 0) {
+                searchElement.classList.add("active_search");
+                clickSearchCount++;
+            }else{
+                searchElement.classList.remove("active_search");
+                clickSearchCount = 0;
+            }
+        })
+
+}
 

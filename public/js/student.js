@@ -35,6 +35,7 @@ const searchForm = document.querySelector('#content nav form');
 
 
 
+
 // ADD NEW CHUYEN NGANH
 if( document.querySelector("#show-add") ) {
     document.querySelector("#show-add")
@@ -48,17 +49,41 @@ if( document.querySelector("#show-add") ) {
         });
 }
 // Hien thi them hoc sinh
-if( document.querySelector(".show-add") ) {
-    document.querySelectorAll(".show-add").forEach(function (button) {
-        button.addEventListener("click", function () {
-            document.querySelector(".popup").classList.add("active");
-        });
-    });
+// if( document.querySelector(".show-add") ) {
+//     document.querySelectorAll(".show-add").forEach(function (button) {
+//         button.addEventListener("click", function () {
+//             document.querySelector(".popup").classList.add("active");
+//         });
+//     });
+//
+//     document.querySelector(".popup .close-btn").addEventListener("click", () => {
+//         document.querySelector(".popup").classList.remove("active");
+//     });
+// }
 
-    document.querySelector(".popup .close-btn").addEventListener("click", () => {
-        document.querySelector(".popup").classList.remove("active");
-    });
-}
+document.addEventListener('DOMContentLoaded', function() {
+    if (document.querySelector(".show-add")) {
+        const buttons = document.querySelectorAll('.show-add');
+        buttons.forEach(function(button) {
+            button.addEventListener('click', function() {
+                const popupId = this.getAttribute('data-popup-id');
+                const popup = document.getElementById('popup-' + popupId);
+                if (popup) {
+                    popup.classList.add("active");
+                }
+            });
+        });
+
+        document.querySelectorAll(".popup .close-btn").forEach(function(closeButton) {
+            closeButton.addEventListener("click", function() {
+                this.closest(".popup").classList.remove("active");
+            });
+        });
+    }
+});
+
+
+
 
 
 if(document.querySelector(".button-edit")){
@@ -86,17 +111,20 @@ if(document.querySelector(".alert .alert-success")){
 }
 
 var clickSearchCount = 0;
-document.querySelector(".click_search")
-    .addEventListener("click", function () {
-        var searchElement = document.querySelector('.search_form')
-        if (clickSearchCount === 0) {
-            searchElement.classList.add("active_search");
-            clickSearchCount++;
-        }else{
-            searchElement.classList.remove("active_search");
-            clickSearchCount = 0;
-        }
-    })
+if(document.querySelector(".click_search")){
+    document.querySelector(".click_search")
+        .addEventListener("click", function () {
+            var searchElement = document.querySelector('.search_form')
+            if (clickSearchCount === 0) {
+                searchElement.classList.add("active_search");
+                clickSearchCount++;
+            }else{
+                searchElement.classList.remove("active_search");
+                clickSearchCount = 0;
+            }
+        })
+}
+
 
 //Xuong dong input
 // Lặp qua tất cả các ô input và thêm sự kiện cho mỗi ô input

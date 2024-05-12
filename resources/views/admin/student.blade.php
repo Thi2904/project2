@@ -155,12 +155,12 @@
                     <td>{{ $class->grade }}</td>
                     <td>{{ $class->totalStudent }}</td>
                     <td>
-                        <a href="#" class="show-add button-add-student">Add Student</a>
-                        <div class="popup">
+                        <button id="{{$class->id}}" data-popup-id="{{$class->id}}" class="show-add button-add-student">Add Student</button>
+                        <div id="popup-{{$class->id}}" class="popup">
                             <div class="close-btn">&times;</div>
                             <form action="{{ route('addStudent')}}" method="POST">
                                 @csrf
-                                <input type="hidden" name="classID" value="{{ $class->id }}">
+                                <input type="hidden" id="{{ $class->id }}" name="classID" value="{{ $class->id }}">
                                 <h2 class="nameAction">Add Student</h2>
                                 <div class="form-element">
                                     <label for="studentName">Name</label>
