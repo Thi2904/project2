@@ -42,10 +42,14 @@ class SubjectController extends Controller
         return redirect()->back()->with('success', 'Edit curriculum successfully.');
     }
 
-    public function showSubject()
+
+    public function showSubject($major, $curriculum)
     {
-        $subjects = DB::table("subjects")->get();
-        return view('admin.subject', ['subjects' => $subjects]);
+        $subjects = subjects::where('majorID', $major)
+            ->where('curriculumID', $curriculum)
+            ->get();
+
+        return view('admin.subject', compact('subjects'));
     }
     public function addSubject(Request $request)
     {
