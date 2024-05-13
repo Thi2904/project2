@@ -195,7 +195,7 @@
         </tbody>
     </table>
 
-{{--    <a class="button-add-student" href="{{route('showCurriculum')}}"><i class='icon_left bx bx-arrow-back'></i>Back to Curriculum</a>--}}
+    <a class="button-add-student" href="{{route('showCurriculum',$majorId)}}"><i class='icon_left bx bx-arrow-back'></i>Back to Curriculum</a>
 
 @endsection('content')
 @section('fileJs')

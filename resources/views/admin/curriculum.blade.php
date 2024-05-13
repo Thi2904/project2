@@ -157,15 +157,15 @@
             </tr>
             </thead>
             <tbody>
-            @foreach($curriculums as $curriculum)
+            @foreach($curriculums as $key => $curriculum)
             <tr>
                 <td>{{$curriculum -> id}}</td>
-                <td><a href="{{route('showSubject',['major' => $major->id,'curriculum' => $curriculum->id])}}">{{$curriculum -> curriculumName}}</a></td>
-                <td></td>
+                <td><a href="{{route('showSubject',['majorId' => $majorId,'curriculum' => $curriculum->id])}}">{{$curriculum -> curriculumName}}</a></td>
+                <td>{{$cuss[$key]-> subjects_count}}</td>
                 <td style="display: flex;">
                     <div class="">
-                        <button style="margin-right: 12px;" class="show-edit button-edit"><i class='bx bx-edit'></i></button>
-                        <div class="popup-edit">
+                        <button id=edit-"{{$curriculum->id}}" data-popup-id="{{$curriculum->id}}" style="margin-right: 12px;" class="show-edit button-edit"><i class='bx bx-edit'></i></button>
+                        <div id="popupEdit-{{$curriculum->id}}" class="popup-edit">
                             <div class="close-btn">&times;</div>
                             <form action="{{ route('editCurriculum', ['curriculum' => $curriculum->id]) }}" method="POST">
                                 @csrf
@@ -210,7 +210,7 @@
                                     <input name="subjectTime" type="text" id="subjectTime" placeholder="Enter name">
                                 </div>
                                 <div class="form-element">
-                                    <input name="majorID" type="hidden" id="majorID" value="{{ $major -> id }}" placeholder="Enter name">
+                                    <input name="majorID" type="hidden" id="majorID" value="{{ $majorId }}" placeholder="Enter name">
                                 </div>
                                 <div class="form-element">
                                     <input name="curriculumID" type="hidden" id="curriculumID" value="{{ $curriculum -> id }}" placeholder="Enter name">

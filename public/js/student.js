@@ -49,18 +49,6 @@ if( document.querySelector("#show-add") ) {
         });
 }
 // Hien thi them hoc sinh
-// if( document.querySelector(".show-add") ) {
-//     document.querySelectorAll(".show-add").forEach(function (button) {
-//         button.addEventListener("click", function () {
-//             document.querySelector(".popup").classList.add("active");
-//         });
-//     });
-//
-//     document.querySelector(".popup .close-btn").addEventListener("click", () => {
-//         document.querySelector(".popup").classList.remove("active");
-//     });
-// }
-
 document.addEventListener('DOMContentLoaded', function() {
     if (document.querySelector(".show-add")) {
         const buttons = document.querySelectorAll('.show-add');
@@ -85,24 +73,27 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
 
-
-if(document.querySelector(".button-edit")){
-    document.querySelectorAll(".button-edit").forEach(function(button) {
-
-        button.addEventListener("click", function () {
-            var popupElement = document.querySelector('.popup-edit');
-            popupElement.classList.add("active");
-            var addButton = popupElement.querySelector('button');
-            var addContent = popupElement.querySelector('h2');
-            addButton.innerText = 'Chỉnh sửa';
-            addContent.innerText = 'Chỉnh sửa';
-
+document.addEventListener('DOMContentLoaded', function() {
+    if (document.querySelector(".button-edit")) {
+        const buttons = document.querySelectorAll('.button-edit');
+        buttons.forEach(function(button) {
+            button.addEventListener('click', function() {
+                const popupId = this.getAttribute('data-popup-id');
+                const popup = document.getElementById('popupEdit-' + popupId);
+                if (popup) {
+                    popup.classList.add("active");
+                }
+            });
         });
-    });
-    document.querySelector(".popup-edit .close-btn").addEventListener("click", () => {
-        document.querySelector(".popup-edit").classList.remove("active");
-    });
-}
+
+        document.querySelectorAll(".popup .close-btn").forEach(function(closeButton) {
+            closeButton.addEventListener("click", function() {
+                this.closest(".popup").classList.remove("active");
+            });
+        });
+    }
+});
+
 
 if(document.querySelector(".alert .alert-success")){
     setTimeout(function() {

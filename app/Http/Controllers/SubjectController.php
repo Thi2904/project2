@@ -10,17 +10,27 @@ use Illuminate\Support\Facades\DB;
 
 class SubjectController extends Controller
 {
+//    public function countMajor()
+//    {
+//        $countMajor = 0;
+//        $countMajor ++;
+//        return $countMajor;
+//    }
     public function showSpecialized()
     {
         $majors = DB::table('major')->get();
-        return view('admin.specialized',['majors' => $majors]);
+        $mjs = major::withCount('curriculums')->get();
+        return view('admin.specialized',['majors' => $majors ,'mjs' => $mjs]);
     }
 
     public function showCurriculum($id)
     {
         $curriculums = curriculums::where('majorID',$id)->get();
-        $major = major::findOrFail($id);
-        return view('admin.curriculum',['curriculums' => $curriculums], ['major' => $major]);
+        $majorId = $id;
+        $cuss = curriculums::withCount('subjects')->get();
+
+
+        return view('admin.curriculum',['curriculums' => $curriculums,'majorId' => $majorId, 'cuss'=> $cuss ]);
     }
 
     public function addCurriculum(Request $request)
@@ -42,10 +52,11 @@ class SubjectController extends Controller
         return redirect()->back()->with('success', 'Edit curriculum successfully.');
     }
 
-    public function showSubject()
+    public function showSubject(Request $request)
     {
+        $majorId = $request->query('majorId');
         $subjects = DB::table("subjects")->get();
-        return view('admin.subject', ['subjects' => $subjects]);
+        return view('admin.subject', ['subjects' => $subjects, 'majorId' => $majorId]);
     }
     public function addSubject(Request $request)
     {

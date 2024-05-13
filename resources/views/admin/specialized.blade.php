@@ -144,7 +144,7 @@
                 <tr>
                     <td>{{ $major->id }}</td>
                     <td><a href="{{ route('showCurriculum', ['major' => $major->id]) }}">{{ $major->majorName }}</a></td>
-                    <td></td>
+                    <td>{{$mjs[$major->id - 1] -> curriculums_count}}</td>
                     <td style="display: flex;">
                         <button id="{{ $major->id }}" data-popup-id="{{$major->id}}" class="show-add button-add-student">Add Curriculum</button>
                         <div class="head list_student">
