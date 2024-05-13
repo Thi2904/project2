@@ -160,8 +160,8 @@
             @foreach($curriculums as $key => $curriculum)
             <tr>
                 <td>{{$curriculum -> id}}</td>
-                <td><a href="{{route('showSubject',['majorId' => $majorId,'curriculum' => $curriculum->id])}}">{{$curriculum -> curriculumName}}</a></td>
-                <td>{{$cuss[$key]-> subjects_count}}</td>
+                <td><a href="{{route('showSubject',['majorId' => $majorId ,'curriculum' => $curriculum->id])}}">{{$curriculum -> curriculumName}}</a></td>
+                <td>{{$cuss[$curriculum -> id - 4]-> subjects_count}}</td>
                 <td style="display: flex;">
                     <div class="">
                         <button id=edit-"{{$curriculum->id}}" data-popup-id="{{$curriculum->id}}" style="margin-right: 12px;" class="show-edit button-edit"><i class='bx bx-edit'></i></button>

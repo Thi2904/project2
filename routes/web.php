@@ -59,7 +59,7 @@ Route::post('/editCurriculum/{curriculum}', [SubjectController::class, 'editCurr
 Route::delete('/deleteCurriculum/{curriculum}', [SubjectController::class, 'deleteCurriculum'])->name('deleteCurriculum');
 
 Route::get('/admin/studyShift', [\App\Http\Controllers\SubjectController::class, 'studyShift'])->name('studyShift');
-Route::get('/admin/subject/{major}/{curriculum}', [\App\Http\Controllers\SubjectController::class, 'showSubject'])->name('showSubject');
+Route::get('/admin/subject/{majorId}/{curriculum}', [\App\Http\Controllers\SubjectController::class, 'showSubject'])->name('showSubject');
 Route::post('/addSubject', [\App\Http\Controllers\SubjectController::class,'addSubject'])->name('addSubject');
 Route::post('/editSubject/{subject}', [SubjectController::class, 'editSubject'])->name('editSubject');
 Route::delete('/deleteSubject/{subject}', [SubjectController::class, 'deleteSubject'])->name('deleteSubject');
