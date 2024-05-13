@@ -34,7 +34,6 @@ class AuthController extends Controller
         if (Auth::attempt(["email" => $email, "password" => $password])){
             //check role
             $user = Auth::user();
-//            dd($user);
             switch ($user -> role){
                 case "admin":
                     return redirect()->route("admin.home");

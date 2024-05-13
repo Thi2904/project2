@@ -21,7 +21,7 @@ class SubjectController extends Controller
     {
         $curriculums = curriculums::where('majorID',$id)->get();
         $majorId = $id;
-        $cuss = curriculums::withCount('subjects')->get();
+        $cuss = curriculums::withCount('subjects')->where('majorID',$id)->get();
         return view('admin.curriculum',['curriculums' => $curriculums, 'majorId' => $majorId , 'cuss' => $cuss ]);
     }
 
@@ -76,10 +76,6 @@ class SubjectController extends Controller
         ]);
         $subject ->update($data);
         return redirect()->back()->with('success', 'Edit subject successfully.');
-    }
-    public function studyShift()
-    {
-        return view('admin.study_shift');
     }
 
     public function deleteCurriculum(curriculums $curriculum)
