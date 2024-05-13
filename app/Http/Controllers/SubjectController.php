@@ -60,9 +60,16 @@ class SubjectController extends Controller
         $subjects = subjects::create($data);
         return redirect()->back()->with('success', 'Added new curriculum successfully.');
     }
-    public function showStudyShift()
+    public function editSubject(Request $request, subjects $subject)
     {
-        return view('admin.show_study_shift');
+        $data = $request->validate([
+            'subjectName' => 'required|string|max:255',
+            'codeName' => 'required|string|max:255',
+            'subjectTime' => 'required|string|max:255',
+            'description' => 'required|string',
+        ]);
+        $subject ->update($data);
+        return redirect()->back()->with('success', 'Edit subject successfully.');
     }
     public function studyShift()
     {

@@ -156,7 +156,7 @@
                 <button style="margin-right: 12px;" class="show-edit button-edit"><i class='bx bx-edit'></i></button>
                 <div class="popup-edit">
                     <div class="close-btn">&times;</div>
-                    <form action="" method="POST">
+                    <form action="{{route("editSubject",['subject' => $subject -> id])}}" method="POST">
                         @csrf
                         <h2 class="nameAction">Chỉnh sửa môn học</h2>
                         <div class="form-element">
@@ -164,16 +164,16 @@
                             <input name="subjectName" type="text" id="subjectName" placeholder="Enter name">
                         </div>
                         <div class="form-element">
-                            <label for="subjectName">Mã môn</label>
-                            <input name="subjectName" type="text" id="subjectName" placeholder="Enter name">
+                            <label for="codeName">Mã môn</label>
+                            <input name="codeName" type="text" id="codeName" placeholder="Enter name">
                         </div>
                         <div class="form-element">
                             <label for="subjectName">Thời lượng môn</label>
-                            <input name="subjectName" type="text" id="subjectName" placeholder="Enter name">
+                            <input name="subjectTime" type="text" id="subjectTime" placeholder="Enter name">
                         </div>
                         <div class="form-element">
                             <label for="subjectName">Mô tả môn học</label>
-                            <textarea id="multi-line-input" rows="4" cols="50" maxlength="150"></textarea>
+                            <textarea name="description" id="multi-line-input" rows="4" cols="50" maxlength="150"></textarea>
 
                         </div>
 
