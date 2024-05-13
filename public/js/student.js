@@ -86,9 +86,9 @@ document.addEventListener('DOMContentLoaded', function() {
             });
         });
 
-        document.querySelectorAll(".popup .close-btn").forEach(function(closeButton) {
+        document.querySelectorAll(".popup-edit .close-btn").forEach(function(closeButton) {
             closeButton.addEventListener("click", function() {
-                this.closest(".popup").classList.remove("active");
+                this.closest(".popup-edit").classList.remove("active");
             });
         });
     }
@@ -117,31 +117,3 @@ if(document.querySelector(".click_search")){
 }
 
 
-//Xuong dong input
-// Lặp qua tất cả các ô input và thêm sự kiện cho mỗi ô input
-var textInputs = document.querySelectorAll(".text-input");
-textInputs.forEach(function(input) {
-    input.addEventListener("input", function(event) {
-        var maxLength = parseInt(event.target.getAttribute("maxlength"));
-        var text = event.target.value;
-        if (text.length > maxLength) {
-            event.target.value = text.substring(0, maxLength);
-            event.preventDefault();
-            var startIndex = event.target.selectionStart;
-            var endIndex = event.target.selectionEnd;
-            event.target.value = text.substring(0, startIndex) + "\n" + text.substring(endIndex, text.length);
-            event.target.setSelectionRange(startIndex + 1, startIndex + 1);
-        }
-    });
-
-    input.addEventListener("keypress", function(event) {
-        if (event.key === "Enter") {
-            event.preventDefault();
-            var form = event.target.form;
-            var index = Array.prototype.indexOf.call(form, event.target);
-            if (form.elements[index + 1]) {
-                form.elements[index + 1].focus();
-            }
-        }
-    });
-});

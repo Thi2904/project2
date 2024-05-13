@@ -2,6 +2,7 @@
 
 @section('title', 'Product Details')
 @section('sidebar_top')
+
     <ul class="side-menu top">
         <li class="">
             <a href="{{route('admin.home')}}">
@@ -136,10 +137,6 @@
                 <form action="{{ route('addSchoolShift')}}" method="POST">
                     @csrf
                     <h2 class="nameAction">Add Study Shift</h2>
-{{--                    <div class="form-element">--}}
-{{--                        <label for="className">Tên lớp</label>--}}
-{{--                        <input name="className" type="text" id="className" placeholder="Nhập tên lớp">--}}
-{{--                    </div>--}}
                     <div class="form-element">
                         <label for="classID">Tên lớp</label>
                         <select class="select-element" name="classID" id="classID">
@@ -165,6 +162,7 @@
 
                     <div class="form-element">
                         <label for="grade">Thời gian bắt đầu </label>
+                        <br>
                         <input name="grade" type="date" id="grade" placeholder="Nhập thời gian bắt đầu">
                     </div>
                     <div class="form-element">
@@ -172,7 +170,7 @@
                         <select class="select-element" name="timeShift" id="timeShift">
                             @foreach($shifts as $shift)
                                 <option value="{{ $shift->id }}">
-                                    {{ $shift->time_in }} -> {{ $shift->time_out }}
+                                    {{ $shift->time_in }} - {{ $shift->time_out }}
                                 </option>
                             @endforeach
                         </select>
@@ -225,54 +223,42 @@
                         @csrf
                         <h2 class="nameAction">Edit Study Shift</h2>
                         <div class="form-element">
-                            <label for="subjectName">Name subject</label>
-                            <select class="select-element" name="" id="">
-                                <option value="1">Java</option>
-                                <option value="2">PHP</option>
+                            <label for="classID">Tên lớp</label>
+                            <select class="select-element" name="classID" id="classID">
+                                @foreach($classes as $class)
+                                    <option value="{{ $class->id }}">
+                                        {{ $class->className }}
+                                    </option>
+                                @endforeach
                             </select>
                         </div>
                         <div class="form-element">
-                            <label for="email">Place</label>
-                            <br>
-                            <select class="select-element" name="" id="">
-                                <option value="1">Ta Quang Buu</option>
-                                <option value="2">Le Thanh Nghi</option>
-                            </select>
+                            <label for="studentNum">Tên giảng viên</label>
+                            <input name="totalStudent" type="text" id="studentNum" placeholder="Nhập tên giảng viên">
                         </div>
                         <div class="form-element">
-                            <label for="email">Floor</label>
-                            <br>
-                            <select class="select-element" name="" id="">
-                                <option value="1">1</option>
-                                <option value="2">2</option>
-                                <option value="3">3</option>
-                                <option value="4">4</option>
-                            </select>
-                        </div><div class="form-element">
-                            <label for="email">Room</label>
-                            <br>
-                            <select class="select-element" name="" id="">
-                                <option value="1">102</option>
-                                <option value="2">202</option>
-                                <option value="3">302</option>
-                                <option value="4">402</option>
-                            </select>
+                            <label for="studentNum">Tên cơ sở</label>
+                            <input name="totalStudent" type="text" id="studentNum" placeholder="Nhập tên cơ sở">
                         </div>
                         <div class="form-element">
-                            <label for="email">Time</label>
+                            <label for="studentNum">Tên phòng </label>
+                            <input name="totalStudent" type="text" id="studentNum" placeholder="Nhập tên phòng">
+                        </div>
+
+                        <div class="form-element">
+                            <label for="grade">Thời gian bắt đầu </label>
                             <br>
-                            <select class="select-element" name="" id="">
-                                <option value="1">8:00 - 12:00</option>
-                                <option value="2">8:00 - 10:30</option>
-                                <option value="3">10:30 - 12:00</option>
-                                <option value="4">13:30 - 15:30</option>
-                                <option value="4">15:30 - 17:30</option>
-                                <option value="4">13:30 - 17:30</option>
-                            </select>
+                            <input name="grade" type="date" id="grade" placeholder="Nhập thời gian bắt đầu">
                         </div>
                         <div class="form-element">
-                            <label for="email">Teacher</label>
-                            <input name="email" type="text" id="email" placeholder="Enter Teacher">
+                            <label for="grade">Thời gian ca học</label>
+                            <select class="select-element" name="timeShift" id="timeShift">
+                                @foreach($shifts as $shift)
+                                    <option value="{{ $shift->id }}">
+                                        {{ $shift->time_in }} - {{ $shift->time_out }}
+                                    </option>
+                                @endforeach
+                            </select>
                         </div>
 
                         <div class="form-element">
@@ -292,4 +278,5 @@
 @section('fileJs')
     <script src="{{asset('bootstrap-5.0.2-dist/js/bootstrap.min.js')}}}"></script>
     <script src="{{asset('js/admin.js')}}"></script>
+
 @endsection

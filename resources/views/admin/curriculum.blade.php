@@ -171,13 +171,21 @@
                                 @csrf
                                 <h2 class="nameAction">Edit Curriculum</h2>
                                 <div class="form-element">
-                                    <label for="curriculumName">Curriculum name</label>
-                                    <input name="curriculumName" type="text" id="curriculumName" placeholder="Enter curriculum name">
+                                    <label for="curriculumName">Mã chương trình học</label>
+                                    <input name="curriculumName" type="text" id="curriculumName" placeholder="Enter name">
                                 </div>
-{{--                                <div class="form-element">--}}
-{{--                                    <label for="note">Curriculum note</label>--}}
-{{--                                    <input name="note" type="text" id="note" placeholder="Enter curriculum note">--}}
-{{--                                </div>--}}
+                                <div class="form-element">
+                                    <label for="curriculumName">Tên chương trình học</label>
+                                    <input name="curriculumName" type="text" id="curriculumName" placeholder="Enter name">
+                                </div>
+                                <div class="form-element">
+                                    <label for="curriculumName">Tên tiếng việt</label>
+                                    <input name="curriculumName" type="text" id="curriculumName" placeholder="Enter name">
+                                </div>
+                                <div class="form-element">
+                                    <label for="description">Mô tả chương trình học</label>
+                                    <textarea name="description" id="multi-line-input" rows="4" cols="50" maxlength="150"></textarea>
+                                </div>
                                 <div class="form-element">
                                     <button type="submit">Update</button>
                                 </div>
