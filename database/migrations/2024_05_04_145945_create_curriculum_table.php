@@ -14,6 +14,8 @@ return new class extends Migration
         Schema::create('curriculum', function (Blueprint $table) {
             $table->id();
             $table->string("curriculumName");
+            $table->string("curriculumCode");
+            $table->string("curriculumVNName");
             $table->text("note")->nullable();
             $table->foreignId('majorID')->constrained('major','id');
             $table->timestamps();

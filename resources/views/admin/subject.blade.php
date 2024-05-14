@@ -140,7 +140,6 @@
             <th>Subject</th>
             <th>Total time</th>
             <th>Description</th>
-            {{--            <th>Grade</th>--}}
             <th>Status</th>
         </tr>
         </thead>
@@ -181,8 +180,6 @@
                             <button type="submit">Update</button>
                         </div>
                     </form>
-
-
                 </div>
                 <form action="{{ route('deleteSubject',['subject' => $subject->id]) }}" onsubmit="return confirm('Do you want delete this subject ? ')" style="display: inline;" method="POST">
                     @csrf
