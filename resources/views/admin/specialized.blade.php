@@ -156,15 +156,15 @@
                                     <h2 class="nameAction">Add Curriculum</h2>
                                     <div class="form-element">
                                         <label for="curriculumName">Mã chương trình học</label>
-                                        <input name="curriculumName" type="text" id="curriculumName" placeholder="Enter name">
+                                        <input name="curriculumCode" type="text" id="curriculumCode" placeholder="Enter name">
                                     </div>
                                     <div class="form-element">
                                         <label for="curriculumName">Tên chương trình học</label>
                                         <input name="curriculumName" type="text" id="curriculumName" placeholder="Enter name">
                                     </div>
                                     <div class="form-element">
-                                        <label for="curriculumName">Tên tiếng việt</label>
-                                        <input name="curriculumName" type="text" id="curriculumName" placeholder="Enter name">
+                                        <label for="curriculumVNName">Tên tiếng việt</label>
+                                        <input name="curriculumVNName" type="text" id="curriculumVNName" placeholder="Enter name">
                                     </div>
                                     <div class="form-element">
                                         <label for="description">Mô tả chương trình học</label>
