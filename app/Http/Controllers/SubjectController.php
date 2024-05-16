@@ -29,6 +29,8 @@ class SubjectController extends Controller
     {
         $data = $request->validate([
             'curriculumName' => 'required|string|max:255',
+            'curriculumCode' => 'required|string|max:255',
+            'curriculumVNName' => 'required|string|max:255',
             'majorID' => 'required|exists:major,id'
         ]);
         $curriculums = curriculums::create($data);
@@ -38,7 +40,9 @@ class SubjectController extends Controller
     public function editCurriculum(Request $request, curriculums $curriculum)
     {
         $data = $request->validate([
-            'curriculumName' => 'required|string|max:255'
+            'curriculumName' => 'required|string|max:255',
+            'curriculumCode' => 'required|string|max:255',
+            'curriculumVNName' => 'required|string|max:255'
         ]);
         $curriculum ->update($data);
         return redirect()->back()->with('success', 'Edit curriculum successfully.');
