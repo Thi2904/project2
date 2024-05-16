@@ -66,31 +66,35 @@ if(document.querySelector("#show-add")){
 
         });
 }
-document.querySelectorAll(".show-edit").forEach(function(button) {
+if(document.querySelector(".show-edit")){
+    document.querySelectorAll(".show-edit").forEach(function(button) {
 
-    button.addEventListener("click", function () {
-        var popupElement = document.querySelector('.popup-edit');
-        popupElement.classList.add("active");
+        button.addEventListener("click", function () {
+            var popupElement = document.querySelector('.popup-edit');
+            popupElement.classList.add("active");
 
 
+        });
     });
-});
-document.querySelector(".popup-edit .close-btn")
-    .addEventListener("click",function (){
-        var popupElement =  document.querySelector('.popup-edit');
-        popupElement.classList.remove("active");
+    document.querySelector(".popup-edit .close-btn")
+        .addEventListener("click",function (){
+            var popupElement =  document.querySelector('.popup-edit');
+            popupElement.classList.remove("active");
 
-    });
+        });
+}
+
 var clickSearchCount = 0;
 if(document.querySelector(".click_search")){
     document.querySelector(".click_search")
         .addEventListener("click", function () {
             var searchElement = document.querySelector('.search_form')
             if (clickSearchCount === 0) {
+                searchElement.classList.remove("outZoom");
                 searchElement.classList.add("active_search");
                 clickSearchCount++;
             }else{
-                searchElement.classList.remove("active_search");
+                searchElement.classList.add("outZoom");
                 clickSearchCount = 0;
             }
         })

@@ -29,7 +29,12 @@
                 <span class="text">Study Shift</span>
             </a>
         </li>
-
+        <li>
+            <a href="{{route('showTeacher')}}">
+                <i class='bx bxs-graduation'></i>
+                <span class="text">Teacher</span>
+            </a>
+        </li>
     </ul>
 @endsection
 
@@ -107,7 +112,15 @@
                 </div>
             </form>
         </div>
-        <i class='bx bx-search' ></i>
+        <div style="margin-right: 7px" class="">
+            <label>
+                <form style="display: flex;"  action="">
+                    <input type="text" class="search_form" placeholder="Tìm kiếm"/>
+                    <button hidden type="submit"></button>
+                </form>
+            </label>
+        </div>
+        <i class='click_search bx bx-search' ></i>
         <i class='bx bx-filter' ></i>
     </div>
     <table>

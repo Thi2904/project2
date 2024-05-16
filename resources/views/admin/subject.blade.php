@@ -29,7 +29,12 @@
                 <span class="text">Study Shift</span>
             </a>
         </li>
-
+        <li>
+            <a href="{{route('showTeacher')}}">
+                <i class='bx bxs-graduation'></i>
+                <span class="text">Teacher</span>
+            </a>
+        </li>
     </ul>
 @endsection
 @section('tro')

@@ -16,7 +16,7 @@
                 <span class="text">Student</span>
             </a>
         </li>
-        <li class="sidebarActive">
+        <li>
             <a href="{{route('showSpecialized')}}">
                 <i class='bx bxl-slack' ></i>
                 <span class="text">Specialized</span>
@@ -28,7 +28,7 @@
                 <span class="text">Study Shift</span>
             </a>
         </li>
-        <li>
+        <li class="sidebarActive">
             <a href="{{route('showTeacher')}}">
                 <i class='bx bxs-graduation'></i>
                 <span class="text">Teacher</span>
@@ -45,15 +45,14 @@
         </li>
         <li><i class='bx bx-chevron-right' ></i></li>
         <li>
-            <a class="active" href="#">Specialized</a>
+            <a class="active" href="#">Teacher</a>
         </li>
     </ul>
 
 @endsection('tro')
 @section('narno')
-    <h3>Total Specialized</h3>
+    <h3>Tổng số giảng viên</h3>
 @endsection('narno')
-
 @section('content')
     <style>
         .button-add-student{
@@ -88,7 +87,9 @@
             display: flex;
             flex-wrap: wrap;
         }
-
+        .popup.active{
+            top: 8%;
+        }
         .select-element{
             margin-top: 5px;
             display: block;
@@ -117,17 +118,70 @@
 
         .head-list{
             display: flex;
-            justify-content: end;
+            justify-content: space-between;
+            margin-bottom: 24px;
         }
+        .button-edit{
+            height: 40px;
+            width: 110px;
+            font-size: 15px;
+        }
+        .button-delete{
+            height: 40px;
+            width: 110px;
+            font-size: 14px;
+        }
+
+
     </style>
     <div class="head-list">
+        <h3>Danh sách giảng viên</h3>
+
         <div style="display: flex">
+
             <div style="margin-right: 12px" class="">
                 <label>
-                    <input type="text" class="search_form" placeholder="Tìm kiếm"/>
+                    <form action="">
+                        <input type="text" class="search_form" placeholder="Tìm kiếm"/>
+                        <button type="submit"></button>
+                    </form>
                 </label>
             </div>
             <div >
+                <button id="show-add" class="button-add">Add</button>
+                <div class="popup">
+                    <div class="close-btn">&times;</div>
+                    <form action="{{ route('addClass')}}" method="POST">
+                        @csrf
+                        <h2 class="nameAction">Thêm giảng viên</h2>
+                        <div class="form-element">
+                            <label for="className">Chọn chuyên ngành</label>
+                            <select class="select-element" name="majorID" id="majorID">
+{{--                                @foreach($majors as $major)--}}
+{{--                                    <option value="{{ $major->id }}">--}}
+{{--                                        {{ $major->majorName }}--}}
+{{--                                    </option>--}}
+{{--                                @endforeach--}}
+                            </select>
+                        </div>
+
+                        <div class="form-element">
+                            <label for="className">Mã giảng viên</label>
+                            <input name="className" type="text" id="className" placeholder="Nhập mã giảng viên">
+                        </div>
+                        <div class="form-element">
+                            <label for="className">Email</label>
+                            <input name="className" type="text" id="className" placeholder="Nhập email giảng viên">
+                        </div>
+                        <div class="form-element">
+                            <label for="grade">Mật khẩu</label>
+                            <input name="grade" type="text" id="grade" placeholder="Nhập mật khẩu">
+                        </div>
+                        <div class="form-element">
+                            <button type="submit">Add</button>
+                        </div>
+                    </form>
+                </div>
                 <i class='click_search bx bx-search' ></i>
                 <i class='bx bx-filter' ></i>
             </div>
@@ -139,59 +193,17 @@
         <table>
             <thead>
             <tr>
-                <th>ID</th>
-                <th>Specialized Name</th>
-                <th>Total Curriculum</th>
-                <th>Status</th>
+                <th>Mã giảng viên</th>
+                <th>Tên chuyên ngành </th>
+                <th>Tên tài khoản</th>
+                <th>Mật khẩu</th>
             </tr>
             </thead>
-            <tbody>
-            @foreach($majors as $major)
-                <tr>
-                    <td>{{ $major->id }}</td>
-                    <td><a href="{{ route('showCurriculum', ['major' => $major->id]) }}">{{ $major->majorName }}</a></td>
-                    <td>{{$mjs[$major->id - 1] -> curriculums_count}}</td>
-                    <td style="display: flex;">
-                        <button id="{{ $major->id }}" data-popup-id="{{$major->id}}" class="show-add button-add-student">Add Curriculum</button>
-                        <div class="head list_student">
-                            <div id="popup-{{$major->id}}" class="popup">
-                                <div class="close-btn">&times;</div>
-                                <form action="{{ route('addCurriculum')}}" method="POST">
-                                    @csrf
-                                    <input name="majorID" type="hidden" class="majorID" value="{{ $major->id }}">
-                                    <h2 class="nameAction">Add Curriculum</h2>
-                                    <div class="form-element">
-                                        <label for="curriculumName">Mã chương trình học</label>
-                                        <input name="curriculumName" type="text" id="curriculumName" placeholder="Enter name">
-                                    </div>
-                                    <div class="form-element">
-                                        <label for="curriculumName">Tên chương trình học</label>
-                                        <input name="curriculumName" type="text" id="curriculumName" placeholder="Enter name">
-                                    </div>
-                                    <div class="form-element">
-                                        <label for="curriculumName">Tên tiếng việt</label>
-                                        <input name="curriculumName" type="text" id="curriculumName" placeholder="Enter name">
-                                    </div>
-                                    <div class="form-element">
-                                        <label for="description">Mô tả chương trình học</label>
-                                        <textarea name="description" id="multi-line-input" rows="4" cols="50" maxlength="150"></textarea>
-                                    </div>
-
-                                    <div class="form-element">
-                                        <button type="submit">Add</button>
-                                    </div>
-                                </form>
-                            </div>
-                        </div>
-                    </td>
-                </tr>
-            @endforeach
-            </tbody>
         </table>
 
 
     </div>
 @endsection('content')
 @section('fileJs')
-    <script src="{{asset('js/student.js')}}"></script>
+    <script src="{{asset('js/admin.js')}}"></script>
 @endsection

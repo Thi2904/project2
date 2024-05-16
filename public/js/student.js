@@ -107,13 +107,16 @@ if(document.querySelector(".click_search")){
         .addEventListener("click", function () {
             var searchElement = document.querySelector('.search_form')
             if (clickSearchCount === 0) {
+                searchElement.classList.remove("outZoom");
                 searchElement.classList.add("active_search");
                 clickSearchCount++;
             }else{
-                searchElement.classList.remove("active_search");
+                searchElement.classList.add("outZoom");
                 clickSearchCount = 0;
             }
         })
+
 }
+
 
 

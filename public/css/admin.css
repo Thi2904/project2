@@ -1003,10 +1003,35 @@ table{
 .search_form.active_search{
     display: block;
     padding: 5px;
-    height: 25px;
+    height: 30px;
     width: 200px;
     border-radius: 5px;
     border-color: black;
+    animation: Zoom linear 0.3s;
+}
+.search_form.active_search.outZoom{
+    padding: 0;
+    height: 30px;
+    width: 0;
+    border-radius: 0;
+    border: none;
+    animation: outZoom linear 0.3s;
+}
+@keyframes Zoom{
+    from{
+        width: 0;
+    }
+    to{
+        width: 200px;
+    }
+}
+@keyframes outZoom{
+    from{
+        width: 200px;
+    }
+    to{
+        width: 0;
+    }
 }
 
 /*Text Aria*/

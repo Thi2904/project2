@@ -89,4 +89,8 @@ class SubjectController extends Controller
         $subject->delete();
         return redirect()->back()->with('success', 'Deleted subject successfully.');
     }
+    public function showTeacher()
+    {
+        return view('admin.teacherView');
+    }
 }
