@@ -66,23 +66,26 @@ if(document.querySelector("#show-add")){
 
         });
 }
-if(document.querySelector(".show-edit")){
-    document.querySelectorAll(".show-edit").forEach(function(button) {
-
-        button.addEventListener("click", function () {
-            var popupElement = document.querySelector('.popup-edit');
-            popupElement.classList.add("active");
-
-
+document.addEventListener('DOMContentLoaded', function() {
+    if (document.querySelector(".button-edit")) {
+        const buttons = document.querySelectorAll('.button-edit');
+        buttons.forEach(function(button) {
+            button.addEventListener('click', function() {
+                const popupId = this.getAttribute('data-popup-id');
+                const popup = document.getElementById('popupEdit-' + popupId);
+                if (popup) {
+                    popup.classList.add("active");
+                }
+            });
         });
-    });
-    document.querySelector(".popup-edit .close-btn")
-        .addEventListener("click",function (){
-            var popupElement =  document.querySelector('.popup-edit');
-            popupElement.classList.remove("active");
 
+        document.querySelectorAll(".popup-edit .close-btn").forEach(function(closeButton) {
+            closeButton.addEventListener("click", function() {
+                this.closest(".popup-edit").classList.remove("active");
+            });
         });
-}
+    }
+});
 
 var clickSearchCount = 0;
 if(document.querySelector(".click_search")){
@@ -101,3 +104,23 @@ if(document.querySelector(".click_search")){
 
 }
 
+document.addEventListener('DOMContentLoaded', function() {
+    if (document.querySelector(".button-add-day")) {
+        const buttons = document.querySelectorAll('.show-add-day');
+        buttons.forEach(function(button) {
+            button.addEventListener('click', function() {
+                const popupId = this.getAttribute('data-popup-id');
+                const popup = document.getElementById('popup-' + popupId);
+                if (popup) {
+                    popup.classList.add("active");
+                }
+            });
+        });
+
+        document.querySelectorAll(".popup .close-btn").forEach(function(closeButton) {
+            closeButton.addEventListener("click", function() {
+                this.closest(".popup").classList.remove("active");
+            });
+        });
+    }
+});

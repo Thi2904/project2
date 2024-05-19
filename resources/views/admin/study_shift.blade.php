@@ -41,18 +41,18 @@
 @section('tro')
     <ul class="my-breadcrumb ">
         <li>
-            <a href="#">Dashboard</a>
+            <a href="#">Bảng điều khiển</a>
         </li>
         <li><i class='bx bx-chevron-right' ></i></li>
         <li>
-            <a class="active" href="#">Subject</a>
+            <a class="active" href="#">Lịch học</a>
         </li>
     </ul>
 
 @endsection('tro')
 
 @section('narno')
-    <h3>Total Study Shift</h3>
+    <h3>Tổng lịch học</h3>
 
 @endsection('narno')
 
@@ -133,15 +133,15 @@
         }
     </style>
     <div class="head">
-        <h3>List of Study Shift</h3>
+        <h3>Danh sách lịch học</h3>
         <div style="display: flex">
-            <button style="margin-right: 12px" id="show-add" class="button-add">Add</button>
+            <button style="margin-right: 12px" id="show-add" class="button-add">Thêm</button>
 
             <div class="popup">
                 <div class="close-btn">&times;</div>
                 <form action="{{ route('addSchoolShift')}}" method="POST">
                     @csrf
-                    <h2 class="nameAction">Add Study Shift</h2>
+                    <h2 class="nameAction">Thêm lịch học</h2>
                     <div class="form-element">
                         <label for="classID">Tên lớp</label>
                         <select class="select-element" name="classID" id="classID">
@@ -178,7 +178,7 @@
                         <input name="dateStart" type="date" id="dateStart" placeholder="Nhập thời gian bắt đầu">
                     </div>
                     <div class="form-element">
-                        <button type="submit">Add</button>
+                        <button type="submit">Thêm</button>
                     </div>
                 </form>
             </div>
@@ -200,29 +200,65 @@
     <table>
         <thead>
         <tr>
-            <th>Subject</th>
-            <th>Class</th>
-            <th>Teacher</th>
-            <th>Date start</th>
-            <th>Status</th>
+            <th>Tên môn</th>
+            <th>Lớp</th>
+            <th>Giảng viên</th>
+            <th>Ngày bắt đầu</th>
+            <th>Hành động</th>
 
         </tr>
         </thead>
         <tbody>
         @foreach($StudyShifts as $StudyShift)
         <tr>
-            <td><p>{{$StudyShift -> subjectName}}</p>
+            <td><a href="{{route('showStudyShiftSchool')}}">{{$StudyShift -> subjectName}}</a>
             </td>
             <td>{{$StudyShift -> className}}</td>
             <td>{{$StudyShift -> name}}</td>
             <td>{{$StudyShift -> dateStart}}</td>
             <td>
-                <button class="show-edit button-edit">Edit</button>
-                <div class="popup-edit">
+                <button id="{{$StudyShift->id}}" data-popup-id="{{$StudyShift->id}}" class="show-add-day button-add-day">Thêm ngày học</button>
+
+                <div id="popup-{{$StudyShift->id}}" class="popup">
+                    <div class="close-btn">&times;</div>
+                    <form action="{{ route('addSubject')}}" method="POST">
+                        @csrf
+                        <h2 class="nameAction">Thêm ngày học</h2>
+                        <div class="form-element">
+                            <label for="dateInWeek">Ngày học</label>
+                            <input name="dateInWeek" type="text" id="dateInWeek" placeholder="Nhập ngày học">
+                        </div>
+{{--                        <div class="form-element">--}}
+{{--                            <label for="subjectName">Mã môn</label>--}}
+                        <input name="schoolShiftID" type="hidden" id="codeName" value="{{$StudyShift->id}}">
+{{--                        </div>--}}
+                        <div class="form-element">
+                            <label for="shiftsID">Ca học</label>
+                            <select class="select-element" name="shiftsID" id="shiftsID">
+                                    <option value="1">8:00 - 10:00</option>
+                                    <option value="2">8:00 - 12:00</option>
+                                    <option value="3">10:00 - 12:00</option>
+                                    <option value="4">13:30 - 15:30</option>
+                                    <option value="4">13:30 - 17:30</option>
+                                    <option value="4">15:30 - 17:30</option>
+                            </select>
+                        </div>
+                        <div class="form-element">
+                            <label for="description">Phòng học</label>
+                            <input type="text" name="classroomID" placeholder="Nhập phòng học">
+                        </div>
+                        <div class="form-element">
+                            <button type="submit">Thêm</button>
+                        </div>
+                    </form>
+                </div>
+
+                <button data-popup-id="{{$StudyShift->id}}" class="show-edit button-edit">Sửa</button>
+                <div id="popupEdit-{{$StudyShift->id}}"  class="popup-edit">
                     <div class="close-btn">&times;</div>
                     <form action="{{route('editSchoolShift',['StudyShift' => $StudyShift->id])}}" method="POST">
                         @csrf
-                        <h2 class="nameAction">Edit Study Shift</h2>
+                        <h2 class="nameAction">Sửa lịch học</h2>
                         <div class="form-element">
                             <label for="classID">Tên lớp</label>
                             <select class="select-element" name="classID" id="classID">
@@ -259,14 +295,14 @@
                             <input name="dateStart" type="date" id="dateStart" placeholder="Nhập thời gian bắt đầu">
                         </div>
                         <div class="form-element">
-                            <button type="submit">Update</button>
+                            <button type="submit">Cập nhật</button>
                         </div>
                     </form>
                 </div>
                 <form action="{{ route('deleteSchoolShift',['StudyShift' => $StudyShift->id]) }}" onsubmit="return confirm('Do you want delete this subject ? ')" style="display: inline;" method="POST">
                     @csrf
                     @method('DELETE')
-                    <button style="margin-right: 12px;" class="button-delete"><i class='bx bx-trash'></i></button>
+                    <button style="margin-right: 12px;" class="button-delete">Xóa</button>
                 </form>
             </td>
         </tr>

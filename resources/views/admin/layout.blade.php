@@ -77,7 +77,17 @@
     <main>
         <div class="head-title">
             <div class="left">
-                <h1>Dashboard</h1>
+                @if(session()->has('success'))
+                    <div class="alert alert-success">
+                        {{session()->get('success')}}
+                    </div>
+                @endif
+                @if(session()->has('warning'))
+                    <div class="alert alert-danger">
+                        {{session()->get('warning')}}
+                    </div>
+                @endif
+                <h1>Bảng điều khiển</h1>
                 @yield('tro')
             </div>
 

@@ -15,8 +15,8 @@ li {
 }
 
 :root {
-    --poppins: 'Poppins', sans-serif;
-    --lato: 'Lato', sans-serif;
+    /*--poppins: 'Poppins', sans-serif;*/
+    /*--lato: 'Lato', sans-serif;*/
     --roboto: 'Roboto', sans-serif;
 
     --light: #F9F9F9;
@@ -618,7 +618,19 @@ body.dark {
     border: none;
     color: white;
 }
+
 .button-add:hover{
+    background: #3C91E6;
+}
+.button-add-day{
+    height: 28px;
+    width: 100px;
+    background: var(--blue);
+    border-radius: 5px;
+    border: none;
+    color: white;
+}
+.button-add-day:hover{
     background: #3C91E6;
 }
 .button-edit{

@@ -74,3 +74,5 @@ Route::delete('/deleteSubject/{subject}', [SubjectController::class, 'deleteSubj
 
 Route::get('/teacher/beforediemdanh', [\App\Http\Controllers\TeachController::class, 'classForCheckin'])->name('teacher.classForCheckin');
 Route::get('/teacher/beforediemdanh/{class}', [\App\Http\Controllers\TeachController::class, 'studentForCheckin'])->name('class.showdiemdanh');
+
+Route::get('/admin/studyShiftSchool', [\App\Http\Controllers\SchoolShiftController::class, 'showStudyShiftSchool'])->name('showStudyShiftSchool');

@@ -43,8 +43,11 @@ class SchoolShiftController extends Controller
             "classID" => "required|exists:classes,id",
             "teacherID" => "required|exists:teachers,id",
         ]);
-        $schoolShift ->update($data);
-        return redirect()->back()->with('success', 'Edit subject successfully.');
+        if ($schoolShift->update($data)) {
+            return redirect()->back()->with('success', 'Edit subject successfully.');
+        } else {
+            return redirect()->back()->with('error', 'Failed to edit subject.');
+        }
     }
 
     public function deleteSchoolShift(SchoolShifts $schoolShift)
@@ -53,6 +56,10 @@ class SchoolShiftController extends Controller
         return redirect()->back()->with('success', 'Deleted subject successfully.');
     }
 
+    public function showStudyShiftSchool()
+    {
+        return view('admin.school_study_shift');
+    }
     public function addSchoolShiftDetail(Request $request)
     {
         $data = $request->validate([

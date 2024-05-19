@@ -38,16 +38,7 @@
     </ul>
 @endsection
 @section('tro')
-    @if(session()->has('success'))
-        <div class="alert alert-success">
-            {{session()->get('success')}}
-        </div>
-    @endif
-    @if(session()->has('warning'))
-        <div class="alert alert-danger">
-            {{session()->get('warning')}}
-        </div>
-    @endif
+
     <ul class="my-breadcrumb ">
         <li>
             <a href="#">Dashboard</a>
