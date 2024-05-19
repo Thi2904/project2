@@ -13,9 +13,9 @@ return new class extends Migration
     {
         Schema::create('teachers', function (Blueprint $table) {
             $table->id();
-            $table->string('teacherName');
-            $table->string('email');
-            $table->string('phoneNumber');
+            $table->string('teacherCode');
+            $table->foreignId('userID')->constrained('users','id');
+            $table->foreignId('majorID')->constrained('major','id');
             $table->timestamps();
         });
     }

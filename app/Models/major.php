@@ -23,4 +23,8 @@ class major extends Model
     {
         return $this->hasMany(subjects::class, 'majorID');
     }
+    public function teacher()
+    {
+        return $this->hasMany(Classes::class, 'majorID');
+    }
 }

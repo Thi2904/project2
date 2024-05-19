@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\curriculums;
 use App\Models\major;
 use App\Models\subjects;
+use App\Models\Teachers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -95,6 +96,45 @@ class SubjectController extends Controller
     }
     public function showTeacher()
     {
-        return view('admin.teacherView');
+        $teachers = DB::table('teachers')
+            ->join('users', 'teachers.userID', '=', 'users.id')
+            ->join('major', 'teachers.majorID', '=', 'major.id')
+            ->select(
+                'teachers.teacherCode',
+                'users.email',
+                'users.password',
+                'major.majorName'
+            )
+            ->get();
+        $users = DB::table('users')->where('role','teacher')->get();
+        $majors = DB::table('major')->get();
+        return view('admin.teacherView', ['teachers' => $teachers, 'users' => $users, 'majors' => $majors]);
+    }
+
+    public function addTeacher(Request $request)
+    {
+        $data = $request->validate([
+            'userID' => 'required|exists:users,id',
+            'teacherCode' => 'required|string|max:255',
+            'majorID' => 'required|exists:major,id'
+        ]);
+        $teachers = Teachers::create($data);
+        return redirect()->back()->with('success', 'Added new teacher successfully.');
+    }
+
+    public function editTeacher(Request $request, Teachers $teacher)
+    {
+        $data = $request->validate([
+            'teacherCode' => 'required|string|max:255',
+            'majorID' => 'required|exists:major,id'
+        ]);
+        $teacher ->update($data);
+        return redirect()->back()->with('success', 'Edit subject successfully.');
+    }
+
+    public function deleteTeacher(Teachers $teacher)
+    {
+        $teacher->delete();
+        return redirect()->back()->with('success', 'Deleted subject successfully.');
     }
 }

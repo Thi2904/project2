@@ -103,5 +103,4 @@ class AdminController extends Controller
         $student->delete();
         return redirect()->back()->with('success', 'Deleted student successfully.');
     }
-
 }

@@ -151,31 +151,32 @@
                 <button id="show-add" class="button-add">Add</button>
                 <div class="popup">
                     <div class="close-btn">&times;</div>
-                    <form action="{{ route('addClass')}}" method="POST">
+                    <form action="{{ route('addTeacher')}}" method="POST">
                         @csrf
                         <h2 class="nameAction">Thêm giảng viên</h2>
                         <div class="form-element">
                             <label for="className">Chọn chuyên ngành</label>
                             <select class="select-element" name="majorID" id="majorID">
-{{--                                @foreach($majors as $major)--}}
-{{--                                    <option value="{{ $major->id }}">--}}
-{{--                                        {{ $major->majorName }}--}}
-{{--                                    </option>--}}
-{{--                                @endforeach--}}
+                                @foreach($majors as $major)
+                                    <option value="{{ $major->id }}">
+                                        {{ $major->majorName }}
+                                    </option>
+                                @endforeach
                             </select>
                         </div>
-
                         <div class="form-element">
-                            <label for="className">Mã giảng viên</label>
-                            <input name="className" type="text" id="className" placeholder="Nhập mã giảng viên">
+                            <label for="userID">Ten giảng viên</label>
+                            <select class="select-element" name="userID" id="userID">
+                                @foreach($users as $user)
+                                    <option value="{{ $user->id }}">
+                                        {{ $user->name }}
+                                    </option>
+                                @endforeach
+                            </select>
                         </div>
                         <div class="form-element">
-                            <label for="className">Email</label>
-                            <input name="className" type="text" id="className" placeholder="Nhập email giảng viên">
-                        </div>
-                        <div class="form-element">
-                            <label for="grade">Mật khẩu</label>
-                            <input name="grade" type="text" id="grade" placeholder="Nhập mật khẩu">
+                            <label for="teacherCode">Mã giảng viên</label>
+                            <input name="teacherCode" type="text" id="teacherCode" placeholder="Nhập mã giảng viên">
                         </div>
                         <div class="form-element">
                             <button type="submit">Add</button>
@@ -195,10 +196,20 @@
             <tr>
                 <th>Mã giảng viên</th>
                 <th>Tên chuyên ngành </th>
-                <th>Tên tài khoản</th>
+                <th>Email</th>
                 <th>Mật khẩu</th>
             </tr>
             </thead>
+            <tbody>
+            @foreach($teachers as $teacher)
+                <tr>
+                    <td>{{$teacher -> teacherCode}}</td>
+                    <td>{{$teacher -> majorName}}</td>
+                    <td>{{$teacher -> email}}</td>
+                    <td>{{$teacher -> password}}</td>
+                </tr>
+            @endforeach
+            </tbody>
         </table>
 
 

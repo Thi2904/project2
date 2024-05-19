@@ -9,11 +9,16 @@ class Teachers extends Model
 {
     use HasFactory;
     protected $fillable = [
-        'teacherName',
-        'phoneNumber',
-        'address',
-        'email',
-        'password',
-        'DoB'
+        'userID',
+        'teacherCode',
+        'majorID'
     ];
+    public function major()
+    {
+        return $this->belongsTo(Major::class, 'majorID');
+    }
+    public function users()
+    {
+        return $this->belongsTo(User::class, 'userID');
+    }
 }

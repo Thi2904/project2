@@ -9,10 +9,27 @@ use Illuminate\Database\Eloquent\Model;
 class SchoolShifts extends Model
 {
     use HasFactory;
+    protected $table = 'schoolShift';
     protected $fillable = [
         'dateStart',
         'classID',
         'subjectID',
         'teacherID',
     ];
+    public function SchoolShiftsDetail()
+    {
+        return $this->hasMany(SchoolShifts::class, 'schoolShiftID');
+    }
+    public function class()
+    {
+        return $this->belongsTo(Classes::class, 'classID');
+    }
+    public function subject()
+    {
+        return $this->belongsTo(subjects::class, 'subjectID');
+    }
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'teacherID');
+    }
 }

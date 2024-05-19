@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\SchoolShiftController;
 use App\Http\Controllers\SubjectController;
 use Illuminate\Support\Facades\Route;
 
@@ -60,8 +61,11 @@ Route::delete('/deleteCurriculum/{curriculum}', [SubjectController::class, 'dele
 
 Route::get('/admin/studyShift', [\App\Http\Controllers\SchoolShiftController::class, 'studyShift'])->name('studyShift');
 Route::post('/addSchoolShift', [\App\Http\Controllers\SchoolShiftController::class,'addSchoolShift'])->name('addSchoolShift');
+Route::post('/editSchoolShift/{StudyShift}', [SchoolShiftController::class, 'editSchoolShift'])->name('editSchoolShift');
+Route::delete('/deleteSchoolShift/{StudyShift}', [SchoolShiftController::class, 'deleteSchoolShift'])->name('deleteSchoolShift');
 
 Route::get('/admin/viewTeacher', [\App\Http\Controllers\SubjectController::class, 'showTeacher'])->name('showTeacher');
+Route::post('/addTeacher', [\App\Http\Controllers\SubjectController::class, 'addTeacher'])->name('addTeacher');
 
 Route::get('/admin/subject/{majorId}/{curriculum}', [\App\Http\Controllers\SubjectController::class, 'showSubject'])->name('showSubject');
 Route::post('/addSubject', [\App\Http\Controllers\SubjectController::class,'addSubject'])->name('addSubject');

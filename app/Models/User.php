@@ -25,6 +25,10 @@ class User extends Authenticatable
         'password',
         'role',
     ];
+    public function SchoolShifts()
+    {
+        return $this->hasMany(SchoolShifts::class, 'userID');
+    }
 
     /**
      * The attributes that should be hidden for serialization.

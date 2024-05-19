@@ -25,4 +25,9 @@ class subjects extends Model
     {
         return $this->belongsTo(curriculums::class, 'curriculumID');
     }
+
+    public function SchoolShifts()
+    {
+        return $this->hasMany(SchoolShifts::class, 'subjectID');
+    }
 }
