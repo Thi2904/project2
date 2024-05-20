@@ -211,7 +211,7 @@
         <tbody>
         @foreach($StudyShifts as $StudyShift)
         <tr>
-            <td><a href="{{route('showStudyShiftSchool')}}">{{$StudyShift -> subjectName}}</a>
+            <td><a href="{{route('showStudyShiftSchool',['StudyShift' => $StudyShift->id])}}">{{$StudyShift -> subjectName}}</a>
             </td>
             <td>{{$StudyShift -> className}}</td>
             <td>{{$StudyShift -> name}}</td>
@@ -221,36 +221,40 @@
 
                 <div id="popup-{{$StudyShift->id}}" class="popup">
                     <div class="close-btn">&times;</div>
-                    <form action="{{ route('addSubject')}}" method="POST">
+
+                    <form action="{{ route('addSchoolShiftDetail')}}" method="POST">
                         @csrf
                         <h2 class="nameAction">Thêm ngày học</h2>
                         <div class="form-element">
                             <label for="dateInWeek">Ngày học</label>
                             <input name="dateInWeek" type="text" id="dateInWeek" placeholder="Nhập ngày học">
                         </div>
-{{--                        <div class="form-element">--}}
-{{--                            <label for="subjectName">Mã môn</label>--}}
-                        <input name="schoolShiftID" type="hidden" id="codeName" value="{{$StudyShift->id}}">
-{{--                        </div>--}}
+                        <input name="schoolShiftID" type="hidden" id="schoolShiftID" value="{{$StudyShift->id}}">
                         <div class="form-element">
                             <label for="shiftsID">Ca học</label>
                             <select class="select-element" name="shiftsID" id="shiftsID">
-                                    <option value="1">8:00 - 10:00</option>
-                                    <option value="2">8:00 - 12:00</option>
-                                    <option value="3">10:00 - 12:00</option>
-                                    <option value="4">13:30 - 15:30</option>
-                                    <option value="4">13:30 - 17:30</option>
-                                    <option value="4">15:30 - 17:30</option>
+                                @foreach($shifts as $shift)
+                                    <option value="{{ $shift->id }}">
+                                        {{ $shift -> time_in }} - {{ $shift -> time_out }}
+                                    </option>
+                                @endforeach
                             </select>
                         </div>
                         <div class="form-element">
                             <label for="description">Phòng học</label>
-                            <input type="text" name="classroomID" placeholder="Nhập phòng học">
+                            <select class="select-element" name="classroomID" id="classroomID">
+                                @foreach($rooms as $room)
+                                    <option value="{{ $room->id }}">
+                                        {{ $room -> infrastructure }} - {{ $room -> floor }}
+                                    </option>
+                                @endforeach
+                            </select>
                         </div>
                         <div class="form-element">
                             <button type="submit">Thêm</button>
                         </div>
                     </form>
+
                 </div>
 
                 <button data-popup-id="{{$StudyShift->id}}" class="show-edit button-edit">Sửa</button>

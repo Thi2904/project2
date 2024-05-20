@@ -153,7 +153,7 @@
     <table>
         <thead>
         <tr>
-            <th>Tên môn</th>
+{{--            <th>Tên môn</th>--}}
             <th>Ngày</th>
             <th>Ca học</th>
             <th>Phòng học</th>
@@ -161,12 +161,12 @@
         </tr>
         </thead>
         <tbody>
-{{--        @foreach($StudyShifts as $StudyShift)--}}
+        @foreach($SchoolShifts as $SchoolShift)
             <tr>
-                <td>Java</td>
-                <td>Thu Nam</td>
-                <td>8:00 - 12:00</td>
-                <td>207</td>
+{{--                <td>{{$SchoolShift}}</td>--}}
+                <td>{{$SchoolShift->dateInWeek}}</td>
+                <td>{{$SchoolShift->time_in}} - {{$SchoolShift->time_out}}</td>
+                <td>{{$SchoolShift->classroomName}}</td>
                 <td>
                     <button data-popup-id="" class="show-edit button-edit">Sửa</button>
                     <div id="popupEdit-"  class="popup-edit">
@@ -198,14 +198,14 @@
                             </div>
                         </form>
                     </div>
-                    <form action="" onsubmit="return confirm('Do you want delete this subject ? ')" style="display: inline;" method="POST">
+                    <form action="{{route('deleteSchoolShiftDetail',['SchoolShift'=>$SchoolShift->id])}}" onsubmit="return confirm('Do you want delete this subject ? ')" style="display: inline;" method="POST">
                         @csrf
                         @method('DELETE')
                         <button style="margin-right: 12px;" class="button-delete">Xóa</button>
                     </form>
                 </td>
             </tr>
-{{--        @endforeach--}}
+        @endforeach
         </tbody>
     </table>
 

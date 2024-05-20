@@ -20,7 +20,8 @@ class SchoolShiftController extends Controller
         $classes = DB::table('classes')->get();
         $subjects = DB::table('subjects')->get();
         $shifts = DB::table('_shifts')->get();
-        return view('admin.study_shift', ['StudyShifts' => $StudyShifts,'classes' => $classes, 'shifts' => $shifts, 'subjects' => $subjects, 'teachers' => $teachers]);
+        $rooms = DB::table('classroom')->get();
+        return view('admin.study_shift', ['rooms' => $rooms,'StudyShifts' => $StudyShifts,'classes' => $classes, 'shifts' => $shifts, 'subjects' => $subjects, 'teachers' => $teachers]);
     }
 
     //beta
@@ -35,7 +36,7 @@ class SchoolShiftController extends Controller
         $schoolShift = SchoolShifts::create($data);
         return redirect()->back()->with('success', 'Added new study shift successfully.');
     }
-    public function editSchoolShift(Request $request, SchoolShifts $schoolShift)
+    public function editSchoolShift(Request $request, SchoolShifts $StudyShift)
     {
         $data = $request->validate([
             "dateStart" => "required|string|max:255",
@@ -43,22 +44,27 @@ class SchoolShiftController extends Controller
             "classID" => "required|exists:classes,id",
             "teacherID" => "required|exists:teachers,id",
         ]);
-        if ($schoolShift->update($data)) {
+        if ($StudyShift->update($data)) {
             return redirect()->back()->with('success', 'Edit subject successfully.');
         } else {
             return redirect()->back()->with('error', 'Failed to edit subject.');
         }
     }
 
-    public function deleteSchoolShift(SchoolShifts $schoolShift)
+    public function deleteSchoolShift(SchoolShifts $StudyShift)
     {
-        $schoolShift->delete();
+        $StudyShift->delete();
         return redirect()->back()->with('success', 'Deleted subject successfully.');
     }
 
-    public function showStudyShiftSchool()
+    public function showStudyShiftSchool($StudyShift)
     {
-        return view('admin.school_study_shift');
+        $schoolShiftID = $StudyShift;
+        $SchoolShifts = DB::table('schoolShiftDetail')
+            ->join('classroom', 'schoolShiftDetail.classroomID', '=', 'classroom.id')
+            ->join('_shifts', 'schoolShiftDetail.shiftsID', '=', '_shifts.id')
+            ->where('schoolShiftDetail.schoolShiftID', $schoolShiftID)->get();
+        return view('admin.school_study_shift',['SchoolShifts' => $SchoolShifts]);
     }
     public function addSchoolShiftDetail(Request $request)
     {
@@ -68,7 +74,7 @@ class SchoolShiftController extends Controller
             "classroomID" => "required|exists:classes,id",
             "shiftsID" => "required|exists:teachers,id",
         ]);
-        $schoolShiftDetail = SchoolShifts::create($data);
+        $schoolShiftDetail = SchoolShiftDetail::create($data);
         return redirect()->back()->with('success', 'Added new study shift successfully.');
     }
     public function editSchoolShiftDetail(Request $request, SchoolShiftDetail $schoolShiftDetail)
