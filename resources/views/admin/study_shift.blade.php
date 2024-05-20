@@ -211,15 +211,15 @@
         <tbody>
         @foreach($StudyShifts as $StudyShift)
         <tr>
-            <td><a href="{{route('showStudyShiftSchool',['StudyShift' => $StudyShift->id])}}">{{$StudyShift -> subjectName}}</a>
+            <td><a href="{{route('showStudyShiftSchool',['StudyShift' => $StudyShift->schoolShift_id])}}">{{$StudyShift -> subjectName}}</a>
             </td>
             <td>{{$StudyShift -> className}}</td>
             <td>{{$StudyShift -> name}}</td>
             <td>{{$StudyShift -> dateStart}}</td>
             <td>
-                <button id="{{$StudyShift->id}}" data-popup-id="{{$StudyShift->id}}" class="show-add-day button-add-day">Thêm ngày học</button>
+                <button id="{{$StudyShift->schoolShift_id}}" data-popup-id="{{$StudyShift->schoolShift_id}}" class="show-add-day button-add-day">Thêm ngày học</button>
 
-                <div id="popup-{{$StudyShift->id}}" class="popup">
+                <div id="popup-{{$StudyShift->schoolShift_id}}" class="popup">
                     <div class="close-btn">&times;</div>
 
                     <form action="{{ route('addSchoolShiftDetail')}}" method="POST">
@@ -229,7 +229,7 @@
                             <label for="dateInWeek">Ngày học</label>
                             <input name="dateInWeek" type="text" id="dateInWeek" placeholder="Nhập ngày học">
                         </div>
-                        <input name="schoolShiftID" type="hidden" id="schoolShiftID" value="{{$StudyShift->id}}">
+                        <input name="schoolShiftID" type="hidden" id="schoolShiftID" value="{{$StudyShift->schoolShift_id}}">
                         <div class="form-element">
                             <label for="shiftsID">Ca học</label>
                             <select class="select-element" name="shiftsID" id="shiftsID">
@@ -257,10 +257,10 @@
 
                 </div>
 
-                <button data-popup-id="{{$StudyShift->id}}" class="show-edit button-edit">Sửa</button>
-                <div id="popupEdit-{{$StudyShift->id}}"  class="popup-edit">
+                <button data-popup-id="{{$StudyShift->schoolShift_id}}" class="show-edit button-edit">Sửa</button>
+                <div id="popupEdit-{{$StudyShift->schoolShift_id}}"  class="popup-edit">
                     <div class="close-btn">&times;</div>
-                    <form action="{{route('editSchoolShift',['StudyShift' => $StudyShift->id])}}" method="POST">
+                    <form action="{{route('editSchoolShift',['StudyShift' => $StudyShift->schoolShift_id])}}" method="POST">
                         @csrf
                         <h2 class="nameAction">Sửa lịch học</h2>
                         <div class="form-element">
@@ -303,7 +303,7 @@
                         </div>
                     </form>
                 </div>
-                <form action="{{ route('deleteSchoolShift',['StudyShift' => $StudyShift->id]) }}" onsubmit="return confirm('Do you want delete this subject ? ')" style="display: inline;" method="POST">
+                <form action="{{ route('deleteSchoolShift',['StudyShift' => $StudyShift->schoolShift_id]) }}" onsubmit="return confirm('Do you want delete this subject ? ')" style="display: inline;" method="POST">
                     @csrf
                     @method('DELETE')
                     <button style="margin-right: 12px;" class="button-delete">Xóa</button>

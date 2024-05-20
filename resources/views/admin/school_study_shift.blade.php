@@ -168,37 +168,44 @@
                 <td>{{$SchoolShift->time_in}} - {{$SchoolShift->time_out}}</td>
                 <td>{{$SchoolShift->classroomName}}</td>
                 <td>
-                    <button data-popup-id="" class="show-edit button-edit">Sửa</button>
-                    <div id="popupEdit-"  class="popup-edit">
+                    <button data-popup-id="{{$SchoolShift->schoolShiftDetail_id}}" class="show-edit button-edit">Sửa</button>
+                    <div id="popupEdit-{{$SchoolShift->schoolShiftDetail_id}}"  class="popup-edit">
                         <div class="close-btn">&times;</div>
-                        <form action="" method="POST">
+                        <form action="{{route('editSchoolShiftDetail',['SchoolShift' => $SchoolShift->schoolShiftDetail_id])}}" method="POST">
                             @csrf
                             <h2 class="nameAction">Sửa ca học</h2>
+                            <input name="schoolShiftID" type="hidden" value="{{$SchoolShift->schoolShiftID}}">
                             <div class="form-element">
                                 <label for="dateInWeek">Ngày học</label>
                                 <input name="dateInWeek" type="text" id="dateInWeek" placeholder="Nhập ngày học">
                             </div>
+
                             <div class="form-element">
-                                <label for="shiftsID">Ca học</label>
-                                <select class="select-element" name="shiftsID" id="shiftsID">
-                                    <option value="1">8:00 - 10:00</option>
-                                    <option value="2">8:00 - 12:00</option>
-                                    <option value="3">10:00 - 12:00</option>
-                                    <option value="4">13:30 - 15:30</option>
-                                    <option value="4">13:30 - 17:30</option>
-                                    <option value="4">15:30 - 17:30</option>
+                                <label for="description">Phòng học</label>
+                                <select class="select-element" name="classroomID" id="classroomID">
+                                    @foreach($rooms as $room)
+                                        <option value="{{ $room->id }}">
+                                            {{ $room -> infrastructure }} - {{ $room -> floor }}
+                                        </option>
+                                    @endforeach
                                 </select>
                             </div>
                             <div class="form-element">
-                                <label for="description">Phòng học</label>
-                                <input type="text" name="classroomID" placeholder="Nhập phòng học">
+                                <label for="shiftsID">Ca học</label>
+                                <select class="select-element" name="shiftsID" id="shiftsID">
+                                    @foreach($shifts as $shift)
+                                        <option value="{{ $shift->id }}">
+                                            {{ $shift -> time_in }} - {{ $shift -> time_out }}
+                                        </option>
+                                    @endforeach
+                                </select>
                             </div>
                             <div class="form-element">
                                 <button type="submit">Cập nhật</button>
                             </div>
                         </form>
                     </div>
-                    <form action="{{route('deleteSchoolShiftDetail',['SchoolShift'=>$SchoolShift->id])}}" onsubmit="return confirm('Do you want delete this subject ? ')" style="display: inline;" method="POST">
+                    <form action="{{route('deleteSchoolShiftDetail',['SchoolShift'=>$SchoolShift->schoolShiftDetail_id])}}" onsubmit="return confirm('Do you want delete this subject ? ')" style="display: inline;" method="POST">
                         @csrf
                         @method('DELETE')
                         <button style="margin-right: 12px;" class="button-delete">Xóa</button>

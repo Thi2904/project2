@@ -24,7 +24,10 @@ class AdminController extends Controller
         }
         $curriculums = DB::table('curriculum')->get();
         $majors = DB::table('major')->get();
-        return view('admin.home', ['classes' => $classes, 'curriculums' => $curriculums, 'majors' => $majors]);
+        $stuCount = Classes::withCount('student')->get();
+
+
+        return view('admin.home', ['classes' => $classes, 'curriculums' => $curriculums, 'majors' => $majors, 'stuCount' => $stuCount]);
     }
 
     public function addClass(Request $request)
@@ -61,8 +64,9 @@ class AdminController extends Controller
 
     public function showClassAndStudent()
     {
+        $stuCount = Classes::withCount('student')->get();
         $classes = DB::table('classes')->paginate(4);
-        return view('admin.student', ['classes' => $classes]);
+        return view('admin.student', ['classes' => $classes ,'stuCount' => $stuCount]);
     }
     public function showStudent($id)
     {

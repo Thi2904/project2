@@ -14,7 +14,18 @@ class SchoolShiftController extends Controller
         $StudyShifts = DB::table('schoolShift')
             ->join('subjects', 'schoolShift.subjectID', '=', 'subjects.id')
             ->join('classes', 'schoolShift.classID', '=', 'classes.id')
-            ->join('users', 'schoolShift.teacherID', '=', 'users.id')->get();
+            ->join('users', 'schoolShift.teacherID', '=', 'users.id')
+            ->select(
+                'schoolShift.id as schoolShift_id',
+                'subjects.id as subject_id',
+                'classes.id as class_id',
+                'users.id as user_id',
+                'schoolShift.*',
+                'subjects.*',
+                'classes.*',
+                'users.*'
+            )
+            ->get();
         $teachers = DB::table('users')
             ->join('teachers', 'users.id', '=', 'teachers.userID')->get();
         $classes = DB::table('classes')->get();
@@ -63,8 +74,21 @@ class SchoolShiftController extends Controller
         $SchoolShifts = DB::table('schoolShiftDetail')
             ->join('classroom', 'schoolShiftDetail.classroomID', '=', 'classroom.id')
             ->join('_shifts', 'schoolShiftDetail.shiftsID', '=', '_shifts.id')
-            ->where('schoolShiftDetail.schoolShiftID', $schoolShiftID)->get();
-        return view('admin.school_study_shift',['SchoolShifts' => $SchoolShifts]);
+            ->where('schoolShiftDetail.schoolShiftID', $schoolShiftID)
+            ->select(
+                'schoolShiftDetail.id as schoolShiftDetail_id',
+                'classroom.id as classroom_id',
+                '_shifts.id as shifts_id',
+                'schoolShiftDetail.*',
+                'classroom.*',
+                '_shifts.*'
+            )
+            ->get();
+        $shifts = DB::table('_shifts')->get();
+
+        $rooms = DB::table('classroom')->get();
+
+        return view('admin.school_study_shift',['SchoolShifts' => $SchoolShifts, 'shifts' => $shifts ,'rooms' => $rooms]);
     }
     public function addSchoolShiftDetail(Request $request)
     {
@@ -77,20 +101,24 @@ class SchoolShiftController extends Controller
         $schoolShiftDetail = SchoolShiftDetail::create($data);
         return redirect()->back()->with('success', 'Added new study shift successfully.');
     }
-    public function editSchoolShiftDetail(Request $request, SchoolShiftDetail $schoolShiftDetail)
+    public function editSchoolShiftDetail(Request $request, SchoolShiftDetail $SchoolShift)
     {
         $data = $request->validate([
             "schoolShiftID" => "required|exists:schoolShift,id",
             "dateInWeek" => "required|string|max:255",
-            "classroomID" => "required|exists:classes,id",
-            "shiftsID" => "required|exists:teachers,id",
+            "classroomID" => "",
+            "shiftsID" => "",
         ]);
-        $schoolShiftDetail ->update($data);
-        return redirect()->back()->with('success', 'Edit subject successfully.');
+
+        if ($SchoolShift->update($data)) {
+            return redirect()->back()->with('success', 'Edit subject successfully.');
+        } else {
+            return redirect()->back()->with('error', 'Failed to edit subject.');
+        }
     }
-    public function deleteSchoolShiftDetail(SchoolShiftDetail $schoolShiftDetail)
+    public function deleteSchoolShiftDetail(SchoolShiftDetail $SchoolShift)
     {
-        $schoolShiftDetail->delete();
+        $SchoolShift->delete();
         return redirect()->back()->with('success', 'Deleted subject successfully.');
     }
 }

@@ -133,14 +133,16 @@
         </tr>
         </thead>
         <tbody>
-        @foreach ($classes as $class)
+        @foreach ($classes as $key => $class)
             <tr>
                 <td>
 
                     <a href="{{ route('class.show', ['class' => $class->id]) }}">{{ $class->className }}</a>
                 </td>
                 <td>{{ $class->grade }}</td>
-                <td>{{ $class->totalStudent }}</td>
+                <td>
+                    {{$stuCount[$key]-> student_count}}
+                </td>
                 <td>
                     <button class="show-edit button-edit">Edit</button>
                     <div class="popup-edit">

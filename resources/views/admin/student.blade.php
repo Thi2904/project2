@@ -149,7 +149,7 @@
             </tr>
             </thead>
             <tbody>
-            @foreach ($classes as $class)
+            @foreach ($classes as $key => $class)
                 <tr>
                     <td>{{$class->id}}</td>
                     <td>
@@ -158,7 +158,7 @@
                         </a>
                     </td>
                     <td>{{ $class->grade }}</td>
-                    <td>{{ $class->totalStudent }}</td>
+                    <td>{{$stuCount[$key]-> student_count}}</td>
                     <td>
                         <button id="{{$class->id}}" data-popup-id="{{$class->id}}" class="show-add button-add-student">Add Student</button>
                         <div id="popup-{{$class->id}}" class="popup">

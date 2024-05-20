@@ -77,5 +77,6 @@ Route::get('/teacher/beforediemdanh/{class}', [\App\Http\Controllers\TeachContro
 
 Route::get('/admin/showStudyShiftSchool/{StudyShift}', [\App\Http\Controllers\SchoolShiftController::class, 'showStudyShiftSchool'])->name('showStudyShiftSchool');
 Route::post('/addSchoolShiftDetail', [\App\Http\Controllers\SchoolShiftController::class,'addSchoolShiftDetail'])->name('addSchoolShiftDetail');
+Route::post('/editSchoolShiftDetail/{SchoolShift}', [\App\Http\Controllers\SchoolShiftController::class,'editSchoolShiftDetail'])->name('editSchoolShiftDetail');
 Route::delete('/deleteSchoolShiftDetail/{SchoolShift}', [SchoolShiftController::class, 'deleteSchoolShiftDetail'])->name('deleteSchoolShiftDetail');
 
