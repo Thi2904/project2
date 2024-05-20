@@ -41,10 +41,7 @@ html {
 .avatar img{
     border-radius: 50%;
 }
-.btn-out{
-    position: absolute;
-    top: -150%;
-}
+
 .search{
     display: flex;
     margin-right: 24px;
@@ -52,20 +49,25 @@ html {
 .bell{
     margin-right: 18px;
 }
-.search_content {
-    width: 0;
-    height: 0;
+.search_content{
     display: none;
-    padding: 0;
 }
-.search_content.active {
+.search_content.active{
     display: block;
-    width: 150px;
+    padding: 5px;
     height: 30px;
-    border-color: black;
+    width: 150px;
     border-radius: 5px;
-    padding: 2px 10px;
+    border-color: black;
     animation: Zoom linear 0.3s;
+}
+.search_content.active.outZoom{
+    padding: 0;
+    height: 30px;
+    width: 0;
+    border-radius: 0;
+    border: none;
+    animation: outZoom linear 0.3s;
 }
 @keyframes Zoom{
     from{
@@ -75,7 +77,14 @@ html {
         width: 150px;
     }
 }
-
+@keyframes outZoom{
+    from{
+        width: 150px;
+    }
+    to{
+        width: 0;
+    }
+}
 /*Sidebar*/
 #sidebar{
     background: white;
@@ -237,3 +246,42 @@ html {
     margin-right: 40px;
 }
 /*End content*/
+
+/*Drop down*/
+.drop_down {
+    position: absolute;
+    min-height: 70px;
+    width: 160px;
+    background: white;
+    z-index: 1000;
+    box-shadow: 3px 3px 5px 5px rgba(0,0,0,0.15);
+    transform: translateY(0);
+    transition: transform 0.3s ease-out, opacity 0.3s ease-out, all 0.3s ease;
+}
+
+.drop_downItem {
+    border-bottom: 1px solid black;
+    border-radius: 0;
+    width: 100%;
+}
+
+.drop_downItem:hover {
+    background: #d7d7d7;
+}
+
+.log-out {
+    color: red;
+}
+
+.drop_down.drop_downActive {
+    transform: translateY(-100%);
+    height: 0;
+    box-shadow: none;
+    opacity: 0; /* Để ẩn phần tử */
+    visibility: hidden; /* Để ngăn không cho click vào phần tử ẩn */
+    z-index: -1000;
+    transition: transform 0.3s ease, opacity 0.3s ease,all 0.3s ease;
+
+}
+
+/*End drop dowm*/

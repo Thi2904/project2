@@ -2,13 +2,13 @@
 var clickCount = 0;
 document.querySelector(".show_logout")
     .addEventListener("click",function (){
-        var popupElement =  document.querySelector('.btn-not-out');
+        var popupElement =  document.querySelector('.drop_down');
         if (clickCount === 0) {
-            popupElement.classList.remove("btn-out");
+            popupElement.classList.remove("drop_downActive");
             clickCount++;
             console.log(clickCount)
         }else{
-            popupElement.classList.add("btn-out");
+            popupElement.classList.add("drop_downActive");
             clickCount = 0;
         }
     });
@@ -18,10 +18,11 @@ document.querySelector(".search_icon")
     .addEventListener("click", function () {
         var searchElement = document.querySelector('.search_content')
         if (clickSearchCount === 0) {
+            searchElement.classList.remove("outZoom");
             searchElement.classList.add("active");
             clickSearchCount++;
         }else{
-            searchElement.classList.remove("active");
+            searchElement.classList.add("outZoom");
             clickSearchCount = 0;
         }
     })

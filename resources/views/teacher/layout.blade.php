@@ -74,10 +74,18 @@
                 <div class="avatar" style="text-align: end; margin-right: 12px">
                     <b style="color: #0a53be; margin-right: 2px">{{\Illuminate\Support\Facades\Auth::user()->name}}</b>
                     <span style="font-size: 20px" class="show_logout"><i class="fa-solid fa-caret-down"></i></span>
-                    <form style="margin-right: 0" class="mt-2" method="post" action="{{route('logout')}}">
-                        @csrf
-                        <button type="submit" class="btn-out btn-not-out btn btn-dark me-2">Logout</button>
-                    </form>
+                    <div class="drop_down drop_downActive mt-2">
+                        <form style="margin-right: 0" method="post" action="{{route('logout')}}">
+                            @csrf
+                            <button type="submit" class="drop_downItem log-out btn-not-out btn ">
+{{--                                <i class="fa-solid fa-arrow-right-from-bracket"></i>--}}
+                                Logout
+                            </button>
+                        </form>
+                        <button class="drop_downItem btn me-2">
+                            Profile
+                        </button>
+                    </div>
                 </div>
 
             </div>
