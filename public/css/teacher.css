@@ -250,6 +250,7 @@ html {
 /*Drop down*/
 .drop_down {
     position: absolute;
+    left: 88%;
     min-height: 70px;
     width: 160px;
     background: white;
@@ -274,7 +275,7 @@ html {
 }
 
 .drop_down.drop_downActive {
-    transform: translateY(-100%);
+    transform: translateY(-50%);
     height: 0;
     box-shadow: none;
     opacity: 0; /* Để ẩn phần tử */
