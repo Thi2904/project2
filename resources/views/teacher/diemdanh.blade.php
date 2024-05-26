@@ -31,38 +31,42 @@
             </tr>
             </thead>
             <tbody>
-            @foreach ($students as $student)
-                <tr>
-                    <td>{{ $student->id }}</td>
-                    <td>{{ $student->studentName }}</td>
-                    <td class="d-flex justify-content-between">
-                        <div class="">
-                            <input id="ear{{ $student->id }}" type="radio" name="options{{ $student->id }}" value="ear">
-                            <label for="ear{{ $student->id }}"> Đi học</label>
-                        </div>
-                        <div class="">
-                            <input id="late{{ $student->id }}" type="radio" name="options{{ $student->id }}" value="late">
-                            <label for="late{{ $student->id }}"> Đi muộn </label>
+            <form action="{{ route('submit.diemdanh') }}" method="POST">
+                @csrf
+                @foreach ($students as $student)
+                    <tr>
+                        <td>{{ $student->id }}</td>
+                        <td>{{ $student->studentName }}</td>
+                        <td class="d-flex justify-content-between">
+                            <input type="hidden" name="schoolShiftID" value="{{ $schoolShiftID }}">
+                            <div class="">
+                                <input id="di-hoc{{ $student->id }}" type="radio" name="options[{{ $student->id }}]" value="đi học" checked>
+                                <label for="di-hoc{{ $student->id }}"> Đi học</label>
+                            </div>
+                            <div class="">
+                                <input id="tre{{ $student->id }}" type="radio" name="options[{{ $student->id }}]" value="trễ">
+                                <label for="tre{{ $student->id }}"> Đi muộn </label>
+                            </div>
+                            <div class="">
+                                <input id="nghi-co-phep{{ $student->id }}" type="radio" name="options[{{ $student->id }}]" value="nghỉ có phép">
+                                <label for="nghi-co-phep{{ $student->id }}"> Nghỉ có phép </label>
+                            </div>
+                            <div class="">
+                                <input id="nghi-khong-phep{{ $student->id }}" type="radio" name="options[{{ $student->id }}]" value="nghỉ không phép">
+                                <label for="nghi-khong-phep{{ $student->id }}"> Nghỉ học </label>
+                            </div>
+                        </td>
+                    </tr>
+                @endforeach
+                <div class="foot d-flex justify-content-between">
+                    <div class="pagination"></div>
+                    <div class="submit">
+                        <button type="submit" class="submit_diem_danh btn btn-main">Submit</button>
+                    </div>
+                </div>
+            </form>
 
-                        </div>
-                        <div class="">
-                            <input id="off{{ $student->id }}" type="radio" name="options{{ $student->id }}" value="off">
-                            <label for="off{{ $student->id }}"> Nghỉ học </label>
-                        </div>
-
-
-                    </td>
-                </tr>
-            @endforeach
             </tbody>
         </table>
-    </div>
-    <div class="foot d-flex justify-content-between">
-        <div class="pagination"></div>
-        <div class="submit">
-            <button class="submit_diem_danh btn btn-main">
-                Submit
-            </button>
-        </div>
     </div>
 @endsection('content')

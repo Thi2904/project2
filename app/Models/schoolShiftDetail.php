@@ -15,9 +15,23 @@ class schoolShiftDetail extends Model
         'dateInWeek',
         'shiftsID',
     ];
-    public function SchoolShifts()
+    public function SchoolShift()
     {
         return $this->belongsTo(SchoolShifts::class, 'schoolShiftID');
     }
+
+    public function subject()
+    {
+        return $this->belongsTo(subjects::class, 'subjectID');
+    }
+
+    public function class()
+    {
+        return $this->belongsTo(Classes::class, 'classID');
+    }
+//    public function shift()
+//    {
+//        return $this->belongsTo(Shift::class, 'shiftsID');
+//    }
 
 }

@@ -39,7 +39,8 @@ class AuthController extends Controller
                     return redirect()->route("admin.home");
                     break;
                 case "teacher":
-                    return redirect()->route("teacher.classForCheckin");
+                    session(['teacherID' => $user->id]);
+                    return redirect()->route("teacher.TeachShift");
                     break;
             }
         }

@@ -2,21 +2,58 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Classes;
-use App\Models\Student;
+use App\Models\Attendance;
+use App\Models\AttendDetail;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class TeachController extends Controller
 {
-    public function studentForCheckin($id)
+    public function TeachShift()
     {
-        $students = Student::where('classID', $id)->paginate(3);
-        $class = Classes::findOrFail($id);
-        return view('teacher.diemdanh', ['students' => $students], ['id' => $id]);
+        $teacherID = session('teacherID', Auth::user()->id);
+        $StudyShifts = DB::table('schoolShift')
+            ->join('subjects', 'schoolShift.subjectID', '=', 'subjects.id')
+            ->join('classes', 'schoolShift.classID', '=', 'classes.id')
+            ->join('users', 'schoolShift.teacherID', '=', 'users.id')
+            ->select(
+                'subjects.subjectName',
+                'classes.className',
+                'users.name',
+                'schoolShift.classID',
+                'schoolShift.id'
+            )
+            ->where('schoolShift.teacherID', $teacherID)
+            ->get();
+        return view('teacher.beforediemdanh', ['StudyShifts' => $StudyShifts]);
     }
 
-    public function classForCheckin()
+    public function TeachShiftAttendance($classID)
     {
-        $classes = Classes::paginate(4);
-        return view('teacher.beforediemdanh', ['classes' => $classes]);
+        $students = DB::table('students')
+            ->where('classID', $classID)
+            ->get();
+        $schoolShiftID = DB::table('schoolShift')
+            ->where('classID', $classID)
+            ->value('id');
+        return view('teacher.diemdanh', ['students' => $students, 'schoolShiftID' => $schoolShiftID]);
+    }
+
+    public function submitDiemDanh(Request $request)
+    {
+        $attendance = Attendance::create([
+            'schoolShiftID' => $request->input('schoolShiftID'),
+            'date' => now(),
+        ]);
+
+        foreach ($request->input('options') as $studentID => $status) {
+            AttendDetail::create([
+                'attendID' => $attendance->id,
+                'studentID' => $studentID,
+                'status' => $status,
+            ]);
+        }
+        return redirect()->back()->with('success', 'Đã lưu điểm danh thành công!');
     }
 }

@@ -16,9 +16,9 @@ class SchoolShifts extends Model
         'subjectID',
         'teacherID',
     ];
-    public function SchoolShiftsDetail()
+    public function schoolShiftDetails()
     {
-        return $this->hasMany(SchoolShifts::class, 'schoolShiftID');
+        return $this->hasMany(SchoolShiftDetail::class, 'schoolShiftID');
     }
     public function class()
     {
