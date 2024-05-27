@@ -6,32 +6,32 @@
         <li class="">
             <a href="{{route('admin.home')}}">
                 <i class='bx bxs-dashboard' ></i>
-                <span class="text">Class</span>
+                <span class="text">Lớp</span>
             </a>
         </li>
 
         <li class="sidebarActive">
             <a href="{{route('admin.student')}}">
                 <i class='bx bxs-user' ></i>
-                <span class="text">Student</span>
+                <span class="text">Sinh Viên</span>
             </a>
         </li>
         <li>
             <a href="{{route('showSpecialized')}}">
                 <i class='bx bxl-slack' ></i>
-                <span class="text">Specialized</span>
+                <span class="text">Chuyên ngành và CTDT</span>
             </a>
         </li>
         <li>
             <a href="{{route('studyShift')}}">
                 <i class='bx bxs-calendar' ></i>
-                <span class="text">Study Shift</span>
+                <span class="text">Ca học</span>
             </a>
         </li>
         <li>
             <a href="{{route('showTeacher')}}">
                 <i class='bx bxs-graduation'></i>
-                <span class="text">Teacher</span>
+                <span class="text">Giảng viên</span>
             </a>
         </li>
 
@@ -41,18 +41,18 @@
 
     <ul class="my-breadcrumb ">
         <li>
-            <a href="#">Dashboard</a>
+            <a href="#">Bảng điều khiển</a>
         </li>
         <li><i class='bx bx-chevron-right' ></i></li>
         <li>
-            <a class="active" href="#">Student</a>
+            <a class="active" href="#">Sinh Viên</a>
         </li>
     </ul>
 
 @endsection('tro')
 
 @section('narno')
-    <h3>Total Student</h3>
+    <h3>Tổng sinh viên</h3>
 @endsection('narno')
 
 @section('content')
@@ -142,10 +142,10 @@
             <thead>
             <tr>
                 <th>ID</th>
-                <th>Class</th>
-                <th>Grade</th>
-                <th>Total Student</th>
-                <th>Status</th>
+                <th>Lớp</th>
+                <th>Khóa</th>
+                <th>Tổng sinh viên</th>
+                <th>Hành động</th>
             </tr>
             </thead>
             <tbody>
@@ -160,33 +160,33 @@
                     <td>{{ $class->grade }}</td>
                     <td>{{$stuCount[$key]-> student_count}}</td>
                     <td>
-                        <button id="{{$class->id}}" data-popup-id="{{$class->id}}" class="show-add button-add-student">Add Student</button>
+                        <button id="{{$class->id}}" data-popup-id="{{$class->id}}" class="show-add button-add-student">Thêm sinh viên</button>
                         <div id="popup-{{$class->id}}" class="popup">
                             <div class="close-btn">&times;</div>
                             <form action="{{ route('addStudent')}}" method="POST">
                                 @csrf
                                 <input type="hidden" id="{{ $class->id }}" name="classID" value="{{ $class->id }}">
-                                <h2 class="nameAction">Add Student</h2>
+                                <h2 class="nameAction">Thêm sinh viên</h2>
                                 <div class="form-element">
-                                    <label for="studentName">Name</label>
-                                    <input name="studentName" type="text" id="studentName" placeholder="Enter name">
+                                    <label for="studentName">Tên</label>
+                                    <input name="studentName" type="text" id="studentName" placeholder="Nhập tên">
                                 </div><div class="form-element">
                                     <label for="email">Email</label>
-                                    <input name="email" type="text" id="email" placeholder="Enter email">
+                                    <input name="email" type="text" id="email" placeholder="Nhập Email">
                                 </div>
                                 <div class="form-element">
-                                    <label for="phoneNumber">Phone Number</label>
-                                    <input name="phoneNumber" type="text" id="phoneNumber" placeholder="Enter phone number">
+                                    <label for="phoneNumber">Số điện thoại</label>
+                                    <input name="phoneNumber" type="text" id="phoneNumber" placeholder="Nhập số điện thoại">
                                 </div>
                                 <div class="form-element">
-                                    <label for="gender"> Specialized name</label>
+                                    <label for="gender"> Giới tính </label>
                                     <select class="select-element" name="gender" id="gender">
-                                        <option value="Male">Male</option>
-                                        <option value="Female">Female</option>
+                                        <option value="Male">Nam</option>
+                                        <option value="Female">Nữ</option>
                                     </select>
                                 </div>
                                 <div class="form-element">
-                                    <button type="submit">Add</button>
+                                    <button type="submit">Thêm</button>
                                 </div>
                             </form>
                         </div>

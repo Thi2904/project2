@@ -6,32 +6,32 @@
         <li class="">
             <a href="{{route('admin.home')}}">
                 <i class='bx bxs-dashboard' ></i>
-                <span class="text">Class</span>
+                <span class="text">Lớp</span>
             </a>
         </li>
 
         <li class="">
             <a href="{{route('admin.student')}}">
                 <i class='bx bxs-user' ></i>
-                <span class="text">Student</span>
+                <span class="text">Sinh Viên</span>
             </a>
         </li>
         <li class="sidebarActive">
             <a href="{{route('showSpecialized')}}">
                 <i class='bx bxl-slack' ></i>
-                <span class="text">Specialized</span>
+                <span class="text">Chuyên ngành và CTDT</span>
             </a>
         </li>
         <li>
             <a href="{{route('studyShift')}}">
                 <i class='bx bxs-calendar' ></i>
-                <span class="text">Study Shift</span>
+                <span class="text">Ca học</span>
             </a>
         </li>
         <li>
             <a href="{{route('showTeacher')}}">
                 <i class='bx bxs-graduation'></i>
-                <span class="text">Teacher</span>
+                <span class="text">Giảng viên</span>
             </a>
         </li>
 
@@ -41,17 +41,17 @@
 
     <ul class="my-breadcrumb ">
         <li>
-            <a href="#">Dashboard</a>
+            <a href="#">Bảng điều khiển</a>
         </li>
         <li><i class='bx bx-chevron-right' ></i></li>
         <li>
-            <a class="active" href="#">Specialized</a>
+            <a class="active" href="#">Chuyên ngành</a>
         </li>
     </ul>
 
 @endsection('tro')
 @section('narno')
-    <h3>Total Specialized</h3>
+    <h3>Tổng chuyên ngành</h3>
 @endsection('narno')
 
 @section('content')
@@ -140,26 +140,26 @@
             <thead>
             <tr>
                 <th>ID</th>
-                <th>Specialized Name</th>
-                <th>Total Curriculum</th>
-                <th>Status</th>
+                <th>Tên chuyên ngành</th>
+                <th>Tổng số CTDT</th>
+                <th>Hành động</th>
             </tr>
             </thead>
             <tbody>
-            @foreach($majors as $major)
+            @foreach($majors as $key=> $major)
                 <tr>
                     <td>{{ $major->id }}</td>
                     <td><a href="{{ route('showCurriculum', ['major' => $major->id]) }}">{{ $major->majorName }}</a></td>
-                    <td>{{$mjs[$major->id - 1] -> curriculums_count}}</td>
+                    <td>{{$mjs[$key] -> curriculums_count}}</td>
                     <td style="display: flex;">
-                        <button id="{{ $major->id }}" data-popup-id="{{$major->id}}" class="show-add button-add-student">Add Curriculum</button>
+                        <button id="{{ $major->id }}" data-popup-id="{{$major->id}}" class="show-add button-add-student">Thêm CTDT</button>
                         <div class="head list_student">
                             <div id="popup-{{$major->id}}" class="popup">
                                 <div class="close-btn">&times;</div>
                                 <form action="{{ route('addCurriculum')}}" method="POST">
                                     @csrf
                                     <input name="majorID" type="hidden" class="majorID" value="{{ $major->id }}">
-                                    <h2 class="nameAction">Add Curriculum</h2>
+                                    <h2 class="nameAction">Thêm CTDT</h2>
                                     <div class="form-element">
                                         <label for="curriculumName">Mã chương trình học</label>
                                         <input name="curriculumCode" type="text" id="curriculumCode" placeholder="Enter name">

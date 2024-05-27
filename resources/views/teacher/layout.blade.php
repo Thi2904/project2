@@ -91,6 +91,16 @@
             </div>
         </div>
         <div class="main mt-3">
+            @if(session()->has('success'))
+                <div class="alert alert-success" id="success-alert">
+                    {{ session()->get('success') }}
+                </div>
+            @endif
+            @if(session()->has('warning'))
+                <div class="alert alert-danger" id="warning-alert">
+                    {{ session()->get('warning') }}
+                </div>
+            @endif
             @yield('content')
         </div>
 

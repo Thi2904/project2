@@ -6,52 +6,53 @@
         <li class="">
             <a href="{{route('admin.home')}}">
                 <i class='bx bxs-dashboard' ></i>
-                <span class="text">Class</span>
+                <span class="text">Lớp</span>
             </a>
         </li>
 
         <li class="sidebarActive">
             <a href="{{route('admin.student')}}">
                 <i class='bx bxs-user' ></i>
-                <span class="text">Student</span>
+                <span class="text">Sinh Viên</span>
             </a>
         </li>
         <li>
             <a href="{{route('showSpecialized')}}">
                 <i class='bx bxl-slack' ></i>
-                <span class="text">Specialized</span>
+                <span class="text">Chuyên ngành và CTDT</span>
             </a>
         </li>
         <li>
             <a href="{{route('studyShift')}}">
                 <i class='bx bxs-calendar' ></i>
-                <span class="text">Study Shift</span>
+                <span class="text">Ca học</span>
             </a>
         </li>
         <li>
             <a href="{{route('showTeacher')}}">
                 <i class='bx bxs-graduation'></i>
-                <span class="text">Teacher</span>
+                <span class="text">Giảng viên</span>
             </a>
         </li>
+
     </ul>
 @endsection
 @section('tro')
 
     <ul class="my-breadcrumb ">
         <li>
-            <a href="#">Dashboard</a>
+            <a href="#">Bảng điều khiển</a>
         </li>
         <li><i class='bx bx-chevron-right' ></i></li>
         <li>
-            <a class="active" href="#">Student</a>
+            <a class="active" href="#">Sinh Viên</a>
         </li>
     </ul>
 
 @endsection('tro')
 
 @section('narno')
-    <h3>Total Student</h3>
+    <h3>Tổng sinh viên</h3>
 @endsection('narno')
 
 @section('content')
@@ -62,7 +63,7 @@
         }
     </style>
     <div class="head list_student">
-        <h3>List Student</h3>
+        <h3>Danh sách sinh viên</h3>
         <div style="margin-right: 12px" class="">
             <label>
                 <form style="display: flex;" action="">
@@ -79,9 +80,9 @@
         <thead>
         <tr>
             <th>ID</th>
-            <th>Name</th>
-            <th>Class</th>
-            <th>Status</th>
+            <th>Tên</th>
+            <th>Lớp</th>
+            <th>Hành động</th>
         </tr>
         </thead>
         <tbody>
@@ -93,15 +94,15 @@
                 <td><p>{{ $student->studentName }}</p></td>
                 <td><p>{{ $student->class->className }}</p></td>
                 <td>
-                    <button id="show-edit" class="button-edit" >Edit</button>
-                    <div class="popup-edit">
+                    <button id=edit-"{{$student->id}}" data-popup-id="{{$student->id}}" class="button-edit" >Chỉnh sửa</button>
+                    <div id="popupEdit-{{$student->id}}" class="popup-edit">
                         <div class="close-btn">&times;</div>
                         <form action="{{ route('editStudent',['student' => $student->id])}}" method="POST">
                             @csrf
-                            <h2 class="nameAction">Edit student information</h2>
+                            <h2 class="nameAction">Chỉnh sửa thông tin sinh viên</h2>
                             <div class="form-element">
-                                <label for="studentName">Name</label>
-                                <input name="studentName" type="text" id="studentName" placeholder="Enter name">
+                                <label for="studentName">Tên</label>
+                                <input name="studentName" type="text" id="studentName" placeholder="Nhập tên">
                             </div>
 {{--                            <div class="form-element">--}}
 {{--                                <label for="StudentID">StudentID</label>--}}
@@ -109,31 +110,32 @@
 {{--                            </div>--}}
                             <div class="form-element">
                                 <label for="email">Email</label>
-                                <input name="email" type="text" id="email" placeholder="Enter email">
+                                <input name="email" type="text" id="email" placeholder="Nhập email">
                             </div>
                             <div class="form-element">
-                                <label for="phoneNumber">Phone Number</label>
-                                <input name="phoneNumber" type="text" id="phoneNumber" placeholder="Enter phone number">
+                                <label for="phoneNumber">Số điện thoại</label>
+                                <input name="phoneNumber" type="text" id="phoneNumber" placeholder="Nhập số điện thoại">
                             </div>
                             <div class="form-element">
-                                <label for="gender"> Specialized name</label>
+                                <label for="gender"> Tên chuyên ngành </label>
                                 <select class="select-element" name="gender" id="gender">
-                                    <option value="Male">Male</option>
-                                    <option value="Female">Female</option>
+                                    <option value="Male">Nam</option>
+                                    <option value="Female">Nữ</option>
                                 </select>
                             </div>
+
 {{--                            <div class="form-element">--}}
 {{--                                <input name="classID" type="hidden" id="classID">--}}
 {{--                            </div>--}}
                             <div class="form-element">
-                                <button type="submit">Update</button>
+                                <button type="submit">Chỉnh sửa</button>
                             </div>
                         </form>
                     </div>
                     <form action="{{ route('deleteStudent',['student' => $student->id]) }}" onsubmit="return confirm('Do you want delete this student ? ')" style="display: inline;" method="POST">
                         @csrf
                         @method('DELETE')
-                        <button class="button-delete" type="submit">Delete</button>
+                        <button class="button-delete" type="submit">Xóa</button>
                     </form>
                 </td>
             </tr>

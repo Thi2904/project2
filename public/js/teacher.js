@@ -47,6 +47,34 @@ document.querySelector(".icon_bar")
         }
 
 })
+
+document.addEventListener('DOMContentLoaded', function() {
+    // Chọn các phần tử với ID tương ứng
+    var successAlert = document.getElementById('success-alert');
+    var warningAlert = document.getElementById('warning-alert');
+
+    // Kiểm tra nếu có tồn tại ít nhất một trong hai phần tử
+    if (successAlert || warningAlert) {
+        // Đặt thời gian ẩn là 5 giây (5000ms)
+        setTimeout(function() {
+            if (successAlert) {
+                successAlert.style.transition = "opacity 0.5s ease";
+                successAlert.style.opacity = "0";
+                setTimeout(function() {
+                    successAlert.remove();
+                }, 500); // Thêm thời gian để chờ hiệu ứng opacity hoàn tất trước khi xóa phần tử
+            }
+            if (warningAlert) {
+                warningAlert.style.transition = "opacity 0.5s ease";
+                warningAlert.style.opacity = "0";
+                setTimeout(function() {
+                    warningAlert.remove();
+                }, 500); // Thêm thời gian để chờ hiệu ứng opacity hoàn tất trước khi xóa phần tử
+            }
+        }, 5000); // 5000ms = 5 giây
+    }
+});
+
 // document.querySelector(".list_diemdanh")
 //     .addEventListener("click",function (event){
 //         var diemDanhElement = document.querySelector('.ele_diemdanh')

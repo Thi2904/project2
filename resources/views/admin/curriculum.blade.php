@@ -6,32 +6,32 @@
         <li class="">
             <a href="{{route('admin.home')}}">
                 <i class='bx bxs-dashboard' ></i>
-                <span class="text">Class</span>
+                <span class="text">Lớp</span>
             </a>
         </li>
 
         <li class="">
             <a href="{{route('admin.student')}}">
                 <i class='bx bxs-user' ></i>
-                <span class="text">Student</span>
+                <span class="text">Sinh Viên</span>
             </a>
         </li>
         <li class="sidebarActive">
             <a href="{{route('showSpecialized')}}">
                 <i class='bx bxl-slack' ></i>
-                <span class="text">Specialized</span>
+                <span class="text">Chuyên ngành và CTDT</span>
             </a>
         </li>
         <li>
             <a href="{{route('studyShift')}}">
                 <i class='bx bxs-calendar' ></i>
-                <span class="text">Study Shift</span>
+                <span class="text">Ca học</span>
             </a>
         </li>
         <li>
             <a href="{{route('showTeacher')}}">
                 <i class='bx bxs-graduation'></i>
-                <span class="text">Teacher</span>
+                <span class="text">Giảng viên</span>
             </a>
         </li>
     </ul>
@@ -40,17 +40,17 @@
 
     <ul class="my-breadcrumb ">
         <li>
-            <a href="#">Dashboard</a>
+            <a href="#">Bảng điều khiển</a>
         </li>
         <li><i class='bx bx-chevron-right' ></i></li>
         <li>
-            <a class="active" href="#">Curriculum</a>
+            <a class="active" href="#">Chương trình đào tạo</a>
         </li>
     </ul>
 
 @endsection('tro')
 @section('narno')
-    <h3>Total Curriculum</h3>
+    <h3>Tổng chương trình đào tạo</h3>
 @endsection('narno')
 
 @section('content')
@@ -156,9 +156,9 @@
             <thead>
             <tr>
                 <th>ID</th>
-                <th>Curriculum Name</th>
-                <th>Total Subject</th>
-                <th>Status</th>
+                <th>Tên CTDT</th>
+                <th>Tổng số môn</th>
+                <th>Hành động</th>
             </tr>
             </thead>
             <tbody>
@@ -192,7 +192,7 @@
                                     <textarea name="description" id="multi-line-input" rows="4" cols="50" maxlength="150"></textarea>
                                 </div>
                                 <div class="form-element">
-                                    <button type="submit">Update</button>
+                                    <button type="submit">Cập nhật</button>
                                 </div>
                             </form>
 
@@ -203,7 +203,7 @@
                         <button style="margin-right: 12px;" class="button-delete"><i class='bx bx-trash'></i></button>
                         </form>
                     </div>
-                    <button style="margin-right: 12px;"  id="{{$curriculum->id}}" data-popup-id="{{$curriculum->id}}" class="show-add button-add-student">Add new Subject</button>
+                    <button style="margin-right: 12px;"  id="{{$curriculum->id}}" data-popup-id="{{$curriculum->id}}" class="show-add button-add-student">Thêm môn học vào CTDT</button>
                     <div class="head list_student">
                         <div id="popup-{{$curriculum->id}}" class="popup">
                             <div class="close-btn">&times;</div>

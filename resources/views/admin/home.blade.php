@@ -7,32 +7,32 @@
         <li class="sidebarActive">
             <a href="{{route('admin.home')}}">
                 <i class='bx bxs-dashboard' ></i>
-                <span class="text">Class</span>
+                <span class="text">Lớp</span>
             </a>
         </li>
 
         <li>
             <a href="{{route('admin.student')}}">
                 <i class='bx bxs-user' ></i>
-                <span class="text">Student</span>
+                <span class="text">Sinh Viên</span>
             </a>
         </li>
         <li>
             <a href="{{route('showSpecialized')}}">
                 <i class='bx bxl-slack' ></i>
-                <span class="text">Specialized</span>
+                <span class="text">Chuyên ngành và CTDT</span>
             </a>
         </li>
         <li>
             <a href="{{route('studyShift')}}">
                 <i class='bx bxs-calendar' ></i>
-                <span class="text">Study Shift</span>
+                <span class="text">Ca học</span>
             </a>
         </li>
         <li>
             <a href="{{route('showTeacher')}}">
                 <i class='bx bxs-graduation'></i>
-                <span class="text">Teacher</span>
+                <span class="text">Giảng viên</span>
             </a>
         </li>
     </ul>
@@ -41,46 +41,38 @@
 @section('tro')
     <ul class="my-breadcrumb ">
         <li>
-            <a href="#">Dashboard</a>
+            <a href="#">Bảng điều khiển</a>
         </li>
         <li><i class='bx bx-chevron-right' ></i></li>
         <li>
-            <a class="active" href="#">Class</a>
+            <a class="active" href="#">Lớp</a>
         </li>
     </ul>
 
 @endsection('tro')
 
 @section('narno')
-    <h3>Total classes</h3>
+    <h3>Tổng lớp</h3>
     <p>{{$classes->total()}}</p>
 @endsection('narno')
 
 @section('content')
     <style>
-        .select-element{
-            margin-top: 5px;
-            display: block;
-            width: 100%;
-            padding: 10px;
-            outline: none;
-            border: 1px solid #aaa;
-            border-radius: 5px;
-        }
+
         .popup.active{
             top: 8%;
         }
     </style>
     <div class="head">
         <h3>List of Class</h3>
-        <button id="show-add" class="button-add">Add</button>
+        <button id="show-add" class="button-add">Thêm</button>
         <div class="popup">
             <div class="close-btn">&times;</div>
             <form action="{{ route('addClass')}}" method="POST">
                 @csrf
-                <h2 class="nameAction">Add class</h2>
+                <h2 class="nameAction">Thêm lớp</h2>
                 <div class="form-element">
-                    <label for="className"> Specialized name</label>
+                    <label for="className">Tên chuyên ngành</label>
                     <select class="select-element" name="majorID" id="majorID">
                         @foreach($majors as $major)
                             <option value="{{ $major->id }}">
@@ -101,14 +93,14 @@
                 </div>
                 <div class="form-element">
                     <label for="className">Tên lớp</label>
-                    <input name="className" type="text" id="className" placeholder="Enter class name">
+                    <input name="className" type="text" id="className" placeholder="Nhập lớp">
                 </div>
                 <div class="form-element">
-                    <label for="grade">Grade</label>
-                    <input name="grade" type="text" id="grade" placeholder="Enter grade">
+                    <label for="grade">Khóa</label>
+                    <input name="grade" type="text" id="grade" placeholder="Nhập khóa">
                 </div>
                 <div class="form-element">
-                    <button type="submit">Add</button>
+                    <button type="submit">Thêm</button>
                 </div>
             </form>
         </div>
@@ -126,10 +118,10 @@
     <table>
         <thead>
         <tr>
-            <th>Class</th>
-            <th>Grade</th>
-            <th>Total Student</th>
-            <th>Status</th>
+            <th>Lớp</th>
+            <th>Khóa</th>
+            <th>Tổng sinh viên</th>
+            <th>Hành động</th>
         </tr>
         </thead>
         <tbody>
@@ -144,19 +136,19 @@
                     {{$stuCount[$key]-> student_count}}
                 </td>
                 <td>
-                    <button class="show-edit button-edit">Edit</button>
-                    <div class="popup-edit">
+                    <button id=edit-"{{$class->id}}" data-popup-id="{{$class->id}}" class="show-edit button-edit">Chỉnh sửa</button>
+                    <div  id="popupEdit-{{$class->id}}" class="popup-edit">
                         <div class="close-btn">&times;</div>
                         <form action="{{ route('editClass', ['class' => $class->id])}}" method="POST">
                             @csrf
-                            <h2 class="nameAction">Edit class</h2>
+                            <h2 class="nameAction">Sửa lớp</h2>
                             <div class="form-element">
-                                <label for="className">Class name</label>
-                                <input name="className" value="{{$class->className}}" type="text" id="className" placeholder="Enter class name">
+                                <label for="className">Tên lớp</label>
+                                <input name="className" value="{{$class->className}}" type="text" id="className" placeholder="Nhập tên lớp">
                             </div>
                             <div class="form-element">
-                                <label for="grade">Grade</label>
-                                <input name="grade" value="{{$class->grade}}" type="text" id="grade" placeholder="Enter grade">
+                                <label for="grade">Khóa</label>
+                                <input name="grade" value="{{$class->grade}}" type="text" id="grade" placeholder="Nhập khóa">
                             </div>
                             <div class="form-element">
                                 <label for="className">Chương trình học</label>
@@ -169,17 +161,17 @@
                                 </select>
                             </div>
                             <div class="form-element">
-                                <button type="submit">Update</button>
+                                <button type="submit">Cập nhật</button>
                             </div>
                         </form>
 
 
                     </div>
 
-                    <form action="{{ route('deleteClass', ['class' => $class->id]) }}" onsubmit="return confirm('Do you want delete this class ? ')" method="POST" style="display: inline;">
+                    <form action="{{ route('deleteClass', ['class' => $class->id]) }}" onsubmit="return confirm('Bạn có chắc chắn muốn xóa lớp này không? ')" method="POST" style="display: inline;">
                         @csrf
                         @method('DELETE')
-                        <button class="button-delete" type="submit">Delete</button>
+                        <button class="button-delete" type="submit">Xóa</button>
                     </form>
                 </td>
             </tr>
@@ -190,7 +182,7 @@
         <div class="page-info">Page {{ $classes->currentPage() }} of {{ $classes->lastPage() }}</div>
         <div class="page-links">
             @if($classes->currentPage() > 1)
-                <a href="{{ $classes->previousPageUrl() }}" class="custom-pagination-link">&laquo; Previous</a>
+                <a href="{{ $classes->previousPageUrl() }}" class="custom-pagination-link">&laquo; Trước</a>
             @endif
 
             @for($i = 1; $i <= $classes->lastPage(); $i++)
@@ -202,7 +194,7 @@
             @endfor
 
             @if($classes->hasMorePages())
-                <a href="{{ $classes->nextPageUrl() }}" class="custom-pagination-link">Next &raquo;</a>
+                <a href="{{ $classes->nextPageUrl() }}" class="custom-pagination-link">Sau &raquo;</a>
             @endif
         </div>
     </div>

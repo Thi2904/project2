@@ -54,6 +54,6 @@ class TeachController extends Controller
                 'status' => $status,
             ]);
         }
-        return redirect()->back()->with('success', 'Đã lưu điểm danh thành công!');
+        return redirect()->route('teacher.TeachShift')->with('success', 'Đã lưu điểm danh thành công!');
     }
 }

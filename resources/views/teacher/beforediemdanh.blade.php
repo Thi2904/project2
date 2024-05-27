@@ -30,43 +30,37 @@
             text-align: center;
         }
         a:hover{
-            color: white;
+            color: blue;
 
         }
+        .linkDiemDanh{
+            color: dodgerblue;
+        }
     </style>
-{{--    <div class="content">--}}
-{{--        @foreach ($schoolShifts as $schoolShift)--}}
-{{--        <x-classes class-name="{{ $schoolShift->className }}"--}}
-{{--                   grade="{{ $class->grade }}"--}}
-{{--                   total-name="Ca học"--}}
-{{--                   total-result="10:00 - 12:00"--}}
-{{--                   link-btn="{{ route('class.showdiemdanh', ['class' => $class->id]) }}"--}}
-{{--                   name-btn="Điểm danh"--}}
-{{--                   link="{{ route('class.showdiemdanh', ['class' => $class->id]) }}"--}}
-{{--                   name-link="Xem chuyên cần">--}}
-{{--        </x-classes>--}}
-{{--        @endforeach--}}
-{{--    </div>--}}
-    <table>
-        <thead>
-        <tr>
-            <th>Tên môn</th>
-            <th>Lớp</th>
-            <th>Giảng viên</th>
-{{--            <th>Ca học</th>--}}
-            <th>Điểm danh</th>
-        </tr>
-        </thead>
-        <tbody>
-        @foreach($StudyShifts as $StudyShift)
+    <div class="content">
+        <h3>Lịch dạy hôm nay</h3>
+        <table class="table table-bordered">
+            <thead>
             <tr>
-                <td>{{$StudyShift -> subjectName}}</td>
-                <td>{{$StudyShift -> className}}</td>
-                <td>{{$StudyShift -> name}}</td>
-{{--                <td>{{$StudyShift->time_in}} - {{$StudyShift->time_out}}</td>--}}
-                <td><a href="{{route('class.showdiemdanh', ['classID' => $StudyShift->classID,'schoolShiftID' => $StudyShift->id])}}">đieểm danh</a></td>
+                <th>Tên môn</th>
+                <th>Lớp</th>
+                <th>Giảng viên</th>
+                <th style="text-align: center">Điểm danh</th>
             </tr>
-        @endforeach
-        </tbody>
-    </table>
+            </thead>
+            <tbody>
+            @foreach($StudyShifts as $StudyShift)
+                <tr>
+                    <td>{{$StudyShift -> subjectName}}</td>
+                    <td>{{$StudyShift -> className}}</td>
+                    <td>{{$StudyShift -> name}}</td>
+                    <td style="text-align: start"><a class="linkDiemDanh"  href="{{route('class.showdiemdanh', ['classID' => $StudyShift->classID,'schoolShiftID' => $StudyShift->id])}}">Điểm danh</a></td>
+                </tr>
+
+            @endforeach
+            </tbody>
+
+        </table>
+
+    </div>
 @endsection('content')
