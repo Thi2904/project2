@@ -122,7 +122,7 @@
     </style>
     <div class="head-list">
         <div style="display: flex">
-            <div style="margin-right: 12px" class="">
+            <div style="margin-right: 12px" class="searchInput">
                 <label>
                     <input type="text" class="search_form" placeholder="Tìm kiếm"/>
                 </label>
@@ -162,15 +162,15 @@
                                     <h2 class="nameAction">Thêm CTDT</h2>
                                     <div class="form-element">
                                         <label for="curriculumName">Mã chương trình học</label>
-                                        <input name="curriculumCode" type="text" id="curriculumCode" placeholder="Enter name">
+                                        <input name="curriculumCode" type="text" id="curriculumCode" placeholder="Nhập mã CT học">
                                     </div>
                                     <div class="form-element">
                                         <label for="curriculumName">Tên chương trình học</label>
-                                        <input name="curriculumName" type="text" id="curriculumName" placeholder="Enter name">
+                                        <input name="curriculumName" type="text" id="curriculumName" placeholder="Nhập tên CT học">
                                     </div>
                                     <div class="form-element">
                                         <label for="curriculumVNName">Tên tiếng việt</label>
-                                        <input name="curriculumVNName" type="text" id="curriculumVNName" placeholder="Enter name">
+                                        <input name="curriculumVNName" type="text" id="curriculumVNName" placeholder="Nhập tên tiếng việt">
                                     </div>
                                     <div class="form-element">
                                         <label for="description">Mô tả chương trình học</label>
@@ -178,7 +178,7 @@
                                     </div>
 
                                     <div class="form-element">
-                                        <button type="submit">Add</button>
+                                        <button type="submit">Thêm</button>
                                     </div>
                                 </form>
                             </div>

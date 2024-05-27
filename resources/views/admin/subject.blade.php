@@ -7,32 +7,32 @@
         <li class="">
             <a href="{{route('admin.home')}}">
                 <i class='bx bxs-dashboard' ></i>
-                <span class="text">Class</span>
+                <span class="text">Lớp</span>
             </a>
         </li>
 
         <li class="">
             <a href="{{route('admin.student')}}">
                 <i class='bx bxs-user' ></i>
-                <span class="text">Student</span>
+                <span class="text">Sinh Viên</span>
             </a>
         </li>
         <li class="sidebarActive">
             <a href="{{route('showSpecialized')}}">
                 <i class='bx bxl-slack' ></i>
-                <span class="text">Specialized</span>
+                <span class="text">Chuyên ngành và CTDT</span>
             </a>
         </li>
         <li>
             <a href="{{route('studyShift')}}">
                 <i class='bx bxs-calendar' ></i>
-                <span class="text">Study Shift</span>
+                <span class="text">Ca học</span>
             </a>
         </li>
         <li>
             <a href="{{route('showTeacher')}}">
                 <i class='bx bxs-graduation'></i>
-                <span class="text">Teacher</span>
+                <span class="text">Giảng viên</span>
             </a>
         </li>
     </ul>
@@ -40,18 +40,18 @@
 @section('tro')
     <ul class="my-breadcrumb ">
         <li>
-            <a href="#">Dashboard</a>
+            <a href="#">Bảng điều khiển</a>
         </li>
         <li><i class='bx bx-chevron-right' ></i></li>
         <li>
-            <a class="active" href="#">Subject</a>
+            <a class="active" href="#">Môn học</a>
         </li>
     </ul>
 
 @endsection('tro')
 
 @section('narno')
-    <h3>Total Subject</h3>
+    <h3>Tổng số môn</h3>
 
 @endsection('narno')
 
@@ -124,9 +124,9 @@
         }
     </style>
     <div class="head">
-        <h3>List of Subject</h3>
+        <h3>Danh sách môn học</h3>
         <div style="display: flex">
-            <div style="margin-right: 12px" class="">
+            <div style="margin-right: 12px" class="searchInput">
                 <label>
                     <input type="text" class="search_form" placeholder="Tìm kiếm"/>
                 </label>
@@ -142,10 +142,10 @@
     <table>
         <thead>
         <tr>
-            <th>Subject</th>
-            <th>Total time</th>
-            <th>Description</th>
-            <th>Status</th>
+            <th>Tên môn</th>
+            <th>Tổng thời gian</th>
+            <th>Mô tả</th>
+            <th>Hành động</th>
         </tr>
         </thead>
         <tbody>
@@ -157,27 +157,27 @@
             <td>{{$subject -> subjectTime}}</td>
             <td>{{$subject -> description}}</td>
             <td>
-                <button style="margin-right: 12px;" class="show-edit button-edit"><i class='bx bx-edit'></i></button>
-                <div class="popup-edit">
+                <button id=edit-"{{$subject->id}}" data-popup-id="{{$subject->id}}" style="margin-right: 12px;" class="show-edit button-edit"><i class='bx bx-edit'></i></button>
+                <div id="popupEdit-{{$subject->id}}" class="popup-edit">
                     <div class="close-btn">&times;</div>
                     <form action="{{route("editSubject",['subject' => $subject -> id])}}" method="POST">
                         @csrf
                         <h2 class="nameAction">Chỉnh sửa môn học</h2>
                         <div class="form-element">
                             <label for="subjectName">Tên môn</label>
-                            <input name="subjectName" type="text" id="subjectName" placeholder="Enter name">
+                            <input name="subjectName" type="text" id="subjectName" value="{{$subject -> subjectName}}">
                         </div>
                         <div class="form-element">
                             <label for="codeName">Mã môn</label>
-                            <input name="codeName" type="text" id="codeName" placeholder="Enter name">
+                            <input name="codeName" type="text" id="codeName" value="{{$subject -> codeName}}">
                         </div>
                         <div class="form-element">
                             <label for="subjectName">Thời lượng môn</label>
-                            <input name="subjectTime" type="text" id="subjectTime" placeholder="Enter name">
+                            <input name="subjectTime" type="text" id="subjectTime" value="{{$subject -> subjectTime}}">
                         </div>
                         <div class="form-element">
                             <label for="subjectName">Mô tả môn học</label>
-                            <textarea name="description" id="multi-line-input" rows="4" cols="50" maxlength="150"></textarea>
+                            <textarea name="description" id="multi-line-input" rows="4" cols="50" maxlength="150">{{$subject -> description}}</textarea>
 
                         </div>
 
@@ -186,7 +186,7 @@
                         </div>
                     </form>
                 </div>
-                <form action="{{ route('deleteSubject',['subject' => $subject->id]) }}" onsubmit="return confirm('Do you want delete this subject ? ')" style="display: inline;" method="POST">
+                <form action="{{ route('deleteSubject',['subject' => $subject->id]) }}" onsubmit="return confirm('Bạn có chắc chắn muốn xóa không ? ')" style="display: inline;" method="POST">
                     @csrf
                     @method('DELETE')
                     <button style="margin-right: 12px;" class="button-delete"><i class='bx bx-trash'></i></button>
@@ -197,7 +197,7 @@
         </tbody>
     </table>
 
-    <a class="button-add-student" href="{{route('showCurriculum',$majorId)}}"><i class='icon_left bx bx-arrow-back'></i>Back to Curriculum</a>
+    <a class="button-add-student" href="{{route('showCurriculum',$majorId)}}"><i class='icon_left bx bx-arrow-back'></i>Trang CTDT</a>
 
 @endsection('content')
 @section('fileJs')

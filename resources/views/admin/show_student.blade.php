@@ -64,11 +64,11 @@
     </style>
     <div class="head list_student">
         <h3>Danh sách sinh viên</h3>
-        <div style="margin-right: 12px" class="">
+        <div style="margin-right: 12px" class="searchInput">
             <label>
-                <form style="display: flex;" action="">
+                <form style="display: flex; margin-top: 10px" action="">
                     <input type="text" class="search_form" placeholder="Tìm kiếm"/>
-                    <button type="submit"></button>
+                    <button hidden type="submit"></button>
                 </form>
             </label>
         </div>

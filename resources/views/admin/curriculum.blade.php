@@ -135,7 +135,7 @@
     </style>
     <div class="head-list">
         <div style="display: flex">
-            <div style="margin-right: 12px" class="">
+            <div style="margin-right: 12px" class="searchInput">
                 <label>
                     <form action="">
                         <input type="text" class="search_form" placeholder="Tìm kiếm"/>
@@ -177,19 +177,19 @@
                                 <h2 class="nameAction">Edit Curriculum</h2>
                                 <div class="form-element">
                                     <label for="curriculumCode">Mã chương trình học</label>
-                                    <input name="curriculumCode" type="text" id="curriculumCode" placeholder="Enter name">
+                                    <input name="curriculumCode" type="text" id="curriculumCode" value="{{$curriculum->curriculumCode}}">
                                 </div>
                                 <div class="form-element">
                                     <label for="curriculumName">Tên chương trình học</label>
-                                    <input name="curriculumName" type="text" id="curriculumName" placeholder="Enter name">
+                                    <input name="curriculumName" type="text" id="curriculumName" value="{{$curriculum->curriculumName}}">
                                 </div>
                                 <div class="form-element">
                                     <label for="curriculumVNName">Tên tiếng việt</label>
-                                    <input name="curriculumVNName" type="text" id="curriculumVNName" placeholder="Enter name">
+                                    <input name="curriculumVNName" type="text" id="curriculumVNName" value="{{$curriculum->curriculumVNName}}">
                                 </div>
                                 <div class="form-element">
                                     <label for="description">Mô tả chương trình học</label>
-                                    <textarea name="description" id="multi-line-input" rows="4" cols="50" maxlength="150"></textarea>
+                                    <textarea name="description" id="multi-line-input" rows="4" cols="50" maxlength="150">{{$curriculum->note}}</textarea>
                                 </div>
                                 <div class="form-element">
                                     <button type="submit">Cập nhật</button>
@@ -197,7 +197,7 @@
                             </form>
 
                         </div>
-                        <form action="{{ route('deleteCurriculum',['curriculum' => $curriculum->id]) }}" onsubmit="return confirm('Do you want delete this curriculum ? ')" style="display: inline;" method="POST">
+                        <form action="{{ route('deleteCurriculum',['curriculum' => $curriculum->id]) }}" onsubmit="return confirm('Bạn có chắc chắn muốn xóa không ? ')" style="display: inline;" method="POST">
                             @csrf
                             @method('DELETE')
                         <button style="margin-right: 12px;" class="button-delete"><i class='bx bx-trash'></i></button>
@@ -209,18 +209,18 @@
                             <div class="close-btn">&times;</div>
                             <form action="{{ route('addSubject')}}" method="POST">
                                 @csrf
-                                <h2 class="nameAction">Add Subject</h2>
+                                <h2 class="nameAction">Thêm môn mới</h2>
                                 <div class="form-element">
                                     <label for="subjectName">Tên môn</label>
-                                    <input name="subjectName" type="text" id="subjectName" placeholder="Enter name">
+                                    <input name="subjectName" type="text" id="subjectName" placeholder="Nhập tên môn">
                                 </div>
                                 <div class="form-element">
                                     <label for="subjectName">Mã môn</label>
-                                    <input name="codeName" type="text" id="codeName" placeholder="Enter name">
+                                    <input name="codeName" type="text" id="codeName" placeholder="Nhập mã môn">
                                 </div>
                                 <div class="form-element">
                                     <label for="subjectName">Thời lượng môn</label>
-                                    <input name="subjectTime" type="text" id="subjectTime" placeholder="Enter name">
+                                    <input name="subjectTime" type="text" id="subjectTime" placeholder="Nhập thời lượng môn học">
                                 </div>
                                 <div class="form-element">
                                     <input name="majorID" type="hidden" id="majorID" value="{{ $majorId }}" placeholder="Enter name">
@@ -233,7 +233,7 @@
                                     <textarea name="description" id="multi-line-input" rows="4" cols="50" maxlength="150"></textarea>
                                 </div>
                                 <div class="form-element">
-                                    <button type="submit">Add</button>
+                                    <button type="submit">Thêm</button>
                                 </div>
                             </form>
                         </div>
@@ -248,7 +248,7 @@
 
 
     </div>
-    <a class="button-add-student" href="{{route('showSpecialized')}}"><i class='icon_left bx bx-arrow-back'></i> Back to Specialized</a>
+    <a class="button-add-student" href="{{route('showSpecialized')}}"><i class='icon_left bx bx-arrow-back'></i>Trang chuyên ngành </a>
 @endsection('content')
 @section('fileJs')
     <script src="{{asset('js/student.js')}}"></script>

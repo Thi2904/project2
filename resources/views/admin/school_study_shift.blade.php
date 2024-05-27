@@ -7,32 +7,32 @@
         <li class="">
             <a href="{{route('admin.home')}}">
                 <i class='bx bxs-dashboard' ></i>
-                <span class="text">Class</span>
+                <span class="text">Lớp</span>
             </a>
         </li>
 
         <li class="">
             <a href="{{route('admin.student')}}">
                 <i class='bx bxs-user' ></i>
-                <span class="text">Student</span>
+                <span class="text">Sinh Viên</span>
             </a>
         </li>
         <li>
             <a href="{{route('showSpecialized')}}">
                 <i class='bx bxl-slack' ></i>
-                <span class="text">Specialized</span>
+                <span class="text">Chuyên ngành và CTDT</span>
             </a>
         </li>
         <li class="sidebarActive">
             <a href="{{route('studyShift')}}">
                 <i class='bx bxs-calendar' ></i>
-                <span class="text">Study Shift</span>
+                <span class="text">Ca học</span>
             </a>
         </li>
         <li>
             <a href="{{route('showTeacher')}}">
                 <i class='bx bxs-graduation'></i>
-                <span class="text">Teacher</span>
+                <span class="text">Giảng viên</span>
             </a>
         </li>
     </ul>
@@ -136,7 +136,7 @@
         <h3>Danh sách ca học</h3>
         <div style="display: flex">
             <div style="display: flex">
-                <div style="margin-right: 12px" class="">
+                <div style="margin-right: 12px" class="searchInput">
                     <label>
                         <input type="text" class="search_form" placeholder="Tìm kiếm"/>
                     </label>

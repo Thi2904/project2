@@ -284,5 +284,8 @@ html {
     transition: transform 0.3s ease, opacity 0.3s ease,all 0.3s ease;
 
 }
+.searchInput{
+    height: 50px;
+}
 
 /*End drop dowm*/

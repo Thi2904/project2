@@ -104,9 +104,9 @@
                 </div>
             </form>
         </div>
-        <div style="margin-right: 7px" class="">
+        <div style="margin-right: 7px" class="searchInput">
             <label>
-                <form style="display: flex;"  action="">
+                <form style="display: flex; margin-top: 10px"  action="">
                     <input type="text" class="search_form" placeholder="Tìm kiếm"/>
                     <button hidden type="submit"></button>
                 </form>

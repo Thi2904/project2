@@ -60,7 +60,7 @@
 
                 <div class="mt-1 search">
 
-                    <div style="margin-right: 12px">
+                    <div class="searchInput" style="margin-right: 12px">
                         <form action="">
                             <input placeholder="Search something" class="search_content" type="text">
                             <button style="display: none" type="submit"></button>

@@ -35,6 +35,7 @@ li {
 
 html {
     overflow-x: hidden;
+    overflow-y: hidden;
 }
 
 body {
@@ -1080,5 +1081,7 @@ textarea:focus {
     border: 1px solid #aaa;
     border-radius: 5px;
 }
-
+.searchInput{
+    height: 50px;
+}
 /*Calender*/
