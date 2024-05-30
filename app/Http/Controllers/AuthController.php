@@ -6,6 +6,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Log;
 
 class AuthController extends Controller
 {
@@ -42,6 +43,10 @@ class AuthController extends Controller
                     session(['teacherID' => $user->id]);
                     return redirect()->route("teacher.TeachShift");
                     break;
+                case "student":
+                    session(['studentID' => $user->id]);
+                    return redirect()->route("teacher.TeachShift");
+                    break;
             }
         }
         else{
@@ -53,6 +58,7 @@ class AuthController extends Controller
 
     public function register(Request $request)
     {
+
         $data = $request->validate([
             'name' => 'required|string|max:255',
             'phone' => 'required|string|max:20',
@@ -70,9 +76,30 @@ class AuthController extends Controller
 
         // Perform any additional actions or redirects as needed
 
-        return redirect()->route('login')->with('success', 'Registration successful. Please log in.');
+        return redirect()->route('admin.home')->with('success', 'Tạo tài khoản thành công');
     }
 
+    public function registerStudent(Request $request)
+    {
+        $data = $request->validate([
+            'name' => 'required|string|max:255',
+            'phone' => 'required|string|max:20',
+            'address' => 'required|string|max:100',
+            'email' => 'required|email|unique:users',
+            'password' => 'required|string|min:8',
+            'role' => 'required|string' // Add validation for the role field
+        ]);
+        dd($data);
+        // Hash the password before saving it to the database
+        $data['password'] = Hash::make($data['password']);
+
+        // Create the user record in the database
+        $user = User::create($data);
+
+        // Perform any additional actions or redirects as needed
+
+        return redirect()->route('login')->with('success', 'Registration successful. Please log in.');
+    }
     //POST: /logout
     function logout()
     {

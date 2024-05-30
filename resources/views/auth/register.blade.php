@@ -11,6 +11,19 @@
     <title>Document</title>
 </head>
 <body>
+@if(session()->has('success'))
+    <div class="alert alert-success">
+        {{session()->get('success')}}
+    </div>
+@endif
+@if(session()->has('warning'))
+    <div class="alert alert-danger">
+        {{session()->get('warning')}}
+    </div>
+@endif
+@error('password')
+<div class="alert alert-danger">Mật khẩu cần có ít nhất 8 kí tự</div>
+@enderror
 <section class="vh-100" style="background-color: #E9EDF9;">
     <div class="container h-100">
         <div class="row d-flex justify-content-center align-items-center h-100">
@@ -24,9 +37,9 @@
                         <div class="col-md-6 col-lg-6 d-flex align-items-center">
                             <div class="card-body p-4 p-lg-5 text-black">
 
-                                <form method="post" action="{{route('register')}}">
+                                <form method="post" action="{{route('registerStudent')}}">
                                     @csrf
-                                    <input type="hidden" name="role" value="teacher">
+                                    <input type="hidden" name="role" value="student">
                                     <div class="form-outline  mb-4">
                                         <label class="form-label" for="form2Example37">Full Name</label>
                                         <input name="name" id="form2Example37" placeholder="Full Name" class="form-control form-control-lg" />

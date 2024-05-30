@@ -27,15 +27,8 @@
         <span class="text">BKAHUB</span>
     </a>
     @yield('sidebar_top')
-    {{--        <ul class="side-menu">--}}
-    {{--            <li>--}}
-    {{--                <a href="#">--}}
-    {{--                    <i class='bx bxs-cog' ></i>--}}
-    {{--                    <span class="text">Settings</span>--}}
-    {{--                </a>--}}
-    {{--            </li>--}}
+    <button id="show_addTeacher" style="margin-top: 300px;margin-left: 12px;width: 250px; font-size: 16px" class="button-add-student"><i style="margin-right: 12px" class='bx bx-user-plus'></i> Thêm tài khoản giảng viên </button>
 
-    {{--        </ul>--}}
 </section>
 <!-- SIDEBAR -->
 
@@ -87,6 +80,9 @@
                         {{session()->get('warning')}}
                     </div>
                 @endif
+                @error('password')
+                <div class="alert alert-danger">Mật khẩu cần có ít nhất 8 kí tự</div>
+                @enderror
                 <h1>Bảng điều khiển</h1>
                 @yield('tro')
             </div>
@@ -122,6 +118,42 @@
 
         <div class="table-data">
             <div class="order">
+                <div id="popup_addTeacher" class="popupAdd">
+                    <div class="close-btn">&times;</div>
+                    <h3 style="text-align: center">Tạo tài khoản giảng viên</h3>
+                    <form method="post" action="{{route('register')}}">
+                        @csrf
+                        <input type="hidden" name="role" value="teacher">
+                        <div class="form-element">
+                            <label class="form-label" for="form2Example37">Họ và tên</label>
+                            <input type="text" name="name" id="form2Example37" placeholder="Họ và tên" class="form-control form-control-lg" />
+                        </div>
+                        <div class="form-element">
+                            <label class="form-label" for="form2Example27">Số điện thoại</label>
+                            <input type="text" name="phone" id="form2Example27" placeholder="Số điện thoại" class="form-control form-control-lg" />
+                        </div>
+                        <div class="form-element">
+                            <label class="form-label" for="form2Example7">Địa chỉ</label>
+                            <input type="text" name="address" id="form2Example7" placeholder="Địa chỉ" class="form-control form-control-lg" />
+                        </div>
+                        <div class="form-element">
+                            <label class="form-label" for="form2Example1">Địa chỉ email</label>
+                            <input name="email" type="text" id="form2Example1" placeholder="Địa chỉ email" class="form-control form-control-lg" />
+                        </div>
+
+                        <div class="form-element">
+                            <label class="form-label"  for="form2Example27">Mật khẩu</label>
+                            <input name="password"  type="text" placeholder="Mật khẩu" id="form2Example27" class="form-control form-control-lg" />
+
+                        </div>
+
+                        <div class="form-element">
+                            <button type="submit" name="register">Tạo tài khoản</button>
+
+                        </div>
+
+                    </form>
+                </div>
                 @yield('content')
             </div>
         </div>
@@ -129,7 +161,16 @@
     @yield('fileJs')
     <!-- MAIN -->
 </section>
-
+<script>
+    var addTeacher = document.querySelector("#show_addTeacher")
+    addTeacher.addEventListener("click",function () {
+        document.querySelector(".popupAdd").classList.add("active")
+    });
+    document.querySelector(".popupAdd .close-btn")
+        .addEventListener("click",function (){
+            document.querySelector(".popupAdd").classList.remove("active");
+    });
+</script>
 </body>
 </html>
 

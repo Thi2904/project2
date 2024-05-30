@@ -55,21 +55,7 @@
 
 @section('content')
     <style>
-        .button-add-student{
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 40px;
-            width: 200px;
-            background: var(--blue);
-            border-radius: 5px;
-            border: none;
-            color: white;
-        }
-        .button-add-student:hover{
-            opacity: 0.8;
-            color: white;
-        }
+
         a{
 
             text-decoration: none;

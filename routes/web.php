@@ -38,8 +38,9 @@ Route::get('/admin/home', [AdminController::class, 'home'])
 ->middleware('auth')->name('admin.home');
 
 Route::get('/login', [\App\Http\Controllers\AuthController::class,'viewLogin'])->name('login');
-Route::get('/register', [\App\Http\Controllers\AuthController::class,'viewRegis'])->name('register');
 Route::post('/register',[\App\Http\Controllers\AuthController::class,'register'])->name('register');
+Route::get('/registerStudent', [\App\Http\Controllers\AuthController::class,'viewRegis'])->name('registerView');
+Route::post('/registerStudent',[\App\Http\Controllers\AuthController::class,'registerStudent'])->name('registerStudent');
 Route::post('/login', [\App\Http\Controllers\AuthController::class,'login']);
 Route::post('/logout', [\App\Http\Controllers\AuthController::class,'logout'])->name('logout');
 
