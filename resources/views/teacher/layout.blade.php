@@ -22,26 +22,8 @@
                 <span>BKAHUB</span>
             </a>
         </div>
-        <ul class="side-menu">
-            <li class="sideActive">
-                <i class="fa-solid fa-calendar-days"></i>
-                <a href="">
-                    <span>Điểm danh</span>
-                </a>
-            </li>
-            <li>
-                <i class="fa-solid fa-calendar-check"></i>
-                <a href="">
-                    <span>Chuyên cần</span>
-                </a>
-            </li>
-            <li>
-                <i class="fa-solid fa-retweet"></i>
-                <a href="">
-                    <span>Dạy thay</span>
-                </a>
-            </li>
-        </ul>
+        @yield('sideBar')
+
     </div>
     <div class="contentBenTrong col-lg-10">
         <div class="head p-3 d-flex justify-content-between">

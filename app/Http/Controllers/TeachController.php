@@ -29,6 +29,26 @@ class TeachController extends Controller
         return view('teacher.beforediemdanh', ['StudyShifts' => $StudyShifts]);
     }
 
+    public function listChuyenCan()
+    {
+        $teacherID = session('teacherID', Auth::user()->id);
+        $StudyShifts = DB::table('schoolShift')
+            ->join('subjects', 'schoolShift.subjectID', '=', 'subjects.id')
+            ->join('classes', 'schoolShift.classID', '=', 'classes.id')
+            ->join('users', 'schoolShift.teacherID', '=', 'users.id')
+            ->select(
+                'subjects.subjectName',
+                'classes.className',
+                'users.name',
+                'schoolShift.classID',
+                'schoolShift.id',
+                'schoolShift.subjectID'
+            )
+            ->where('schoolShift.teacherID', $teacherID)
+            ->get();
+        return view('teacher.chuyencan', ['StudyShifts' => $StudyShifts]);
+    }
+
     public function TeachShiftAttendance($classID)
     {
         $students = DB::table('students')
@@ -110,5 +130,9 @@ class TeachController extends Controller
 
         return redirect()->back()->with('success', 'Đã lưu điểm danh thành công!');
     }
-
+    public function showChuyenCan()
+    {
+        return view('teacher.chuyencan');
+    }
 }
+

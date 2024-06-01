@@ -1,6 +1,28 @@
 @extends('teacher/layout')
 
 @section('title', 'Product Details')
+@section('sideBar')
+    <ul class="side-menu">
+        <li class="sideActive">
+            <i class="fa-solid fa-calendar-days"></i>
+            <a href="{{route('teacher.TeachShift')}}">
+                <span>Điểm danh</span>
+            </a>
+        </li>
+        <li>
+            <i class="fa-solid fa-calendar-check"></i>
+            <a href="{{route('listChuyenCan')}}">
+                <span>Chuyên cần</span>
+            </a>
+        </li>
+        <li>
+            <i class="fa-solid fa-retweet"></i>
+            <a href="">
+                <span>Dạy thay</span>
+            </a>
+        </li>
+    </ul>
+@endsection
 
 @section('content')
     <div class="content">
@@ -59,15 +81,17 @@
                         </td>
                     </tr>
                 @endforeach
-                <div class="foot d-flex justify-content-between">
-                    <div class="pagination"></div>
-                    <div class="submit">
-                        <button type="submit" class="submit_diem_danh btn btn-main">Submit</button>
-                    </div>
-                </div>
-            </form>
+
 
             </tbody>
         </table>
+        <div class="d-flex justify-content-between">
+            <div class="pagination"></div>
+            <div style="" class="submit">
+                <button type="submit" class="submit_diem_danh btn btn-main">Submit</button>
+            </div>
+        </div>
+        </form>
+
     </div>
 @endsection('content')
