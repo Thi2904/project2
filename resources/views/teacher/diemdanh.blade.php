@@ -39,6 +39,7 @@
                         <td>{{ $student->studentName }}</td>
                         <td class="d-flex justify-content-between">
                             <input type="hidden" name="schoolShiftID" value="{{ $schoolShiftID }}">
+                            <input type="hidden" name="subjectID" value="{{ $subjectID }}">
                             <div class="">
                                 <input id="di-hoc{{ $student->id }}" type="radio" name="options[{{ $student->id }}]" value="đi học" checked>
                                 <label for="di-hoc{{ $student->id }}"> Đi học</label>
