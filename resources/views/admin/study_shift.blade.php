@@ -227,15 +227,7 @@
                         <h2 class="nameAction">Thêm ngày học</h2>
                         <div class="form-element">
                             <label for="dateInWeek">Ngày học</label>
-                            <select name="dateInWeek" id="dateInWeek">
-                                <option value="Monday">Thứ Hai</option>
-                                <option value="Tuesday">Thứ Ba</option>
-                                <option value="Wednesday">Thứ Tư</option>
-                                <option value="Thursday">Thứ Năm</option>
-                                <option value="Friday">Thứ Sáu</option>
-                                <option value="Saturday">Thứ Bảy</option>
-                                <option value="Sunday">Chủ Nhật</option>
-                            </select>
+                            <input name="dateInWeek" type="text" id="dateInWeek" placeholder="Nhập ngày học">
                         </div>
                         <input name="schoolShiftID" type="hidden" id="schoolShiftID" value="{{$StudyShift->schoolShift_id}}">
                         <div class="form-element">
