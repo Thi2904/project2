@@ -114,11 +114,15 @@ class TeachController extends Controller
 
     public function showLatestAttendance($classID, $schoolShiftID, $subjectID)
     {
-        $latestAttendID = DB::table('attendance')->orderBy('created_at', 'desc')->value('id');
+        $latestAttendID = DB::table('attendance')->orderBy('created_at', 'desc')
+            ->where('schoolShiftID',$schoolShiftID)
+            ->value('id');
         $students = DB::table("students")
             ->join('attend_detail', 'students.id', '=', 'attend_detail.studentID')
+            ->join('attendance', 'attend_detail.attendID' , '=' , 'attendance.id')
             ->where('classID', $classID)
             ->where('attendID', $latestAttendID)
+            ->where('schoolShiftID', $schoolShiftID)
             ->get();
         return view('teacher.suadiemdanh', ['students' => $students, 'schoolShiftID' => $schoolShiftID, 'subjectID' => $subjectID]);
     }

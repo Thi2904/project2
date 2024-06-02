@@ -59,5 +59,6 @@ class DatabaseSeeder extends Seeder
             ['time_in' => '15:30:00', 'time_out' => '17:30:00', 'comments' => ''],
             ['time_in' => '13:30:00', 'time_out' => '17:30:00', 'comments' => ''],
         ]);
+
     }
 }

@@ -54,7 +54,8 @@
             <tbody>
             <form action="{{ route('suadiemdanh') }}" method="POST">
                 @csrf
-                @foreach ($students as $student)
+
+                @foreach ($students as $key => $student)
                     <tr>
                         <td>{{ $student->studentID }}</td>
                         <td>{{ $student->studentName }}</td>
@@ -62,20 +63,20 @@
                             <input type="hidden" name="schoolShiftID" value="{{ $schoolShiftID }}">
                             <input type="hidden" name="subjectID" value="{{ $subjectID }}">
                             <div class="">
-                                <input id="di-hoc{{ $student->id }}" type="radio" name="options[{{ $student->id }}]" value="đi học" {{ $student->status == 'đi học' ? 'checked' : '' }} >
-                                <label for="di-hoc{{ $student->id }}"> Đi học</label>
+                                <input id="di-hoc{{ $student->studentID }}" type="radio" name="options[{{ $student->studentID }}]" value="đi học" {{ $student->status == 'đi học' ? 'checked' : '' }} >
+                                <label for="di-hoc{{ $student->studentID }}"> Đi học</label>
                             </div>
                             <div class="">
-                                <input id="tre{{ $student->id }}" type="radio" name="options[{{ $student->id }}]" value="trễ" {{ $student->status == 'trễ' ? 'checked' : '' }}>
-                                <label for="tre{{ $student->id }}"> Đi muộn </label>
+                                <input id="tre{{ $student->studentID }}" type="radio" name="options[{{ $student->studentID }}]" value="trễ" {{ $student->status == 'trễ' ? 'checked' : '' }}>
+                                <label for="tre{{ $student->studentID }}"> Đi muộn </label>
                             </div>
                             <div class="">
-                                <input id="nghi-co-phep{{ $student->id }}" type="radio" name="options[{{ $student->id }}]" value="nghỉ có phép" {{ $student->status == 'nghỉ có phép' ? 'checked' : '' }}>
-                                <label for="nghi-co-phep{{ $student->id }}"> Nghỉ có phép </label>
+                                <input id="nghi-co-phep{{ $student->studentID }}" type="radio" name="options[{{ $student->studentID }}]" value="nghỉ có phép" {{ $student->status == 'nghỉ có phép' ? 'checked' : '' }}>
+                                <label for="nghi-co-phep{{ $student->studentID }}"> Nghỉ có phép </label>
                             </div>
                             <div class="">
-                                <input id="nghi-khong-phep{{ $student->id }}" type="radio" name="options[{{ $student->id }}]" value="nghỉ không phép" {{ $student->status == 'nghỉ không phép' ? 'checked' : '' }}>
-                                <label for="nghi-khong-phep{{ $student->id }}"> Nghỉ học </label>
+                                <input id="nghi-khong-phep{{ $student->studentID }}" type="radio" name="options[{{ $student->studentID }}]" value="nghỉ không phép" {{ $student->status == 'nghỉ không phép' ? 'checked' : 'failed' }}>
+                                <label for="nghi-khong-phep{{ $student->studentID }}"> Nghỉ học </label>
                             </div>
                         </td>
                     </tr>
