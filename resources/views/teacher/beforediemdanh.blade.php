@@ -97,8 +97,8 @@
                     <td>{{$StudyShift -> subjectName}}</td>
                     <td>{{$StudyShift -> className}}</td>
                     <td>{{$StudyShift -> name}}</td>
-                    <td class="chuaLinkDiemDanh" style="text-align: start"><a class="linkDiemDanh"  href="{{route('class.showdiemdanh', ['classID' => $StudyShift->classID,'schoolShiftID' => $StudyShift->id,'subjectId' => $StudyShift->subjectID])}}">Điểm danh</a>
-                   <a class="linkSuaDiemDanh"  href="{{route('class.showdiemdanh', ['classID' => $StudyShift->classID,'schoolShiftID' => $StudyShift->id,'subjectId' => $StudyShift->subjectID])}}">Sửa điểm danh</a></td>
+                    <td class="chuaLinkDiemDanh" style="text-align: start"><a class="linkDiemDanh"  href="{{route('class.showdiemdanh', ['classID' => $StudyShift->classID,'schoolShiftID' => $StudyShift->id,'subjectID' => $StudyShift->subjectID])}}">Điểm danh</a>
+                   <a class="linkSuaDiemDanh"  href="{{route('class.showdiemdanh', ['classID' => $StudyShift->classID,'schoolShiftID' => $StudyShift->id,'subjectID' => $StudyShift->subjectID])}}">Sửa điểm danh</a></td>
                 </tr>
 
             @endforeach

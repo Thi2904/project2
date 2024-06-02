@@ -79,7 +79,7 @@ Route::post('/editSchoolShiftDetail/{SchoolShift}', [\App\Http\Controllers\Schoo
 Route::delete('/deleteSchoolShiftDetail/{SchoolShift}', [SchoolShiftController::class, 'deleteSchoolShiftDetail'])->name('deleteSchoolShiftDetail');
 
 Route::get('/teacher/beforediemdanh', [\App\Http\Controllers\TeachController::class, 'TeachShift'])->name('teacher.TeachShift');
-Route::get('/teacher/diemdanh/{classID}', [\App\Http\Controllers\TeachController::class, 'TeachShiftAttendance'])->name('class.showdiemdanh');
+Route::get('/teacher/diemdanh/{classID}/{schoolShiftID}/{subjectID}', [\App\Http\Controllers\TeachController::class, 'TeachShiftAttendance'])->name('class.showdiemdanh');
 Route::post('/submit-diemdanh', [\App\Http\Controllers\TeachController::class, 'submitDiemDanh'])->name('submit.diemdanh');
 Route::get('/chuyencan/{subjectID}', [\App\Http\Controllers\TeachController::class, 'showChuyenCan'])->name('class.showChuyenCan');
 Route::get('/listchuyenCan', [\App\Http\Controllers\TeachController::class, 'listChuyenCan'])->name('listChuyenCan');
