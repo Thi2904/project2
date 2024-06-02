@@ -59,25 +59,19 @@ class TeachController extends Controller
 
     public function submitDiemDanh(Request $request)
     {
-        // Create new attendance record
         $attendance = Attendance::create([
             'schoolShiftID' => $request->input('schoolShiftID'),
             'date' => now(),
         ]);
 
-        // Initialize an array to hold status counts for each student
         $statusCounts = [];
 
-        // Iterate over the submitted attendance options
         foreach ($request->input('options') as $studentID => $status) {
-            // Create new attendance detail record
             AttendDetail::create([
                 'attendID' => $attendance->id,
                 'studentID' => $studentID,
                 'status' => $status,
             ]);
-
-            // Initialize the student's status counts if not already done
             if (!isset($statusCounts[$studentID])) {
                 $statusCounts[$studentID] = [
                     'đi học' => 0,
@@ -86,20 +80,14 @@ class TeachController extends Controller
                     'trễ' => 0,
                 ];
             }
-
-            // Increment the corresponding status count for the student
             $statusCounts[$studentID][$status]++;
         }
-
-        // Iterate over each student's status counts and update the student_attend_manage table
         foreach ($statusCounts as $studentID => $counts) {
             $studentAttendance = DB::table('student_attend_manage')
                 ->where('studentID', $studentID)
                 ->where('subjectID', $request->input('subjectID'))
                 ->first();
-
             if ($studentAttendance) {
-                // Update the existing record
                 DB::table('student_attend_manage')
                     ->where('studentID', $studentID)
                     ->where('subjectID', $request->input('subjectID'))
@@ -110,7 +98,6 @@ class TeachController extends Controller
                         'trễ' => $studentAttendance->{'trễ'} + $counts['trễ'],
                     ]);
             } else {
-                // Insert a new record
                 DB::table('student_attend_manage')->insert([
                     'studentID' => $studentID,
                     'subjectID' => $request->input('subjectID'),
@@ -121,18 +108,27 @@ class TeachController extends Controller
                 ]);
             }
         }
-        $schoolShiftID = $request->input('schoolShiftID');
-
-        $isExists = DB::table('attendance')
-            ->selectRaw('EXISTS (SELECT 1 FROM attendance WHERE schoolShiftId = ?) as is_exists', [$schoolShiftID])
-            ->value('is_exists');
-        if($isExists){
             return redirect()->route('teacher.TeachShift')
                 ->with('success', 'Đã lưu điểm danh thành công!');
-        }
-
-
     }
+
+    public function showLatestAttendance($classID, $schoolShiftID, $subjectID)
+    {
+        $latestAttendID = DB::table('attendance')->orderBy('created_at', 'desc')->value('id');
+        $students = DB::table("students")
+            ->join('attend_detail', 'students.id', '=', 'attend_detail.studentID')
+            ->where('classID', $classID)
+            ->where('attendID', $latestAttendID)
+            ->get();
+        return view('teacher.suadiemdanh', ['students' => $students, 'schoolShiftID' => $schoolShiftID, 'subjectID' => $subjectID]);
+    }
+
+    public function suadiemdanh(Request $request)
+    {
+        return redirect()->back()->with('success', 'Attendance updated successfully.');
+    }
+
+
     public function showChuyenCan()
     {
         return view('teacher.chuyencan');

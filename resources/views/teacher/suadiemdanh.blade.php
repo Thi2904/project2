@@ -52,11 +52,11 @@
             </tr>
             </thead>
             <tbody>
-            <form action="{{ route('submit.diemdanh') }}" method="POST">
+            <form action="{{ route('suadiemdanh') }}" method="POST">
                 @csrf
                 @foreach ($students as $student)
                     <tr>
-                        <td>{{ $student->id }}</td>
+                        <td>{{ $student->studentID }}</td>
                         <td>{{ $student->studentName }}</td>
                         <td class="d-flex justify-content-between">
                             <input type="hidden" name="schoolShiftID" value="{{ $schoolShiftID }}">
@@ -80,8 +80,6 @@
                         </td>
                     </tr>
             @endforeach
-
-
             </tbody>
         </table>
         <div class="d-flex justify-content-between">
