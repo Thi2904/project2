@@ -20,7 +20,7 @@
                     <div class="row g-0">
                         <div class="col-md-6 col-lg-6 d-none d-md-block">
                             <img  src="{{asset('IMG/Untitled-1 1.png')}}"
-                                 alt="login form" class="img-fluid  p-1" style="border-radius: 1rem 0 0 1rem;" />
+                                 alt="login form" class="img-fluid p-1" style="border-radius: 1rem 0 0 1rem;" />
                         </div>
                         <div class="col-md-6 col-lg-6 d-flex align-items-center">
                             <div class="card-body p-4 p-lg-5 text-black">
