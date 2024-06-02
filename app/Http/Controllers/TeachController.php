@@ -121,10 +121,16 @@ class TeachController extends Controller
                 ]);
             }
         }
-        $subjectId = $request->input('subjectID');
+        $schoolShiftID = $request->input('schoolShiftID');
 
-        return redirect()->route('teacher.TeachShift')
-            ->with('success', 'Đã lưu điểm danh thành công!')->with('subjectId',$subjectId);
+        $isExists = DB::table('attendance')
+            ->selectRaw('EXISTS (SELECT 1 FROM attendance WHERE schoolShiftId = ?) as is_exists', [$schoolShiftID])
+            ->value('is_exists');
+        if($isExists){
+            return redirect()->route('teacher.TeachShift')
+                ->with('success', 'Đã lưu điểm danh thành công!');
+        }
+
 
     }
     public function showChuyenCan()

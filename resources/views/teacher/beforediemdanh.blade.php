@@ -115,13 +115,5 @@
         </table>
 
     </div>
-    @if( session()->has('success') && session()->has('subjectId'))
-        <script>
-            document.addEventListener('DOMContentLoaded', function () {
-                var subjectId = "{{ session()->get('subjectId') }}";
-                var linkDiemDanh = document.getElementById(subjectId);
-                linkDiemDanh.classList.add('hidd')
-            });
-        </script>
-    @endif
+
 @endsection('content')
