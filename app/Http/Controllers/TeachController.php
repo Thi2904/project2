@@ -22,7 +22,9 @@ class TeachController extends Controller
                 'classes.className',
                 'users.name',
                 'schoolShift.classID',
-                'schoolShift.id'
+                'schoolShift.id',
+                'schoolShift.subjectID'
+
             )
             ->where('schoolShift.teacherID', $teacherID)
             ->get();
@@ -51,16 +53,6 @@ class TeachController extends Controller
 
     public function TeachShiftAttendance($classID)
     {
-        $students = DB::table('students')
-            ->where('classID', $classID)
-            ->get();
-        $schoolShiftID = DB::table('schoolShift')
-            ->where('classID', $classID)
-            ->value('id');
-        $subjectID = DB::table('schoolShift')
-            ->where('classID', $classID)
-            ->value('subjectID');
-        return view('teacher.diemdanh', ['students' => $students, 'schoolShiftID' => $schoolShiftID, 'subjectID' => $subjectID]);
     }
 
     public function submitDiemDanh(Request $request)
