@@ -121,8 +121,11 @@ class TeachController extends Controller
                 ]);
             }
         }
+        $subjectId = $request->input('subjectID');
 
-        return redirect()->back()->with('success', 'Đã lưu điểm danh thành công!');
+        return redirect()->route('teacher.TeachShift')
+            ->with('success', 'Đã lưu điểm danh thành công!')->with('subjectId',$subjectId);
+
     }
     public function showChuyenCan()
     {

@@ -79,6 +79,9 @@
         .linkDiemDanh:hover{
             opacity: 0.8;
         }
+        .hidd{
+            display: none;
+        }
     </style>
     <div class="content">
         <h3>Lịch dạy hôm nay</h3>
@@ -93,12 +96,17 @@
             </thead>
             <tbody>
             @foreach($StudyShifts as $StudyShift)
+
                 <tr>
                     <td>{{$StudyShift -> subjectName}}</td>
                     <td>{{$StudyShift -> className}}</td>
                     <td>{{$StudyShift -> name}}</td>
-                    <td class="chuaLinkDiemDanh" style="text-align: start"><a class="linkDiemDanh"  href="{{route('class.showdiemdanh', ['classID' => $StudyShift->classID,'schoolShiftID' => $StudyShift->id,'subjectID' => $StudyShift->subjectID])}}">Điểm danh</a>
-                   <a class="linkSuaDiemDanh"  href="{{route('class.showdiemdanh', ['classID' => $StudyShift->classID,'schoolShiftID' => $StudyShift->id,'subjectID' => $StudyShift->subjectID])}}">Sửa điểm danh</a></td>
+                    <td class="chuaLinkDiemDanh" style="text-align: start">
+                        <a id="{{$StudyShift->subjectID}}" class="linkDiemDanh" href="{{route('class.showdiemdanh', ['classID' => $StudyShift->classID,'schoolShiftID' => $StudyShift->id,'subjectID' => $StudyShift->subjectID])}}">
+                            Điểm danh
+                        </a>
+                        <a class="linkSuaDiemDanh"  href="{{route('class.showdiemdanh', ['classID' => $StudyShift->classID,'schoolShiftID' => $StudyShift->id,'subjectID' => $StudyShift->subjectID])}}">Sửa điểm danh</a>
+                    </td>
                 </tr>
 
             @endforeach
@@ -107,4 +115,13 @@
         </table>
 
     </div>
+    @if( session()->has('success') && session()->has('subjectId'))
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                var subjectId = "{{ session()->get('subjectId') }}";
+                var linkDiemDanh = document.getElementById(subjectId);
+                linkDiemDanh.classList.add('hidd')
+            });
+        </script>
+    @endif
 @endsection('content')
