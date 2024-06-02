@@ -54,8 +54,30 @@
             color: blue;
 
         }
+        .chuaLinkDiemDanh{
+            display: flex;
+            justify-content: center;
+        }
         .linkDiemDanh{
-            color: dodgerblue;
+            height: 50px;
+            width: 100px;
+            background: #4f98e5;
+            border-radius: 2px;
+            color: white;
+            margin-right: 12px;
+        }
+        .linkSuaDiemDanh{
+            height: 50px;
+            width: 100px;
+            background: #FFCD00;
+            border-radius: 2px;
+            color: white;
+        }
+        .linkSuaDiemDanh:hover{
+            opacity: 0.8;
+        }
+        .linkDiemDanh:hover{
+            opacity: 0.8;
         }
     </style>
     <div class="content">
@@ -75,7 +97,8 @@
                     <td>{{$StudyShift -> subjectName}}</td>
                     <td>{{$StudyShift -> className}}</td>
                     <td>{{$StudyShift -> name}}</td>
-                    <td style="text-align: start"><a class="linkDiemDanh"  href="{{route('class.showdiemdanh', ['classID' => $StudyShift->classID,'schoolShiftID' => $StudyShift->id])}}">Điểm danh</a></td>
+                    <td class="chuaLinkDiemDanh" style="text-align: start"><a class="linkDiemDanh"  href="{{route('class.showdiemdanh', ['classID' => $StudyShift->classID,'schoolShiftID' => $StudyShift->id,'subjectId' => $StudyShift->subjectID])}}">Điểm danh</a>
+                   <a class="linkSuaDiemDanh"  href="{{route('class.showdiemdanh', ['classID' => $StudyShift->classID,'schoolShiftID' => $StudyShift->id,'subjectId' => $StudyShift->subjectID])}}">Sửa điểm danh</a></td>
                 </tr>
 
             @endforeach
