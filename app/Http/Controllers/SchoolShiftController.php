@@ -99,7 +99,7 @@ class SchoolShiftController extends Controller
             "shiftsID" => "required|exists:teachers,id",
         ]);
         $schoolShiftDetail = SchoolShiftDetail::create($data);
-        return redirect()->back()->with('success', 'Added new study shift successfully.');
+        return redirect()->back()->with('success', 'Thêm ngày học thành công.');
     }
     public function editSchoolShiftDetail(Request $request, SchoolShiftDetail $SchoolShift)
     {
@@ -111,14 +111,14 @@ class SchoolShiftController extends Controller
         ]);
 
         if ($SchoolShift->update($data)) {
-            return redirect()->back()->with('success', 'Edit subject successfully.');
+            return redirect()->back()->with('success', 'Sửa ngày học thành công.');
         } else {
-            return redirect()->back()->with('error', 'Failed to edit subject.');
+            return redirect()->back()->with('error', 'Sửa ngày học thất bại');
         }
     }
     public function deleteSchoolShiftDetail(SchoolShiftDetail $SchoolShift)
     {
         $SchoolShift->delete();
-        return redirect()->back()->with('success', 'Deleted subject successfully.');
+        return redirect()->back()->with('success', 'Xóa ngày học thành công.');
     }
 }
