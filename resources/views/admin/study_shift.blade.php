@@ -145,6 +145,7 @@
                     <div class="form-element">
                         <label for="classID">Tên lớp</label>
                         <select class="select-element" name="classID" id="classID">
+                            <option value="00">Chọn lớp học</option>
                             @foreach($classes as $class)
                                 <option value="{{ $class->id }}">
                                     {{ $class->className }}
@@ -155,20 +156,14 @@
                     <div class="form-element">
                         <label for="subjectID">Tên môn học</label>
                         <select class="select-element" name="subjectID" id="subjectID">
-                            @foreach($subjects as $subject)
-                                <option value="{{ $subject->id }}">
-                                    {{ $subject->subjectName }}
-                                </option>
-                            @endforeach
+                            <option value="00">Chọn môn học</option>
                         </select>
                     </div>
                     <div class="form-element">
                         <label for="studentNum">Tên giảng viên</label>
                         <select class="select-element" name="teacherID" id="teacherID">
                             @foreach($teachers as $teacher)
-                                <option value="{{ $teacher->id }}">
-                                    {{ $teacher->name }}
-                                </option>
+                                <option value="00">Chọn giảng viên</option>
                             @endforeach
                         </select>
                     </div>
@@ -287,7 +282,7 @@
                             <label for="studentNum">Tên giảng viên</label>
                             <select class="select-element" name="teacherID" id="teacherID">
                                 @foreach($teachers as $teacher)
-                                    <option value="{{ $teacher->id }}">
+                                    <option value="{{ $teacher->tId }}">
                                         {{ $teacher->name }}
                                     </option>
                                 @endforeach
@@ -318,5 +313,40 @@
 @section('fileJs')
     <script src="{{asset('bootstrap-5.0.2-dist/js/bootstrap.min.js')}}}"></script>
     <script src="{{asset('js/admin.js')}}"></script>
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $('#classID').on('change', function() {
+                var classID = $(this).val();
+                $('#subjectID').empty();
+                $('#teacherID').empty(); // Xóa các tùy chọn hiện có
+                if (classID) {
+                    $.ajax({
+                        url: '/getSubjects/' + classID,
+                        type: 'GET',
+                        dataType: 'json',
+                        success: function(data) {
+                            $.each(data, function(key, value) {
+                                $('#subjectID').append('<option value="' + value.id + '">' + value.subjectName + '</option>');
+                            });
+                        }
+                    });
+                    $.ajax({
+                        url: '/getTeachers/' + classID,
+                        type: 'GET',
+                        dataType: 'json',
+                        success: function(data) {
+                            $.each(data, function(key, value) {
+                                $('#teacherID').append('<option value="' + value.id + '">' + value.name + '</option>');
+                            });
+                        }
+                    });
+                } else {
+                    $('#subjectID').append('<option value="">Chọn môn học</option>'); // Tùy chọn mặc định khi không có lớp học nào được chọn
+                }
+            });
+        });
+
+    </script>
+
 
 @endsection

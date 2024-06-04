@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\schoolShiftDetail;
 use App\Models\SchoolShifts;
+use App\Models\subjects;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -14,7 +15,8 @@ class SchoolShiftController extends Controller
         $StudyShifts = DB::table('schoolShift')
             ->join('subjects', 'schoolShift.subjectID', '=', 'subjects.id')
             ->join('classes', 'schoolShift.classID', '=', 'classes.id')
-            ->join('users', 'schoolShift.teacherID', '=', 'users.id')
+            ->join('teachers', 'schoolShift.teacherID', '=', 'teachers.id')
+            ->join('users','teachers.userID','=','users.id')
             ->select(
                 'schoolShift.id as schoolShift_id',
                 'subjects.id as subject_id',
@@ -26,8 +28,12 @@ class SchoolShiftController extends Controller
                 'users.*'
             )
             ->get();
+
         $teachers = DB::table('users')
-            ->join('teachers', 'users.id', '=', 'teachers.userID')->get();
+            ->join('teachers', 'teachers.userID', '=', 'users.id')
+            ->select('users.*', 'teachers.id as tId')
+            ->get();
+
         $classes = DB::table('classes')->get();
         $subjects = DB::table('subjects')->get();
         $shifts = DB::table('_shifts')->get();
@@ -45,7 +51,7 @@ class SchoolShiftController extends Controller
             "teacherID" => "required|exists:teachers,id",
         ]);
         $schoolShift = SchoolShifts::create($data);
-        return redirect()->back()->with('success', 'Added new study shift successfully.');
+        return redirect()->back()->with('success', 'Thêm ca học mới thành công.');
     }
     public function editSchoolShift(Request $request, SchoolShifts $StudyShift)
     {
@@ -92,6 +98,7 @@ class SchoolShiftController extends Controller
     }
     public function addSchoolShiftDetail(Request $request)
     {
+
         $data = $request->validate([
             "schoolShiftID" => "required|exists:schoolShift,id",
             "dateInWeek" => "required|string|max:255",
@@ -120,5 +127,32 @@ class SchoolShiftController extends Controller
     {
         $SchoolShift->delete();
         return redirect()->back()->with('success', 'Xóa ngày học thành công.');
+    }
+    public function getSubjects($classID)
+    {
+        $class = DB::table('classes')->where('id',$classID)->first();
+        $majorID = $class->majorID;
+        $curriculumID = $class->curriculumID;
+        $subject = DB::table('subjects')
+            ->where('majorID',$majorID)
+            ->where('curriculumID',$curriculumID)
+            ->select('id','subjectName')->get();
+        if ($subject->isEmpty()) {
+            $subject = collect([['name' => 'Không tìm thấy môn học']]);
+        }
+        return response()->json($subject);
+    }
+    public function getTeachers($classID)
+    {
+        $class = DB::table('classes')->where('id',$classID)->first();
+        $majorID = $class->majorID;
+        $subject = DB::table('teachers')
+            ->join('users','teachers.userID','=','users.id')
+            ->where('majorID',$majorID)
+            ->select('teachers.id','users.name')->get();
+        if ($subject->isEmpty()) {
+            $subject = collect([['name' => 'Không tìm thấy giảng viên']]);
+        }
+        return response()->json($subject);
     }
 }
