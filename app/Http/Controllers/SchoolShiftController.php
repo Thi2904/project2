@@ -38,7 +38,8 @@ class SchoolShiftController extends Controller
         $subjects = DB::table('subjects')->get();
         $shifts = DB::table('_shifts')->get();
         $rooms = DB::table('classroom')->get();
-        return view('admin.study_shift', ['rooms' => $rooms,'StudyShifts' => $StudyShifts,'classes' => $classes, 'shifts' => $shifts, 'subjects' => $subjects, 'teachers' => $teachers]);
+        $countssd = SchoolShifts::withCount('schoolShiftDetails')->get();
+        return view('admin.study_shift', ['rooms' => $rooms,'StudyShifts' => $StudyShifts,'classes' => $classes, 'shifts' => $shifts, 'subjects' => $subjects, 'teachers' => $teachers,'countssd' => $countssd]);
     }
 
     //beta
@@ -68,10 +69,16 @@ class SchoolShiftController extends Controller
         }
     }
 
-    public function deleteSchoolShift(SchoolShifts $StudyShift)
+    public function deleteSchoolShift(SchoolShifts $StudyShift, Request $request)
     {
-        $StudyShift->delete();
-        return redirect()->back()->with('success', 'Deleted subject successfully.');
+        if($request->query('countSSD')>0){
+            return redirect()->back()->with('warning', 'Không thể xóa lịch học vì đã được xếp ca học');
+        }else{
+            $StudyShift->delete();
+            return redirect()->back()->with('success', 'Xóa lịch học thành công.');
+
+        }
+
     }
 
     public function showStudyShiftSchool($StudyShift)
@@ -106,6 +113,7 @@ class SchoolShiftController extends Controller
             "shiftsID" => "required|exists:teachers,id",
         ]);
         $schoolShiftDetail = SchoolShiftDetail::create($data);
+
         return redirect()->back()->with('success', 'Thêm ngày học thành công.');
     }
     public function editSchoolShiftDetail(Request $request, SchoolShiftDetail $SchoolShift)

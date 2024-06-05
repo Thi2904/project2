@@ -14,6 +14,8 @@ class TeachController extends Controller
     {
         $teacherID = session('teacherID', Auth::user()->id);
         $StudyShifts = DB::table('schoolShift')
+            ->join('schoolshiftdetail', 'schoolShift.id', '=', 'schoolshiftdetail.schoolShiftID')
+            ->join('_shifts', 'schoolshiftdetail.shiftsID', '=', '_shifts.id')
             ->join('subjects', 'schoolShift.subjectID', '=', 'subjects.id')
             ->join('classes', 'schoolShift.classID', '=', 'classes.id')
             ->join('users', 'schoolShift.teacherID', '=', 'users.id')
@@ -23,7 +25,9 @@ class TeachController extends Controller
                 'users.name',
                 'schoolShift.classID',
                 'schoolShift.id',
-                'schoolShift.subjectID'
+                'schoolShift.subjectID',
+                '_shifts.time_in',
+                '_shifts.time_out',
             )
             ->where('schoolShift.teacherID', $teacherID)
             ->get();

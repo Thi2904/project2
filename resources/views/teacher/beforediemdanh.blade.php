@@ -91,6 +91,7 @@
                 <th>Tên môn</th>
                 <th>Lớp</th>
                 <th>Giảng viên</th>
+                <th>Giờ học</th>
                 <th style="text-align: center">Điểm danh</th>
             </tr>
             </thead>
@@ -101,6 +102,7 @@
                     <td>{{$StudyShift -> subjectName}}</td>
                     <td>{{$StudyShift -> className}}</td>
                     <td>{{$StudyShift -> name}}</td>
+                    <td>{{$StudyShift -> time_in}} - {{$StudyShift -> time_out}}</td>
                     <td class="chuaLinkDiemDanh" style="text-align: start">
                         <a id="{{$StudyShift->subjectID}}" class="linkDiemDanh" href="{{route('class.showdiemdanh', ['classID' => $StudyShift->classID,'schoolShiftID' => $StudyShift->id,'subjectID' => $StudyShift->subjectID])}}">
                             Điểm danh

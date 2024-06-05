@@ -198,18 +198,20 @@
             <th>Tên môn</th>
             <th>Lớp</th>
             <th>Giảng viên</th>
+            <th>Số ca học</th>
             <th>Ngày bắt đầu</th>
             <th>Hành động</th>
 
         </tr>
         </thead>
         <tbody>
-        @foreach($StudyShifts as $StudyShift)
+        @foreach($StudyShifts as $key => $StudyShift)
         <tr>
             <td><a href="{{route('showStudyShiftSchool',['StudyShift' => $StudyShift->schoolShift_id])}}">{{$StudyShift -> subjectName}}</a>
             </td>
             <td>{{$StudyShift -> className}}</td>
             <td>{{$StudyShift -> name}}</td>
+            <td>{{$countssd[$key] -> school_shift_details_count}}</td>
             <td>{{$StudyShift -> dateStart}}</td>
             <td>
                 <button id="{{$StudyShift->schoolShift_id}}" data-popup-id="{{$StudyShift->schoolShift_id}}" class="show-add-day button-add-day">Thêm ngày học</button>
@@ -298,7 +300,7 @@
                         </div>
                     </form>
                 </div>
-                <form action="{{ route('deleteSchoolShift',['StudyShift' => $StudyShift->schoolShift_id]) }}" onsubmit="return confirm('Do you want delete this subject ? ')" style="display: inline;" method="POST">
+                <form action="{{ route('deleteSchoolShift',['StudyShift' => $StudyShift->schoolShift_id,'countSSD' => $countssd[$key] -> school_shift_details_count]) }}" onsubmit="return confirm('Do you want delete this subject ? ')" style="display: inline;" method="POST">
                     @csrf
                     @method('DELETE')
                     <button style="margin-right: 12px;" class="button-delete">Xóa</button>

@@ -158,6 +158,7 @@
                 @yield('content')
             </div>
         </div>
+
     </main>
     @yield('fileJs')
     <!-- MAIN -->
@@ -172,6 +173,7 @@
             document.querySelector(".popupAdd").classList.remove("active");
     });
 </script>
+<div id="overlay" class="hidden"></div>
 </body>
 </html>
 
