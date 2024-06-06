@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Attendance;
 use App\Models\AttendDetail;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
@@ -13,9 +14,12 @@ class TeachController extends Controller
     public function TeachShift()
     {
         $teacherID = session('teacherID', Auth::user()->id);
-        $today = now()->dayOfWeek;
+
+        $today = Carbon::now();
+        $today->setTimezone(new \DateTimeZone('Asia/Ho_Chi_Minh'));
 
         $daysOfWeek = [
+            0 => 'Chủ nhật',
             1 => 'Thứ hai',
             2 => 'Thứ ba',
             3 => 'Thứ tư',
@@ -24,9 +28,9 @@ class TeachController extends Controller
             6 => 'Thứ bảy',
         ];
 
-        $todayName = $daysOfWeek[$today];
+        $todayName = $daysOfWeek[$today->dayOfWeek];
 
-
+        $currentTime = $today->format('H:i:s');
         $StudyShifts = DB::table('schoolShift')
             ->join('schoolShiftDetail', 'schoolShift.id', '=', 'schoolShiftDetail.schoolShiftID')
             ->join('_shifts', 'schoolShiftDetail.shiftsID', '=', '_shifts.id')
@@ -46,30 +50,12 @@ class TeachController extends Controller
             )
             ->where('schoolShift.teacherID', $teacherID)
             ->where('schoolShiftDetail.dateInWeek', $todayName)
+            ->where('_shifts.time_in','<=', $currentTime)
+            ->where('_shifts.time_out','>=', $currentTime)
             ->get();
 
         return view('teacher.beforediemdanh', ['StudyShifts' => $StudyShifts]);
-    }
-
-    public function listChuyenCan()
-    {
-        $teacherID = session('teacherID', Auth::user()->id);
-        $StudyShifts = DB::table('schoolShift')
-            ->join('subjects', 'schoolShift.subjectID', '=', 'subjects.id')
-            ->join('classes', 'schoolShift.classID', '=', 'classes.id')
-            ->join('users', 'schoolShift.teacherID', '=', 'users.id')
-            ->select(
-                'subjects.subjectName',
-                'classes.className',
-                'users.name',
-                'schoolShift.classID',
-                'schoolShift.id',
-                'schoolShift.subjectID'
-            )
-            ->where('schoolShift.teacherID', $teacherID)
-            ->get();
-        return view('teacher.chuyencan', ['StudyShifts' => $StudyShifts]);
-    }
+        }
 
     public function TeachShiftAttendance($classID, $schoolShiftID, $subjectID)
     {
