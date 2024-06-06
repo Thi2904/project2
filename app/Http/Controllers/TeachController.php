@@ -13,6 +13,20 @@ class TeachController extends Controller
     public function TeachShift()
     {
         $teacherID = session('teacherID', Auth::user()->id);
+        $today = now()->dayOfWeek;
+
+        $daysOfWeek = [
+            1 => 'Thứ hai',
+            2 => 'Thứ ba',
+            3 => 'Thứ tư',
+            4 => 'Thứ năm',
+            5 => 'Thứ sáu',
+            6 => 'Thứ bảy',
+        ];
+
+        $todayName = $daysOfWeek[$today];
+
+
         $StudyShifts = DB::table('schoolShift')
             ->join('schoolShiftDetail', 'schoolShift.id', '=', 'schoolShiftDetail.schoolShiftID')
             ->join('_shifts', 'schoolShiftDetail.shiftsID', '=', '_shifts.id')
@@ -28,9 +42,12 @@ class TeachController extends Controller
                 'schoolShift.subjectID',
                 '_shifts.time_in',
                 '_shifts.time_out',
+                'schoolShiftDetail.dateInWeek'
             )
             ->where('schoolShift.teacherID', $teacherID)
+            ->where('schoolShiftDetail.dateInWeek', $todayName)
             ->get();
+
         return view('teacher.beforediemdanh', ['StudyShifts' => $StudyShifts]);
     }
 

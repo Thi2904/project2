@@ -1195,3 +1195,22 @@ textarea:focus {
 .hidden {
     display: none;
 }
+
+.select-element{
+    margin-top: 5px;
+    display: block;
+    width: 100%;
+    padding: 10px;
+    outline: none;
+    border: 1px solid #aaa;
+    border-radius: 5px;
+}
+
+.select-element option {
+    padding: 10px; /* Khoảng cách bên trong của các tùy chọn */
+    background-color: #fff; /* Màu nền của các tùy chọn */
+    color: #333; /* Màu chữ của các tùy chọn */
+    font-size: 13px; /* Kích thước chữ của các tùy chọn */
+
+}
+

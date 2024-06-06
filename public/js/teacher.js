@@ -86,3 +86,30 @@ document.addEventListener('DOMContentLoaded', function() {
 //             diemDanhElement.classList.remove("nentrang");
 //         }
 //     })
+
+
+document.addEventListener('DOMContentLoaded', function () {
+    const diHocCountElement = document.getElementById('di-hoc-count');
+    const treCountElement = document.getElementById('tre-count');
+    const nghiPhepCountElement = document.getElementById('nghi-phep-count');
+    const nghiCountElement = document.getElementById('nghi-count');
+
+    const updateCounts = () => {
+        const diHocCount = document.querySelectorAll('input[type="radio"][value="đi học"]:checked').length;
+        const treCount = document.querySelectorAll('input[type="radio"][value="trễ"]:checked').length;
+        const nghiPhepCount = document.querySelectorAll('input[type="radio"][value="nghỉ có phép"]:checked').length;
+        const nghiKhongPhepCount = document.querySelectorAll('input[type="radio"][value="nghỉ không phép"]:checked').length;
+
+        diHocCountElement.textContent = diHocCount;
+        treCountElement.textContent = treCount;
+        nghiPhepCountElement.textContent = nghiPhepCount;
+        nghiCountElement.textContent = nghiKhongPhepCount;
+    };
+
+    document.querySelectorAll('input[type="radio"]').forEach(input => {
+        input.addEventListener('change', updateCounts);
+    });
+
+    // Initialize counts on page load
+    updateCounts();
+});

@@ -29,19 +29,23 @@
         <div class="onTheTable">
             <div class="onTheTable_element">
                 <b style="color: var(--blue-hover)">Số lượng: </b>
-                <span>{{sizeof($students)}} </span>
+                <span id="total-students">{{sizeof($students)}} </span>
             </div>
             <div class="onTheTable_element">
                 <b style="color: #04cb04">Đi học: </b>
-                <span>{{sizeof($students)}}  </span>
+                <span id="di-hoc-count">{{sizeof($students)}}  </span>
             </div>
             <div class="onTheTable_element">
                 <b style="color: #dede20">Đi muộn: </b>
-                <span>0 </span>
+                <span id="tre-count">0 </span>
+            </div>
+            <div class="onTheTable_element">
+                <b style="color: purple">Nghỉ có phép: </b>
+                <span id="nghi-phep-count">0 </span>
             </div>
             <div class="onTheTable_element">
                 <b style="color: red">Nghỉ học: </b>
-                <span>0 </span>
+                <span id="nghi-count">0 </span>
             </div>
         </div>
         <table class="table table-bordered">
