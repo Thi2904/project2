@@ -14,8 +14,8 @@ class TeachController extends Controller
     {
         $teacherID = session('teacherID', Auth::user()->id);
         $StudyShifts = DB::table('schoolShift')
-            ->join('schoolshiftdetail', 'schoolShift.id', '=', 'schoolshiftdetail.schoolShiftID')
-            ->join('_shifts', 'schoolshiftdetail.shiftsID', '=', '_shifts.id')
+            ->join('schoolShiftDetail', 'schoolShift.id', '=', 'schoolShiftDetail.schoolShiftID')
+            ->join('_shifts', 'schoolShiftDetail.shiftsID', '=', '_shifts.id')
             ->join('subjects', 'schoolShift.subjectID', '=', 'subjects.id')
             ->join('classes', 'schoolShift.classID', '=', 'classes.id')
             ->join('users', 'schoolShift.teacherID', '=', 'users.id')
@@ -127,14 +127,67 @@ class TeachController extends Controller
             ->where('classID', $classID)
             ->where('attendID', $latestAttendID)
             ->where('schoolShiftID', $schoolShiftID)
+            ->select('students.id as studentID',
+                'students.studentName',
+                'attend_detail.status')
             ->get();
-        return view('teacher.suadiemdanh', ['students' => $students, 'schoolShiftID' => $schoolShiftID, 'subjectID' => $subjectID]);
+        return view('teacher.suadiemdanh',
+               ['students' => $students,
+                'schoolShiftID' => $schoolShiftID,
+                   'subjectID' => $subjectID,
+                   'attendID' => $latestAttendID]);
     }
 
     public function suadiemdanh(Request $request)
     {
+        $attendID = $request->input('attendID');
+        $attendanceData = $request->input('options');
+        $subjectID = $request->input('subjectID');
+
+        foreach ($attendanceData as $studentID => $status) {
+            $attendanceDetail = AttendDetail::where('attendID', $attendID)
+                ->where('studentID', $studentID)
+                ->first();
+
+            if ($attendanceDetail) {
+                $currentStatus = $attendanceDetail->status;
+                $attendanceDetail->status = $status;
+                $attendanceDetail->save();
+
+                $studentAttendance = DB::table('student_attend_manage')
+                    ->where('studentID', $studentID)
+                    ->where('subjectID', $subjectID)
+                    ->first();
+
+                if ($studentAttendance) {
+                    $updates = [
+                        'đi học' => $studentAttendance->{'đi học'} - ($currentStatus == 'đi học' ? 1 : 0) + ($status == 'đi học' ? 1 : 0),
+                        'nghỉ có phép' => $studentAttendance->{'nghỉ có phép'} - ($currentStatus == 'nghỉ có phép' ? 1 : 0) + ($status == 'nghỉ có phép' ? 1 : 0),
+                        'nghỉ không phép' => $studentAttendance->{'nghỉ không phép'} - ($currentStatus == 'nghỉ không phép' ? 1 : 0) + ($status == 'nghỉ không phép' ? 1 : 0),
+                        'trễ' => $studentAttendance->{'trễ'} - ($currentStatus == 'trễ' ? 1 : 0) + ($status == 'trễ' ? 1 : 0),
+                    ];
+
+                    DB::table('student_attend_manage')
+                        ->where('studentID', $studentID)
+                        ->where('subjectID', $subjectID)
+                        ->update($updates);
+                } else {
+                    DB::table('student_attend_manage')->insert([
+                        'studentID' => $studentID,
+                        'subjectID' => $subjectID,
+                        'đi học' => ($status == 'đi học' ? 1 : 0),
+                        'nghỉ có phép' => ($status == 'nghỉ có phép' ? 1 : 0),
+                        'nghỉ không phép' => ($status == 'nghỉ không phép' ? 1 : 0),
+                        'trễ' => ($status == 'trễ' ? 1 : 0),
+                    ]);
+                }
+            }
+        }
+
         return redirect()->back()->with('success', 'Attendance updated successfully.');
     }
+
+
 
 
     public function showChuyenCan()
