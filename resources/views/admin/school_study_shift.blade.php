@@ -215,6 +215,26 @@
         @endforeach
         </tbody>
     </table>
+    <div class="custom-pagination">
+        <div class="page-info">Trang {{ $SchoolShifts->currentPage() }} / {{ $SchoolShifts->lastPage() }}</div>
+        <div class="page-links">
+            @if($SchoolShifts->currentPage() > 1)
+                <a href="{{ $SchoolShifts->previousPageUrl() }}" class="custom-pagination-link">&laquo; Trước</a>
+            @endif
+
+            @for($i = 1; $i <= $SchoolShifts->lastPage(); $i++)
+                @if($i == $SchoolShifts->currentPage())
+                    <span class="custom-pagination-link current-page">{{ $i }}</span>
+                @else
+                    <a href="{{ $SchoolShifts->url($i) }}" class="custom-pagination-link">{{ $i }}</a>
+                @endif
+            @endfor
+
+            @if($SchoolShifts->hasMorePages())
+                <a href="{{ $SchoolShifts->nextPageUrl() }}" class="custom-pagination-link">Sau &raquo;</a>
+            @endif
+        </div>
+    </div>
 
 @endsection('content')
 @section('fileJs')

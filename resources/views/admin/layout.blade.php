@@ -10,6 +10,9 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link href='https://unpkg.com/boxicons@2.0.9/css/boxicons.min.css' rel='stylesheet'>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js" integrity="sha512-VEd+nq25CkR676O+pLBnDW09R7VQX9Mdiij052gVCp5yVH3jGtH70Ho/UUv4mJDsEdTvqRCFZg0NKGiojGnUCw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" integrity="sha512-vKMx8UnXk60zUwyUnUPM3HbQo8QfmNx7+ltw8Pm5zLusl1XIfwcxo8DbWCqMGKaWeNxWA8yrx5v3SaVpMvR3CA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <title>Admin</title>
     <style>
         .alert{position:relative;padding:.75rem 1.25rem;margin-bottom:1rem;border:1px solid transparent;border-radius:.25rem}
@@ -69,17 +72,43 @@
         <div class="head-title">
             <div class="left">
                 @if(session()->has('success'))
-                    <div class="alert alert-success">
-                        {{session()->get('success')}}
-                    </div>
+                    <script>
+                        toastr.options = {
+                            "progressBar": true,
+                            "closeButton": true
+                        }
+                        toastr.success("{{ session()->get('success') }}","Success!", {timeOut:5000});
+                    </script>
                 @endif
-                @if(session()->has('warning'))
-                    <div class="alert alert-danger">
-                        {{session()->get('warning')}}
-                    </div>
+                @if(session()->has('error'))
+                    <script>
+                        toastr.options = {
+                            "progressBar": true,
+                            "closeButton": true
+                        }
+                        toastr.error("{{ session()->get('error')}}","Error!", {timeOut:5000});
+                    </script>
                 @endif
+
+                @if(session()->has('warn'))
+                    <script>
+                        toastr.options = {
+                            "progressBar": true,
+                            "closeButton": true
+                        }
+                        toastr.warning("{{ session()->get('warn')}}","Warning!", {timeOut:5000});
+                    </script>
+                @endif
+
                 @error('password')
-                <div class="alert alert-danger">Mật khẩu cần có ít nhất 8 kí tự</div>
+                    <script >
+                        toastr.options = {
+                            "progressBar": true,
+                            "closeButton": true
+                        }
+                        toastr.error("Mật khẩu cần có ít nhất 8 kí tự","Error!", {timeOut:5000});
+
+                    </script>
                 @enderror
                 <h1>Bảng điều khiển</h1>
                 @yield('tro')
@@ -157,20 +186,25 @@
         </div>
 
     </main>
+    <div id="overlay" class="overlay"></div>
     @yield('fileJs')
     <!-- MAIN -->
 </section>
+
+
 <script>
+
     var addTeacher = document.querySelector("#show_addTeacher")
     addTeacher.addEventListener("click",function () {
         document.querySelector(".popupAdd").classList.add("active")
+        overlay.style.display = 'block';
     });
     document.querySelector(".popupAdd .close-btn")
         .addEventListener("click",function (){
             document.querySelector(".popupAdd").classList.remove("active");
+            overlay.style.display = 'none';
     });
 </script>
-<div id="overlay" class="hidden"></div>
 </body>
 </html>
 

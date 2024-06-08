@@ -25,6 +25,14 @@
 @endsection
 
 @section('content')
+    <div class="onTheContent">
+        <div class="addTime">
+
+        </div>
+        <div class="timeMinus">
+
+        </div>
+    </div>
     <div class="content">
         <div class="onTheTable">
             <div class="onTheTable_element">
@@ -59,9 +67,9 @@
             <tbody>
             <form action="{{ route('submit.diemdanh') }}" method="POST">
                 @csrf
-                @foreach ($students as $student)
+                @foreach ($students as $key => $student)
                     <tr>
-                        <td>{{ $student->id }}</td>
+                        <td>{{ $key + 1 }}</td>
                         <td>{{ $student->studentName }}</td>
                         <td class="d-flex justify-content-between">
                             <input type="hidden" name="schoolShiftID" value="{{ $schoolShiftID }}">

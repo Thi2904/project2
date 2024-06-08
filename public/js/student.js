@@ -33,6 +33,7 @@ const searchButton = document.querySelector('#content nav form .form-input butto
 const searchButtonIcon = document.querySelector('#content nav form .form-input button .bx');
 const searchForm = document.querySelector('#content nav form');
 
+var overlay = document.querySelector('#overlay')
 
 
 
@@ -41,10 +42,14 @@ if( document.querySelector("#show-add") ) {
     document.querySelector("#show-add")
         .addEventListener("click", function () {
             document.querySelector(".popup_add").classList.add("active");
+            overlay.style.display = 'block';
+
         });
     document.querySelector(".popup_add .close-btn_add")
         .addEventListener("click", function () {
             document.querySelector(".popup_add").classList.remove("active");
+            overlay.style.display = 'none';
+
 
         });
 }
@@ -58,6 +63,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 const popup = document.getElementById('popup-' + popupId);
                 if (popup) {
                     popup.classList.add("active");
+                    overlay.style.display = 'block';
+
                 }
             });
         });
@@ -65,6 +72,8 @@ document.addEventListener('DOMContentLoaded', function() {
         document.querySelectorAll(".popup .close-btn").forEach(function(closeButton) {
             closeButton.addEventListener("click", function() {
                 this.closest(".popup").classList.remove("active");
+                overlay.style.display = 'none';
+
             });
         });
     }
@@ -82,6 +91,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 const popup = document.getElementById('popupEdit-' + popupId);
                 if (popup) {
                     popup.classList.add("active");
+                    overlay.style.display = 'block';
+
                 }
             });
         });
@@ -89,17 +100,15 @@ document.addEventListener('DOMContentLoaded', function() {
         document.querySelectorAll(".popup-edit .close-btn").forEach(function(closeButton) {
             closeButton.addEventListener("click", function() {
                 this.closest(".popup-edit").classList.remove("active");
+                overlay.style.display = 'none';
+
             });
         });
     }
 });
 
 
-if(document.querySelector(".alert .alert-success")){
-    setTimeout(function() {
-        document.querySelector(".alert .alert-success").classList.add('unactive')
-    },1000)
-}
+
 
 var clickSearchCount = 0;
 if(document.querySelector(".click_search")){

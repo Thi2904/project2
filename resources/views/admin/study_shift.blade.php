@@ -139,7 +139,7 @@
                         <label for="classID">Tên lớp</label>
                         <select class="select-element" name="classID" id="classID">
                             <option value="00">Chọn lớp học</option>
-                            @foreach($classes as $class)
+                            @foreach($StudyShifts as $class)
                                 <option value="{{ $class->id }}">
                                     {{ $class->className }}
                                 </option>
@@ -172,12 +172,17 @@
             </div>
             <div style="display: flex">
                 <div style="margin-right: 12px" class="searchInput">
-                    <label>
-                        <input type="text" class="search_form" placeholder="Tìm kiếm"/>
-                    </label>
+                    <form action="">
+                        <label>
+                            <input name="keyword" type="text" class="search_form" placeholder="Tìm kiếm"/>
+                        </label>
+                        <button type="submit"></button>
+                    </form>
+
                 </div>
                 <div >
                     <i class='click_search bx bx-search' ></i>
+
                     <i class='bx bx-filter' ></i>
                 </div>
 
@@ -263,7 +268,7 @@
                         <div class="form-element">
                             <label for="classID">Tên lớp</label>
                             <select class="select-element" name="classID" id="classID">
-                                @foreach($classes as $class)
+                                @foreach($StudyShifts as $class)
                                     <option value="{{ $class->id }}">
                                         {{ $class->className }}
                                     </option>
@@ -310,6 +315,26 @@
         @endforeach
         </tbody>
     </table>
+    <div class="custom-pagination">
+        <div class="page-info">Trang {{ $StudyShifts->currentPage() }} / {{ $StudyShifts->lastPage() }}</div>
+        <div class="page-links">
+            @if($StudyShifts->currentPage() > 1)
+                <a href="{{ $StudyShifts->previousPageUrl() }}" class="custom-pagination-link">&laquo; Trước</a>
+            @endif
+
+            @for($i = 1; $i <= $StudyShifts->lastPage(); $i++)
+                @if($i == $StudyShifts->currentPage())
+                    <span class="custom-pagination-link current-page">{{ $i }}</span>
+                @else
+                    <a href="{{ $StudyShifts->url($i) }}" class="custom-pagination-link">{{ $i }}</a>
+                @endif
+            @endfor
+
+            @if($StudyShifts->hasMorePages())
+                <a href="{{ $StudyShifts->nextPageUrl() }}" class="custom-pagination-link">Sau &raquo;</a>
+            @endif
+        </div>
+    </div>
 
 @endsection('content')
 @section('fileJs')

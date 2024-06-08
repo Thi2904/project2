@@ -287,5 +287,22 @@ html {
 .searchInput{
     height: 50px;
 }
-
+.onTheContent{
+    display: flex;
+    justify-content: space-between;
+}
+.addTime{
+    height: 100px;
+    width: 620px;
+    border-radius: 5px;
+    background: white;
+    margin-bottom: 12px;
+}
+.timeMinus{
+    height: 100px;
+    width: 620px;
+    border-radius: 5px;
+    background: white;
+    margin-bottom: 12px;
+}
 /*End drop dowm*/

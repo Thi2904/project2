@@ -18,9 +18,17 @@ class SubjectController extends Controller
         return view('admin.specialized',['majors' => $majors, 'mjs' => $mjs]);
     }
 
-    public function showCurriculum($id)
+    public function showCurriculum($id, Request $request)
     {
-        $curriculums = curriculums::where('majorID',$id)->get();
+        $keyword = $request->query('keyword');
+        if ($keyword) {
+            $classes = DB::table('classes')->where('className','LIKE', '%' . $keyword . '%')
+                ->paginate(3);
+
+        }else{
+            $curriculums = curriculums::where('majorID',$id)->get();
+
+        }
         $majorId = $id;
         $cuss = curriculums::withCount('subjects')->where('majorID',$id)->get();
         return view('admin.curriculum',['curriculums' => $curriculums, 'majorId' => $majorId , 'cuss' => $cuss ]);

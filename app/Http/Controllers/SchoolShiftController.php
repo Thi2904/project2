@@ -10,24 +10,49 @@ use Illuminate\Support\Facades\DB;
 
 class SchoolShiftController extends Controller
 {
-    public function studyShift()
+    public function studyShift(Request $request)
     {
-        $StudyShifts = DB::table('schoolShift')
-            ->join('subjects', 'schoolShift.subjectID', '=', 'subjects.id')
-            ->join('classes', 'schoolShift.classID', '=', 'classes.id')
-            ->join('teachers', 'schoolShift.teacherID', '=', 'teachers.id')
-            ->join('users','teachers.userID','=','users.id')
-            ->select(
-                'schoolShift.id as schoolShift_id',
-                'subjects.id as subject_id',
-                'classes.id as class_id',
-                'users.id as user_id',
-                'schoolShift.*',
-                'subjects.*',
-                'classes.*',
-                'users.*'
-            )
-            ->get();
+        $keyword = $request->query('keyword');
+        if ($keyword) {
+            $StudyShifts = DB::table('schoolShift')
+                ->join('subjects', 'schoolShift.subjectID', '=', 'subjects.id')
+                ->join('classes', 'schoolShift.classID', '=', 'classes.id')
+                ->join('teachers', 'schoolShift.teacherID', '=', 'teachers.id')
+                ->join('users','teachers.userID','=','users.id')
+                ->where('users.name', 'LIKE', '%' . $keyword . '%')
+                ->select(
+                    'schoolShift.id as schoolShift_id',
+                    'subjects.id as subject_id',
+                    'classes.id as class_id',
+                    'users.id as user_id',
+                    'schoolShift.*',
+                    'subjects.*',
+                    'classes.*',
+                    'users.*'
+                )
+                ->paginate(3);
+
+        }else{
+            $StudyShifts = DB::table('schoolShift')
+                ->join('subjects', 'schoolShift.subjectID', '=', 'subjects.id')
+                ->join('classes', 'schoolShift.classID', '=', 'classes.id')
+                ->join('teachers', 'schoolShift.teacherID', '=', 'teachers.id')
+                ->join('users','teachers.userID','=','users.id')
+                ->select(
+                    'schoolShift.id as schoolShift_id',
+                    'subjects.id as subject_id',
+                    'classes.id as class_id',
+                    'users.id as user_id',
+                    'schoolShift.*',
+                    'subjects.*',
+                    'classes.*',
+                    'users.*'
+                )
+                ->paginate(3);
+        }
+        if ($StudyShifts->isEmpty()) {
+            return redirect()->back()->with('warn', 'Không tìm thấy giảng viên.');
+        }
 
         $teachers = DB::table('users')
             ->join('teachers', 'teachers.userID', '=', 'users.id')
@@ -72,7 +97,7 @@ class SchoolShiftController extends Controller
     public function deleteSchoolShift(SchoolShifts $StudyShift, Request $request)
     {
         if($request->query('countSSD')>0){
-            return redirect()->back()->with('warning', 'Không thể xóa lịch học vì đã được xếp ca học');
+            return redirect()->back()->with('error', 'Không thể xóa lịch học vì đã được xếp ca học');
         }else{
             $StudyShift->delete();
             return redirect()->back()->with('success', 'Xóa lịch học thành công.');
@@ -84,19 +109,22 @@ class SchoolShiftController extends Controller
     public function showStudyShiftSchool($StudyShift)
     {
         $schoolShiftID = $StudyShift;
-        $SchoolShifts = DB::table('schoolShiftDetail')
-            ->join('classroom', 'schoolShiftDetail.classroomID', '=', 'classroom.id')
-            ->join('_shifts', 'schoolShiftDetail.shiftsID', '=', '_shifts.id')
-            ->where('schoolShiftDetail.schoolShiftID', $schoolShiftID)
-            ->select(
-                'schoolShiftDetail.id as schoolShiftDetail_id',
-                'classroom.id as classroom_id',
-                '_shifts.id as shifts_id',
-                'schoolShiftDetail.*',
-                'classroom.*',
-                '_shifts.*'
-            )
-            ->get();
+
+            $SchoolShifts = DB::table('schoolShiftDetail')
+                ->join('classroom', 'schoolShiftDetail.classroomID', '=', 'classroom.id')
+                ->join('_shifts', 'schoolShiftDetail.shiftsID', '=', '_shifts.id')
+                ->where('schoolShiftDetail.schoolShiftID', $schoolShiftID)
+                ->select(
+                    'schoolShiftDetail.id as schoolShiftDetail_id',
+                    'classroom.id as classroom_id',
+                    '_shifts.id as shifts_id',
+                    'schoolShiftDetail.*',
+                    'classroom.*',
+                    '_shifts.*'
+                )
+                ->paginate(3);
+
+
         $shifts = DB::table('_shifts')->get();
 
         $rooms = DB::table('classroom')->get();

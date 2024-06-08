@@ -231,6 +231,26 @@
             @endforeach
             </tbody>
         </table>
+        <div class="custom-pagination">
+            <div class="page-info">Trang {{ $students->currentPage() }} / {{ $students->lastPage() }}</div>
+            <div class="page-links">
+                @if($students->currentPage() > 1)
+                    <a href="{{ $students->previousPageUrl() }}" class="custom-pagination-link">&laquo; Previous</a>
+                @endif
+
+                @for($i = 1; $i <= $students->lastPage(); $i++)
+                    @if($i == $students->currentPage())
+                        <span class="custom-pagination-link current-page">{{ $i }}</span>
+                    @else
+                        <a href="{{ $students->url($i) }}" class="custom-pagination-link">{{ $i }}</a>
+                    @endif
+                @endfor
+
+                @if($students->hasMorePages())
+                    <a href="{{ $students->nextPageUrl() }}" class="custom-pagination-link">Next &raquo;</a>
+                @endif
+            </div>
+        </div>
 
 
     </div>

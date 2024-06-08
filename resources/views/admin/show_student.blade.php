@@ -143,7 +143,7 @@
         </tbody>
     </table>
     <div class="custom-pagination">
-        <div class="page-info">Page {{ $students->currentPage() }} of {{ $students->lastPage() }}</div>
+        <div class="page-info">Trang {{ $students->currentPage() }} / {{ $students->lastPage() }}</div>
         <div class="page-links">
             @if($students->currentPage() > 1)
                 <a href="{{ $students->previousPageUrl() }}" class="custom-pagination-link">&laquo; Previous</a>
