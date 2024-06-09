@@ -25,9 +25,10 @@ class AdminController extends Controller
         $curriculums = DB::table('curriculum')->get();
         $majors = DB::table('major')->get();
         $stuCount = Classes::withCount('student')->get();
+        $shiftCount = Classes::withCount('SchoolShifts')->get();
 
 
-        return view('admin.home', ['classes' => $classes, 'curriculums' => $curriculums, 'majors' => $majors, 'stuCount' => $stuCount]);
+        return view('admin.home', ['classes' => $classes, 'curriculums' => $curriculums, 'majors' => $majors, 'stuCount' => $stuCount,'shiftCount'=> $shiftCount]);
     }
 
     public function addClass(Request $request)
@@ -41,7 +42,7 @@ class AdminController extends Controller
 
         $classes = Classes::create($data);
 
-        return redirect()->back()->with('success', 'Added new class successfully.');
+        return redirect()->back()->with('success', 'Đã thêm lớp thành công.');
     }
 
 
@@ -53,26 +54,55 @@ class AdminController extends Controller
             'curriculumID' => 'required|exists:curriculum,id'
         ]);
         $class->update($data);
-        return redirect()->back()->with('success', 'Updated class successfully.');
+        return redirect()->back()->with('success', 'Đã sửa lớp thành công.');
     }
 
-    public function deleteClass(Classes $class)
+    public function deleteClass(Classes $class, Request $request)
     {
+
+        if($request->query('countFrk') > 0){
+            return redirect()->back()->with('error', 'Không thể xóa lớp vì trong lớp có sinh viên.');
+
+        }elseif ($request->query('countScs') > 0){
+            return redirect()->back()->with('error', 'Không thể xóa lớp vì lớp đã xếp lịch học.');
+
+        }
         $class->delete();
-        return redirect()->back()->with('success', 'Deleted class successfully.');
+        return redirect()->back()->with('success', 'Xóa lớp thành công.');
     }
 
-    public function showClassAndStudent()
+    public function showClassAndStudent(Request $request)
     {
+        $keyword = $request->input('keyword');
+        if ($keyword) {
+            $classes = DB::table('classes')->where('className','LIKE', '%' . $keyword . '%')
+                ->paginate(3);
+
+        }else{
+            $classes = DB::table('classes')->paginate(4);
+
+        }
         $stuCount = Classes::withCount('student')->get();
-        $classes = DB::table('classes')->paginate(4);
         return view('admin.student', ['classes' => $classes ,'stuCount' => $stuCount]);
     }
-    public function showStudent($id)
+    public function showStudent($id,Request $request)
     {
-        $students = Student::where('classID', $id)->paginate(3);
         $class = Classes::findOrFail($id);
-        return view('admin.show_student',  ['students' => $students], ['id' => $id]);
+        $keyword = $request->input('keyword');
+        if ($keyword) {
+            $students = DB::table('students')
+                ->join('classes', 'students.classID' , '=', 'classes.id')
+                ->where('studentName','LIKE', '%' . $keyword . '%')
+                ->where('classID', $id)
+                ->paginate(3);
+
+        }else{
+            $students = DB::table('students')
+                ->join('classes', 'students.classID' , '=', 'classes.id')
+                ->where('classID', $id)->paginate(3);
+        }
+        $checkAttent =  Student::withCount('AttendDetail')->get();
+        return view('admin.show_student',  ['students' => $students], ['id' => $id,'checkAttent' => $checkAttent]);
     }
 
 
@@ -87,7 +117,7 @@ class AdminController extends Controller
         ]);
 
         $student = Student::create($data);
-        return redirect()->back()->with('success', 'Added new student successfully.');
+        return redirect()->back()->with('success', 'Đã thêm học sinh mới thành công.');
     }
 
     public function editStudent(Request $request, Student $student)
@@ -99,12 +129,18 @@ class AdminController extends Controller
             'gender' => 'required|string|max:255'
         ]);
         $student->update($data);
-        return redirect()->back()->with('success', 'Updated student successfully.');
+        return redirect()->back()->with('success', 'Đã sửa học sinh mới thành công.');
     }
 
-    public function deleteStudent(Student $student)
+    public function deleteStudent(Student $student, Request $request)
     {
-        $student->delete();
-        return redirect()->back()->with('success', 'Deleted student successfully.');
+        if($request->query('checkAtt')>0){
+            return redirect()->back()->with('error', 'Sinh viên đã từng điểm danh, hiện không thể xóa!');
+
+        }else{
+            $student->delete();
+            return redirect()->back()->with('success', 'Đã xóa sinh viên thành công.');
+        }
+
     }
 }

@@ -127,9 +127,12 @@
         <h3>Danh sách môn học</h3>
         <div style="display: flex">
             <div style="margin-right: 12px" class="searchInput">
-                <label>
-                    <input type="text" class="search_form" placeholder="Tìm kiếm"/>
-                </label>
+                <form action="">
+                    <label>
+                        <input name="keyword" type="text" class="search_form" placeholder="Tìm kiếm"/>
+                    </label>
+                    <button hidden type="submit"></button>
+                </form>
             </div>
             <div >
                 <i class='click_search bx bx-search' ></i>
@@ -196,7 +199,26 @@
         @endforeach
         </tbody>
     </table>
+    <div class="custom-pagination">
+        <div class="page-info">Trang {{ $subjects->currentPage() }} / {{ $subjects->lastPage() }}</div>
+        <div class="page-links">
+            @if($subjects->currentPage() > 1)
+                <a href="{{ $subjects->previousPageUrl() }}" class="custom-pagination-link">&laquo; Trước</a>
+            @endif
 
+            @for($i = 1; $i <= $subjects->lastPage(); $i++)
+                @if($i == $subjects->currentPage())
+                    <span class="custom-pagination-link current-page">{{ $i }}</span>
+                @else
+                    <a href="{{ $subjects->url($i) }}" class="custom-pagination-link">{{ $i }}</a>
+                @endif
+            @endfor
+
+            @if($subjects->hasMorePages())
+                <a href="{{ $subjects->nextPageUrl() }}" class="custom-pagination-link">Sau &raquo;</a>
+            @endif
+        </div>
+    </div>
     <a class="button-add-student" href="{{route('showCurriculum',$majorId)}}"><i class='icon_left bx bx-arrow-back'></i>Trang CTDT</a>
 
 @endsection('content')

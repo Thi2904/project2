@@ -305,4 +305,7 @@ html {
     background: white;
     margin-bottom: 12px;
 }
+.green { color: #01de01; }
+.yellow { color: yellow; }
+.red { color: red; }
 /*End drop dowm*/

@@ -139,7 +139,7 @@
                         <label for="classID">Tên lớp</label>
                         <select class="select-element" name="classID" id="classID">
                             <option value="00">Chọn lớp học</option>
-                            @foreach($StudyShifts as $class)
+                            @foreach($classes as $class)
                                 <option value="{{ $class->id }}">
                                     {{ $class->className }}
                                 </option>
@@ -260,36 +260,34 @@
                 </div>
 
                 <button data-popup-id="{{$StudyShift->schoolShift_id}}" class="show-edit button-edit">Sửa</button>
-                <div id="popupEdit-{{$StudyShift->schoolShift_id}}"  class="popup-edit">
+                <div id="popupEdit-{{$StudyShift->schoolShift_id}}" class="popup-edit">
                     <div class="close-btn">&times;</div>
                     <form action="{{route('editSchoolShift',['StudyShift' => $StudyShift->schoolShift_id])}}" method="POST">
                         @csrf
                         <h2 class="nameAction">Sửa lịch học</h2>
                         <div class="form-element">
                             <label for="classID">Tên lớp</label>
-                            <select class="select-element" name="classID" id="classID">
-                                @foreach($StudyShifts as $class)
-                                    <option value="{{ $class->id }}">
-                                        {{ $class->className }}
-                                    </option>
+                            <select class=" select-element" name="classID" id="classEditID{{$StudyShift->schoolShift_id}}">
+                                @foreach($classes as $class)
+                                    <option value="{{$class->id}}" {{ $class->id == $StudyShift->classID ? 'selected' : '' }}>{{$class->className}}</option>
                                 @endforeach
                             </select>
                         </div>
                         <div class="form-element">
                             <label for="subjectID">Tên môn học</label>
-                            <select class="select-element" name="subjectID" id="subjectID">
+                            <select class="select-element " name="subjectID"  id="subjectEditID{{$StudyShift->schoolShift_id}}">
                                 @foreach($subjects as $subject)
-                                    <option value="{{ $subject->id }}">
+                                    <option value="{{ $subject->id }}" {{ $subject->id == $StudyShift->subjectID ? 'selected' : '' }}>
                                         {{ $subject->subjectName }}
                                     </option>
                                 @endforeach
                             </select>
                         </div>
                         <div class="form-element">
-                            <label for="studentNum">Tên giảng viên</label>
-                            <select class="select-element" name="teacherID" id="teacherID">
+                            <label for="teacherID">Tên giảng viên</label>
+                            <select class="select-element" name="teacherID" id="teacherEditID{{$StudyShift->schoolShift_id}}">
                                 @foreach($teachers as $teacher)
-                                    <option value="{{ $teacher->tId }}">
+                                    <option value="{{ $teacher->tId }}" {{ $teacher->tId == $StudyShift->teacherID ? 'selected' : '' }}>
                                         {{ $teacher->name }}
                                     </option>
                                 @endforeach
@@ -298,7 +296,7 @@
                         <div class="form-element">
                             <label for="dateStart">Thời gian bắt đầu </label>
                             <br>
-                            <input name="dateStart" type="date" id="dateStart" placeholder="Nhập thời gian bắt đầu">
+                            <input name="dateStart" type="date" id="dateStart" value="{{ $StudyShift->dateStart }}" placeholder="Nhập thời gian bắt đầu">
                         </div>
                         <div class="form-element">
                             <button type="submit">Cập nhật</button>
@@ -372,6 +370,36 @@
                 }
             });
         });
+
+        $('[id^=classEditID]').on('change', function() {
+            var id = $(this).attr('id').replace('classEditID', '');
+            var classID = $(this).val();
+            $('#subjectEditID' + id).empty();
+            $('#teacherEditID' + id).empty();
+            if (classID) {
+                $.ajax({
+                    url: '/getEditSubjects/' + classID,
+                    type: 'GET',
+                    dataType: 'json',
+                    success: function(data) {
+                        $.each(data, function(key, value) {
+                            $('#subjectEditID' + id).append('<option value="' + value.id + '">' + value.subjectName + '</option>');
+                        });
+                    }
+                });
+                $.ajax({
+                    url: '/getEditTeachers/' + classID,
+                    type: 'GET',
+                    dataType: 'json',
+                    success: function(data) {
+                        $.each(data, function(key, value) {
+                            $('#teacherEditID' + id).append('<option value="' + value.id + '">' + value.name + '</option>');
+                        });
+                    }
+                });
+            }
+
+            });
 
     </script>
 

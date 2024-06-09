@@ -67,7 +67,7 @@
         <div style="margin-right: 12px" class="searchInput">
             <label>
                 <form style="display: flex; margin-top: 10px" action="">
-                    <input type="text" class="search_form" placeholder="Tìm kiếm"/>
+                    <input name="keyword" type="text" class="search_form" placeholder="Tìm kiếm"/>
                     <button hidden type="submit"></button>
                 </form>
             </label>
@@ -86,13 +86,13 @@
         </tr>
         </thead>
         <tbody>
-        @foreach ($students as $student)
+        @foreach ($students as $key =>  $student)
             <tr>
                 <td>
                     <p>{{ $student->id }}</p>
                 </td>
                 <td><p>{{ $student->studentName }}</p></td>
-                <td><p>{{ $student->class->className }}</p></td>
+                <td><p>{{ $student->className }}</p></td>
                 <td>
                     <button id=edit-"{{$student->id}}" data-popup-id="{{$student->id}}" class="button-edit" >Chỉnh sửa</button>
                     <div id="popupEdit-{{$student->id}}" class="popup-edit">
@@ -132,7 +132,7 @@
                             </div>
                         </form>
                     </div>
-                    <form action="{{ route('deleteStudent',['student' => $student->id]) }}" onsubmit="return confirm('Do you want delete this student ? ')" style="display: inline;" method="POST">
+                    <form action="{{ route('deleteStudent',['student' => $student->id,'checkAtt' => $checkAttent[$key]->attend_detail_count]) }}" onsubmit="return confirm('Do you want delete this student ? ')" style="display: inline;" method="POST">
                         @csrf
                         @method('DELETE')
                         <button class="button-delete" type="submit">Xóa</button>

@@ -107,7 +107,7 @@
         <div style="margin-right: 7px" class="searchInput">
             <label>
                 <form style="display: flex; margin-top: 10px"  action="">
-                    <input type="text" class="search_form" placeholder="Tìm kiếm"/>
+                    <input name="keyword" type="text" class="search_form" placeholder="Tìm kiếm"/>
                     <button hidden type="submit"></button>
                 </form>
             </label>
@@ -121,6 +121,7 @@
             <th>Lớp</th>
             <th>Khóa</th>
             <th>Tổng sinh viên</th>
+            <th>Tổng lịch học</th>
             <th>Hành động</th>
         </tr>
         </thead>
@@ -135,6 +136,7 @@
                 <td>
                     {{$stuCount[$key]-> student_count}}
                 </td>
+                <td> {{$shiftCount[$key]-> school_shifts_count}}</td>
                 <td>
                     <button id=edit-"{{$class->id}}" data-popup-id="{{$class->id}}" class="show-edit button-edit">Chỉnh sửa</button>
                     <div  id="popupEdit-{{$class->id}}" class="popup-edit">
@@ -168,12 +170,13 @@
 
                     </div>
 
-                    <form action="{{ route('deleteClass', ['class' => $class->id]) }}" onsubmit="return confirm('Bạn có chắc chắn muốn xóa lớp này không? ')" method="POST" style="display: inline;">
+                    <form action="{{ route('deleteClass', ['class' => $class->id,'countFrk' => $stuCount[$key]-> student_count,'countScs' => $shiftCount[$key]-> school_shifts_count]) }}" onsubmit="return confirm('Bạn có chắc chắn muốn xóa lớp này không? ')" method="POST" style="display: inline;">
                         @csrf
                         @method('DELETE')
                         <button class="button-delete" type="submit">Xóa</button>
                     </form>
                 </td>
+
             </tr>
         @endforeach
         </tbody>

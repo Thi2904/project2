@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\DB;
 
 class SubjectController extends Controller
 {
-    public function showSpecialized()
+    public function showSpecialized(Request $request)
     {
         $majors = DB::table('major')->get();
         $mjs = major::withCount('curriculums')->get();
@@ -22,11 +22,12 @@ class SubjectController extends Controller
     {
         $keyword = $request->query('keyword');
         if ($keyword) {
-            $classes = DB::table('classes')->where('className','LIKE', '%' . $keyword . '%')
+            $curriculums = DB::table('curriculum')->where('curriculumName','LIKE', '%' . $keyword . '%')
+                ->where('majorID',$id)
                 ->paginate(3);
 
         }else{
-            $curriculums = curriculums::where('majorID',$id)->get();
+            $curriculums = curriculums::where('majorID',$id)->paginate(3);
 
         }
         $majorId = $id;
@@ -57,12 +58,22 @@ class SubjectController extends Controller
         return redirect()->back()->with('success', 'Edit curriculum successfully.');
     }
 
-    public function showSubject($major, $curriculum)
+    public function showSubject($major, $curriculum, Request $request)
     {
         $majorId = $major;
-        $subjects = subjects::where('majorID', $major)
-            ->where('curriculumID', $curriculum)
-            ->get();
+        $keyword = $request->query('keyword');
+        if ($keyword) {
+            $subjects = DB::table('subjects')->where('subjectName','LIKE', '%' . $keyword . '%')
+                ->where('majorID',$major)
+                ->where('curriculumID', $curriculum)
+                ->paginate(3);
+
+        }else{
+            $subjects = subjects::where('majorID', $major)
+                ->where('curriculumID', $curriculum)
+                ->paginate(3);
+        }
+
 
         return view('admin.subject', compact('subjects', 'majorId'));
     }
@@ -77,7 +88,7 @@ class SubjectController extends Controller
             'curriculumID' => 'required|exists:curriculum,id'
         ]);
         $subjects = subjects::create($data);
-        return redirect()->back()->with('success', 'Added new curriculum successfully.');
+        return redirect()->back()->with('success', 'Đã thêm môn học thành công.');
     }
     public function editSubject(Request $request, subjects $subject)
     {
@@ -88,19 +99,19 @@ class SubjectController extends Controller
             'description' => 'required|string',
         ]);
         $subject ->update($data);
-        return redirect()->back()->with('success', 'Edit subject successfully.');
+        return redirect()->back()->with('success', 'Đã sửa môn học thành công.');
     }
 
     public function deleteCurriculum(curriculums $curriculum)
     {
         $curriculum->delete();
-        return redirect()->back()->with('success', 'Deleted curriculum successfully.');
+        return redirect()->back()->with('success', 'Đã xóa CTDT thành công.');
     }
 
     public function deleteSubject(subjects $subject)
     {
         $subject->delete();
-        return redirect()->back()->with('success', 'Deleted subject successfully.');
+        return redirect()->back()->with('success', 'Đã xóa môn học thành công.');
     }
     public function showTeacher()
     {
@@ -127,7 +138,7 @@ class SubjectController extends Controller
             'majorID' => 'required|exists:major,id'
         ]);
         $teachers = Teachers::create($data);
-        return redirect()->back()->with('success', 'Added new teacher successfully.');
+        return redirect()->back()->with('success', 'Thêm giảng viên vào chuyên ngành thành công.');
     }
 
     public function editTeacher(Request $request, Teachers $teacher)
@@ -137,12 +148,12 @@ class SubjectController extends Controller
             'majorID' => 'required|exists:major,id'
         ]);
         $teacher ->update($data);
-        return redirect()->back()->with('success', 'Edit subject successfully.');
+        return redirect()->back()->with('success', 'Sửa chuyên ngành giảng viên thành công.');
     }
 
     public function deleteTeacher(Teachers $teacher)
     {
         $teacher->delete();
-        return redirect()->back()->with('success', 'Deleted subject successfully.');
+        return redirect()->back()->with('success', 'Xóa chuyên ngành giảng viên thành công.');
     }
 }

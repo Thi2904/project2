@@ -20,4 +20,8 @@ class Student extends Model
     {
         return $this->belongsTo(Classes::class, 'classID');
     }
+    public function AttendDetail()
+    {
+        return $this->hasMany(AttendDetail::class, 'studentID');
+    }
 }

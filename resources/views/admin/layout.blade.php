@@ -77,7 +77,7 @@
                             "progressBar": true,
                             "closeButton": true
                         }
-                        toastr.success("{{ session()->get('success') }}","Success!", {timeOut:5000});
+                        toastr.success("{{ session()->get('success') }}","Thành công!", {timeOut:5000});
                     </script>
                 @endif
                 @if(session()->has('error'))
@@ -86,7 +86,7 @@
                             "progressBar": true,
                             "closeButton": true
                         }
-                        toastr.error("{{ session()->get('error')}}","Error!", {timeOut:5000});
+                        toastr.error("{{ session()->get('error')}}","Lỗi!", {timeOut:5000});
                     </script>
                 @endif
 
@@ -96,7 +96,7 @@
                             "progressBar": true,
                             "closeButton": true
                         }
-                        toastr.warning("{{ session()->get('warn')}}","Warning!", {timeOut:5000});
+                        toastr.warning("{{ session()->get('warn')}}","Thông báo!", {timeOut:5000});
                     </script>
                 @endif
 

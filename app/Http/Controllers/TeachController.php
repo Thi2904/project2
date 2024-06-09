@@ -99,19 +99,19 @@ class TeachController extends Controller
                     ->where('studentID', $studentID)
                     ->where('subjectID', $request->input('subjectID'))
                     ->update([
-                        'đi học' => $studentAttendance->{'đi học'} + $counts['đi học'],
-                        'nghỉ có phép' => $studentAttendance->{'nghỉ có phép'} + $counts['nghỉ có phép'],
-                        'nghỉ không phép' => $studentAttendance->{'nghỉ không phép'} + $counts['nghỉ không phép'],
-                        'trễ' => $studentAttendance->{'trễ'} + $counts['trễ'],
+                        'di_hoc' => $studentAttendance->{'di_hoc'} + $counts['đi học'],
+                        'nghi_co_phep' => $studentAttendance->{'nghi_co_phep'} + $counts['nghỉ có phép'],
+                        'nghi_khong_phep' => $studentAttendance->{'nghi_khong_phep'} + $counts['nghỉ không phép'],
+                        'tre' => $studentAttendance->{'tre'} + $counts['trễ'],
                     ]);
             } else {
                 DB::table('student_attend_manage')->insert([
                     'studentID' => $studentID,
                     'subjectID' => $request->input('subjectID'),
-                    'đi học' => $counts['đi học'],
-                    'nghỉ có phép' => $counts['nghỉ có phép'],
-                    'nghỉ không phép' => $counts['nghỉ không phép'],
-                    'trễ' => $counts['trễ'],
+                    'di_hoc' => $counts['đi học'],
+                    'nghi_co_phep' => $counts['nghỉ có phép'],
+                    'nghi_khong_phep' => $counts['nghỉ không phép'],
+                    'tre' => $counts['trễ'],
                 ]);
             }
         }
@@ -164,10 +164,10 @@ class TeachController extends Controller
 
                 if ($studentAttendance) {
                     $updates = [
-                        'đi học' => $studentAttendance->{'đi học'} - ($currentStatus == 'đi học' ? 1 : 0) + ($status == 'đi học' ? 1 : 0),
-                        'nghỉ có phép' => $studentAttendance->{'nghỉ có phép'} - ($currentStatus == 'nghỉ có phép' ? 1 : 0) + ($status == 'nghỉ có phép' ? 1 : 0),
-                        'nghỉ không phép' => $studentAttendance->{'nghỉ không phép'} - ($currentStatus == 'nghỉ không phép' ? 1 : 0) + ($status == 'nghỉ không phép' ? 1 : 0),
-                        'trễ' => $studentAttendance->{'trễ'} - ($currentStatus == 'trễ' ? 1 : 0) + ($status == 'trễ' ? 1 : 0),
+                        'di_hoc' => $studentAttendance->{'đi học'} - ($currentStatus == 'đi học' ? 1 : 0) + ($status == 'đi học' ? 1 : 0),
+                        'nghi_co_phep' => $studentAttendance->{'nghỉ có phép'} - ($currentStatus == 'nghỉ có phép' ? 1 : 0) + ($status == 'nghỉ có phép' ? 1 : 0),
+                        'nghi_khong_phep' => $studentAttendance->{'nghỉ không phép'} - ($currentStatus == 'nghỉ không phép' ? 1 : 0) + ($status == 'nghỉ không phép' ? 1 : 0),
+                        'tre' => $studentAttendance->{'trễ'} - ($currentStatus == 'trễ' ? 1 : 0) + ($status == 'trễ' ? 1 : 0),
                     ];
 
                     DB::table('student_attend_manage')
@@ -178,10 +178,10 @@ class TeachController extends Controller
                     DB::table('student_attend_manage')->insert([
                         'studentID' => $studentID,
                         'subjectID' => $subjectID,
-                        'đi học' => ($status == 'đi học' ? 1 : 0),
-                        'nghỉ có phép' => ($status == 'nghỉ có phép' ? 1 : 0),
-                        'nghỉ không phép' => ($status == 'nghỉ không phép' ? 1 : 0),
-                        'trễ' => ($status == 'trễ' ? 1 : 0),
+                        'di_hoc' => ($status == 'đi học' ? 1 : 0),
+                        'nghi_co_phep' => ($status == 'nghỉ có phép' ? 1 : 0),
+                        'nghi_khong_phep' => ($status == 'nghỉ không phép' ? 1 : 0),
+                        'tre' => ($status == 'trễ' ? 1 : 0),
                     ]);
                 }
             }
@@ -193,9 +193,50 @@ class TeachController extends Controller
 
 
 
-    public function showChuyenCan()
+    public function showChuyenCan($id)
     {
-        return view('teacher.chuyencan');
+
+        $chuyenCan = DB::table('student_attend_manage as sam')
+            ->join('subjects as s', 'sam.subjectID', '=', 's.id')
+            ->join('schoolShift as ss', 's.id', '=', 'ss.subjectID')
+            ->join('students as std','sam.studentID','=' ,'std.id')
+            ->where('sam.subjectID', $id)
+            ->get();
+        if ($chuyenCan->isNotEmpty()) {
+
+            $subjectTime = $chuyenCan->first()->subjectTime;
+
+
+            $tongSoBuoi = $subjectTime / 4;
+        } else {
+
+            $tongSoBuoi = null;
+        }
+        return view('teacher.chuyencanDetails', ['chuyenCan' => $chuyenCan,'tongSoBuoi'=> $tongSoBuoi]);
     }
+    public function listChuyenCan()
+    {
+        $teacherID = session('teacherID', Auth::user()->id);
+        $StudyShifts = DB::table('schoolShift')
+            ->join('subjects', 'schoolShift.subjectID', '=', 'subjects.id')
+            ->join('classes', 'schoolShift.classID', '=', 'classes.id')
+            ->join('teachers', 'schoolShift.teacherID', '=', 'teachers.id')
+            ->join('users','teachers.userID','=','users.id')
+            ->select(
+                'schoolShift.id as schoolShift_id',
+                'subjects.id as subject_id',
+                'classes.id as class_id',
+                'users.id as user_id',
+                'schoolShift.*',
+                'subjects.*',
+                'classes.*',
+                'users.*'
+            )
+            ->where('schoolShift.teacherID', $teacherID)
+            ->paginate(3);
+
+        return view('teacher.chuyencan', ['StudyShifts' => $StudyShifts]);
+    }
+
 }
 

@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Classes;
 use App\Models\schoolShiftDetail;
 use App\Models\SchoolShifts;
 use App\Models\subjects;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
 
 class SchoolShiftController extends Controller
@@ -31,8 +33,13 @@ class SchoolShiftController extends Controller
                     'users.*'
                 )
                 ->paginate(3);
+            if ($StudyShifts->isEmpty()) {
+                return redirect()->back()->with('warn', 'Không tìm thấy giảng viên.');
+            }
 
-        }else{
+        }
+
+        else{
             $StudyShifts = DB::table('schoolShift')
                 ->join('subjects', 'schoolShift.subjectID', '=', 'subjects.id')
                 ->join('classes', 'schoolShift.classID', '=', 'classes.id')
@@ -50,9 +57,7 @@ class SchoolShiftController extends Controller
                 )
                 ->paginate(3);
         }
-        if ($StudyShifts->isEmpty()) {
-            return redirect()->back()->with('warn', 'Không tìm thấy giảng viên.');
-        }
+
 
         $teachers = DB::table('users')
             ->join('teachers', 'teachers.userID', '=', 'users.id')
@@ -70,14 +75,38 @@ class SchoolShiftController extends Controller
     //beta
     public function addSchoolShift(Request $request)
     {
+        $today = Carbon::now();
+        $today->setTimezone(new \DateTimeZone('Asia/Ho_Chi_Minh'));
         $data = $request->validate([
             "dateStart" => "required|string|max:255",
             "subjectID" => "required|exists:subjects,id",
             "classID" => "required|exists:classes,id",
             "teacherID" => "required|exists:teachers,id",
         ]);
-        $schoolShift = SchoolShifts::create($data);
-        return redirect()->back()->with('success', 'Thêm ca học mới thành công.');
+        $date = $data['dateStart'];
+        $classId = $data['classID'];
+        $dateStart = Carbon::createFromFormat('Y-m-d', $data['dateStart'], new \DateTimeZone('Asia/Ho_Chi_Minh'))->startOfDay();
+
+
+
+        $classes = DB::table('classes')
+            ->join('students','students.classID', '=' ,'classes.id' )
+            ->where('classes.id',$classId)
+            ->count();
+        ;
+
+        if($classes > 0){
+            $schoolShift = SchoolShifts::create($data);
+            return redirect()->back()->with('success', 'Thêm ca học mới thành công.');
+        }
+        elseif ($dateStart->lt($today)) {
+            return redirect()->back()->with('error', 'Không thể thêm lịch học vì ngày bắt đầu là ngày trước ngày hôm nay.');
+        }
+        else{
+            return redirect()->back()->with('error', 'Không thể thêm lịch học vì lớp chưa có sinh viên.');
+
+        }
+
     }
     public function editSchoolShift(Request $request, SchoolShifts $StudyShift)
     {
@@ -174,11 +203,38 @@ class SchoolShiftController extends Controller
             ->where('curriculumID',$curriculumID)
             ->select('id','subjectName')->get();
         if ($subject->isEmpty()) {
-            $subject = collect([['name' => 'Không tìm thấy môn học']]);
+            $subject = collect([['subjectName' => 'Không tìm thấy môn học']]);
         }
         return response()->json($subject);
     }
     public function getTeachers($classID)
+    {
+        $class = DB::table('classes')->where('id',$classID)->first();
+        $majorID = $class->majorID;
+        $subject = DB::table('teachers')
+            ->join('users','teachers.userID','=','users.id')
+            ->where('majorID',$majorID)
+            ->select('teachers.id','users.name')->get();
+        if ($subject->isEmpty()) {
+            $subject = collect([['name' => 'Không tìm thấy giảng viên']]);
+        }
+        return response()->json($subject);
+    }
+    public function getEditSubjects($classID)
+    {
+        $class = DB::table('classes')->where('id',$classID)->first();
+        $majorID = $class->majorID;
+        $curriculumID = $class->curriculumID;
+        $subject = DB::table('subjects')
+            ->where('majorID',$majorID)
+            ->where('curriculumID',$curriculumID)
+            ->select('id','subjectName')->get();
+        if ($subject->isEmpty()) {
+            $subject = collect([['subjectName' => 'Không tìm thấy môn học']]);
+        }
+        return response()->json($subject);
+    }
+    public function getEditTeachers($classID)
     {
         $class = DB::table('classes')->where('id',$classID)->first();
         $majorID = $class->majorID;

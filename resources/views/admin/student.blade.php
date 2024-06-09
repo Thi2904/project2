@@ -127,8 +127,8 @@
         <div style="display: flex">
             <div style="margin-right: 12px" class="searchInput">
                 <label>
-                    <form   action="">
-                        <input type="text" class="search_form" placeholder="Tìm kiếm"/>
+                    <form action="">
+                        <input name="keyword" type="text" class="search_form" placeholder="Tìm kiếm"/>
                         <button type="submit"></button>
                     </form>
                 </label>

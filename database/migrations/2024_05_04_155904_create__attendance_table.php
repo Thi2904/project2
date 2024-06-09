@@ -22,10 +22,10 @@ return new class extends Migration
             $table->id();
             $table->foreignId('studentID')->constrained('students','id');
             $table->foreignId('subjectID')->constrained('subjects','id');
-            $table->integer('đi học')->default(0);
-            $table->integer('nghỉ có phép')->default(0);
-            $table->integer('nghỉ không phép')->default(0);
-            $table->integer('trễ')->default(0);
+            $table->integer('di_hoc')->default(0);
+            $table->integer('nghi_co_phep')->default(0);
+            $table->integer('nghi_khong_phep')->default(0);
+            $table->integer('tre')->default(0);
             $table->timestamps();
         });
 
