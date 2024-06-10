@@ -9,6 +9,7 @@ use App\Models\subjects;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class SchoolShiftController extends Controller
 {
@@ -75,6 +76,7 @@ class SchoolShiftController extends Controller
     //beta
     public function addSchoolShift(Request $request)
     {
+
         $today = Carbon::now();
         $today->setTimezone(new \DateTimeZone('Asia/Ho_Chi_Minh'));
         $data = $request->validate([
@@ -162,14 +164,25 @@ class SchoolShiftController extends Controller
     }
     public function addSchoolShiftDetail(Request $request)
     {
+        try {
+            $data = $request->validate([
+                "schoolShiftID" => "required|exists:schoolShift,id",
+                "dateInWeek" => "required|string|max:255",
+                "classroomID" => "required|exists:classroom,id",
+                "shiftsID" => "required|exists:_shifts,id",
+            ]);
 
-        $data = $request->validate([
-            "schoolShiftID" => "required|exists:schoolShift,id",
-            "dateInWeek" => "required|string|max:255",
-            "classroomID" => "required|exists:classes,id",
-            "shiftsID" => "required|exists:teachers,id",
-        ]);
-        $schoolShiftDetail = SchoolShiftDetail::create($data);
+            $schoolShiftDetail = SchoolShiftDetail::create($data);
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            // Log lỗi xác thực
+            Log::error('Validation Error: ', $e->errors());
+            return response()->json(['error' => $e->errors()], 422);
+        } catch (\Exception $e) {
+            // Log các lỗi khác
+            Log::error('Error: ' . $e->getMessage());
+            return response()->json(['error' => 'An error occurred while creating the record.'], 500);
+        }
+
 
         return redirect()->back()->with('success', 'Thêm ngày học thành công.');
     }
@@ -178,8 +191,8 @@ class SchoolShiftController extends Controller
         $data = $request->validate([
             "schoolShiftID" => "required|exists:schoolShift,id",
             "dateInWeek" => "required|string|max:255",
-            "classroomID" => "",
-            "shiftsID" => "",
+            "classroomID" => "required|exists:classroom,id",
+            "shiftsID" => "required|exists:_shifts,id",
         ]);
 
         if ($SchoolShift->update($data)) {
