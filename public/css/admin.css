@@ -1154,15 +1154,6 @@ textarea:focus {
     top: 8%;
 }
 
-.select-element{
-    margin-top: 5px;
-    display: block;
-    width: 100%;
-    padding: 10px;
-    outline: none;
-    border: 1px solid #aaa;
-    border-radius: 5px;
-}
 .searchInput{
     height: 50px;
 }

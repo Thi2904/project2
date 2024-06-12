@@ -10,6 +10,11 @@
     <link href="https://cdn.jsdelivr.net/npm/@fullcalendar/core/main.css" rel="stylesheet" />
     <link href="https://cdn.jsdelivr.net/npm/@fullcalendar/daygrid/main.css" rel="stylesheet" />
     <link href="https://cdn.jsdelivr.net/npm/@fullcalendar/timegrid/main.css" rel="stylesheet" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js" integrity="sha512-VEd+nq25CkR676O+pLBnDW09R7VQX9Mdiij052gVCp5yVH3jGtH70Ho/UUv4mJDsEdTvqRCFZg0NKGiojGnUCw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" integrity="sha512-vKMx8UnXk60zUwyUnUPM3HbQo8QfmNx7+ltw8Pm5zLusl1XIfwcxo8DbWCqMGKaWeNxWA8yrx5v3SaVpMvR3CA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
     <link rel="stylesheet" href="{{asset('css/teacher.css')}}">
     <title>BKACAD</title>
 </head>
@@ -74,15 +79,34 @@
         </div>
         <div class="main mt-3">
             @if(session()->has('success'))
-                <div class="alert alert-success" id="success-alert">
-                    {{ session()->get('success') }}
-                </div>
+                <script>
+                    toastr.options = {
+                        "progressBar": true,
+                        "closeButton": true
+                    }
+                    toastr.success("{{ session()->get('success') }}","Thành công!", {timeOut:5000});
+                </script>
             @endif
-            @if(session()->has('warning'))
-                <div class="alert alert-danger" id="warning-alert">
-                    {{ session()->get('warning') }}
-                </div>
+            @if(session()->has('error'))
+                <script>
+                    toastr.options = {
+                        "progressBar": true,
+                        "closeButton": true
+                    }
+                    toastr.error("{{ session()->get('error')}}","Lỗi!", {timeOut:5000});
+                </script>
             @endif
+
+            @if(session()->has('warn'))
+                <script>
+                    toastr.options = {
+                        "progressBar": true,
+                        "closeButton": true
+                    }
+                    toastr.warning("{{ session()->get('warn')}}","Thông báo!", {timeOut:5000});
+                </script>
+            @endif
+
             @yield('content')
         </div>
 

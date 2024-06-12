@@ -292,20 +292,41 @@ html {
     justify-content: space-between;
 }
 .addTime{
-    height: 100px;
+    height: 200px;
     width: 620px;
     border-radius: 5px;
     background: white;
     margin-bottom: 12px;
 }
 .timeMinus{
-    height: 100px;
+    height: 200px;
     width: 620px;
     border-radius: 5px;
     background: white;
     margin-bottom: 12px;
 }
 .green { color: #01de01; }
-.yellow { color: yellow; }
+.yellow { color: #fdd000; }
 .red { color: red; }
 /*End drop dowm*/
+.select-element{
+    margin-top: 5px;
+    display: block;
+    width: 250px;
+    padding: 10px;
+    outline: none;
+    border: 1px solid #aaa;
+    border-radius: 5px;
+}
+.select-element option {
+    padding: 10px; /* Khoảng cách bên trong của các tùy chọn */
+    background-color: #fff; /* Màu nền của các tùy chọn */
+    color: #333; /* Màu chữ của các tùy chọn */
+    font-size: 13px; /* Kích thước chữ của các tùy chọn */
+
+}
+.chonGio{
+    padding: 45px;
+
+}
+

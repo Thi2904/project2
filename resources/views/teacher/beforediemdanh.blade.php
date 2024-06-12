@@ -96,7 +96,7 @@
             </tr>
             </thead>
             <tbody>
-            @foreach($StudyShifts as $StudyShift)
+            @forelse($StudyShifts as $StudyShift)
 
                 <tr>
                     <td>{{$StudyShift -> subjectName}}</td>
@@ -110,8 +110,9 @@
                         <a class="linkSuaDiemDanh"  href="{{route('class.suadiemdanh', ['classID' => $StudyShift->classID,'schoolShiftID' => $StudyShift->id,'subjectID' => $StudyShift->subjectID])}}">Sửa điểm danh</a>
                     </td>
                 </tr>
-
-            @endforeach
+            @empty
+                <tr><td colspan="5">Hiện tại không có lịch dạy </td></tr>
+            @endforelse
             </tbody>
 
         </table>

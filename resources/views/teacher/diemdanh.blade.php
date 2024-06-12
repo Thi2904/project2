@@ -25,12 +25,47 @@
 @endsection
 
 @section('content')
+    <form action="{{ route('submit.diemdanh') }}" method="POST">
+
     <div class="onTheContent">
         <div class="addTime">
-
+            <div class="chonGio">
+                <h4>Chọn khung giờ điểm danh</h4>
+                <label>
+                    <select class="select-element">
+                        <option value="1">8:00</option>
+                        <option value="2">9:00</option>
+                        <option value="3">10:00</option>
+                        <option value="4">11:00</option>
+                    </select>
+                </label>
+                <span style="font-size: 25px">-</span>
+                <label>
+                    <select class="select-element">
+                        <option value="1">8:00</option>
+                        <option value="2">9:00</option>
+                        <option value="3">10:00</option>
+                        <option value="4">11:00</option>
+                    </select>
+                </label>
+            </div>
         </div>
-        <div class="timeMinus">
-
+        <div class="p-2 timeMinus">
+            <h5 class="p-2">Thông tin môn học</h5>
+            <table class="table table-bordered">
+                <tr>
+                    <th>Tên lớp</th>
+                    <td>D06K14</td>
+                </tr>
+                <tr>
+                    <th>Tên môn</th>
+                    <td>Java</td>
+                </tr>
+                <tr>
+                    <th>Thời gian còn lại</th>
+                    <td>60</td>
+                </tr>
+            </table>
         </div>
     </div>
     <div class="content">
@@ -65,7 +100,6 @@
                 </tr>
             </thead>
             <tbody>
-            <form action="{{ route('submit.diemdanh') }}" method="POST">
                 @csrf
                 @foreach ($students as $key => $student)
                     <tr>

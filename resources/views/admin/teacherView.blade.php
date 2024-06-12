@@ -147,7 +147,7 @@
                 </label>
             </div>
             <div >
-                <button id="show-add" class="button-add">Add</button>
+                <button id="show-add" class="button-add">Thêm</button>
                 <div class="popup">
                     <div class="close-btn">&times;</div>
                     <form action="{{ route('addTeacher')}}" method="POST">

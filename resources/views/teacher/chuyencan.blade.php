@@ -54,15 +54,16 @@
             </tr>
             </thead>
             <tbody>
-            @foreach($StudyShifts as $StudyShift)
+            @forelse($StudyShifts as $StudyShift)
                 <tr>
                     <td>{{$StudyShift -> subjectName}}</td>
                     <td>{{$StudyShift -> className}}</td>
                     <td>{{$StudyShift -> name}}</td>
                     <td style="text-align: start"><a class="linkDiemDanh"  href="{{route('class.showChuyenCan', ['subjectID' => $StudyShift->subjectID])}}">Xem chuyên cần</a></td>
                 </tr>
-
-            @endforeach
+            @empty
+                <tr><td colspan="4">Hiện tại không có lịch học nên không thêm xem chuyên cần</td></tr>
+            @endforelse
             </tbody>
 
         </table>
