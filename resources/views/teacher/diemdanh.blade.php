@@ -32,20 +32,20 @@
             <div class="chonGio">
                 <h4>Chọn khung giờ điểm danh</h4>
                 <label>
-                    <select class="select-element">
-                        <option value="1">8:00</option>
-                        <option value="2">9:00</option>
-                        <option value="3">10:00</option>
-                        <option value="4">11:00</option>
+                    <select class="select-element" name="time_in">
+                        <option value="8:00">8:00</option>
+                        <option value="9:00">9:00</option>
+                        <option value="10:00">10:00</option>
+                        <option value="11:00">11:00</option>
                     </select>
                 </label>
                 <span style="font-size: 25px">-</span>
                 <label>
-                    <select class="select-element">
-                        <option value="1">8:00</option>
-                        <option value="2">9:00</option>
-                        <option value="3">10:00</option>
-                        <option value="4">11:00</option>
+                    <select class="select-element" name="time_out">
+                        <option value="8:00">8:00</option>
+                        <option value="9:00">9:00</option>
+                        <option value="10:00">10:00</option>
+                        <option value="11:00">11:00</option>
                     </select>
                 </label>
             </div>

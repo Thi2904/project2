@@ -68,6 +68,8 @@ class TeachController extends Controller
     {
         $attendance = Attendance::create([
             'schoolShiftID' => $request->input('schoolShiftID'),
+            'time_in' => $request->input('time_in'),
+            'time_out' => $request->input('time_out'),
             'date' => now(),
         ]);
 
@@ -164,10 +166,10 @@ class TeachController extends Controller
 
                 if ($studentAttendance) {
                     $updates = [
-                        'di_hoc' => $studentAttendance->{'đi học'} - ($currentStatus == 'đi học' ? 1 : 0) + ($status == 'đi học' ? 1 : 0),
-                        'nghi_co_phep' => $studentAttendance->{'nghỉ có phép'} - ($currentStatus == 'nghỉ có phép' ? 1 : 0) + ($status == 'nghỉ có phép' ? 1 : 0),
-                        'nghi_khong_phep' => $studentAttendance->{'nghỉ không phép'} - ($currentStatus == 'nghỉ không phép' ? 1 : 0) + ($status == 'nghỉ không phép' ? 1 : 0),
-                        'tre' => $studentAttendance->{'trễ'} - ($currentStatus == 'trễ' ? 1 : 0) + ($status == 'trễ' ? 1 : 0),
+                        'di_hoc' => $studentAttendance->{'di_hoc'} - ($currentStatus == 'đi học' ? 1 : 0) + ($status == 'đi học' ? 1 : 0),
+                        'nghi_co_phep' => $studentAttendance->{'nghi_co_phep'} - ($currentStatus == 'nghỉ có phép' ? 1 : 0) + ($status == 'nghỉ có phép' ? 1 : 0),
+                        'nghi_khong_phep' => $studentAttendance->{'nghi_khong_phep'} - ($currentStatus == 'nghỉ không phép' ? 1 : 0) + ($status == 'nghỉ không phép' ? 1 : 0),
+                        'tre' => $studentAttendance->{'tre'} - ($currentStatus == 'trễ' ? 1 : 0) + ($status == 'trễ' ? 1 : 0),
                     ];
 
                     DB::table('student_attend_manage')
@@ -191,21 +193,20 @@ class TeachController extends Controller
     }
 
 
-
-
     public function showChuyenCan($id)
     {
 
         $chuyenCan = DB::table('student_attend_manage as sam')
             ->join('subjects as s', 'sam.subjectID', '=', 's.id')
             ->join('schoolShift as ss', 's.id', '=', 'ss.subjectID')
+            ->join('schoolShiftDetail as ssdt','ss.id','=' ,'ssdt.schoolShiftID')
             ->join('students as std','sam.studentID','=' ,'std.id')
+            ->join('_shifts as _s','_s.id','=' ,'ssdt.shiftsID')
             ->where('sam.subjectID', $id)
             ->get();
         if ($chuyenCan->isNotEmpty()) {
 
             $subjectTime = $chuyenCan->first()->subjectTime;
-
 
             $tongSoBuoi = $subjectTime / 4;
         } else {

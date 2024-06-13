@@ -14,6 +14,8 @@ return new class extends Migration
         Schema::create('attendance', function (Blueprint $table) {
             $table->id();
             $table->foreignId('schoolShiftID')->constrained('schoolShift','id');
+            $table->time('time_in');
+            $table->time('time_out');
             $table->date('date');
             $table->timestamps();
         });

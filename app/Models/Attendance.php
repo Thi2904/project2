@@ -11,6 +11,8 @@ class Attendance extends Model
     protected $table = 'attendance';
     protected $fillable = [
         'schoolShiftID',
+        'time_in',
+        'time_out',
         'date'
     ];
 

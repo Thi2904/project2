@@ -54,18 +54,18 @@
             </tr>
             </thead>
             <tbody>
-            @foreach($chuyenCan as $key =>  $cC)
+            @foreach($chuyenCan as $key => $cC)
                 @php
-                    $percentage = ($cC->tre /$tongSoBuoi ) * (1 / 3) * 100 + ($cC->nghi_khong_phep / $tongSoBuoi) * 100;
+                    // Calculate percentage based on $cC->duration_minutes
+                    $percentage = ($cC->tre / $tongSoBuoi ) * (1 / 3) * 100 + ($cC->nghi_khong_phep / $tongSoBuoi) * 100;
                     $colorClass = $percentage > 50 ? 'red' : ($percentage > 20 ? 'yellow' : 'green');
                 @endphp
                 <tr>
-                    <td>{{$key + 1}}</td>
-                    <td>{{$cC->studentName}}</td>
+                    <td>{{ $key + 1 }}</td>
+                    <td>{{ $cC->studentName }}</td>
                     <td class="{{ $colorClass }}">{{ number_format($percentage, 2) }}%</td>
                 </tr>
             @endforeach
-
             </tbody>
 
         </table>
