@@ -63,7 +63,7 @@
                 </tr>
                 <tr>
                     <th>Thời gian còn lại</th>
-                    <td>60</td>
+                    <td>{{$subject->subjectTime - ($soTiengHoc * 4)}}</td>
                 </tr>
             </table>
         </div>

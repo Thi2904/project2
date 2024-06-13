@@ -61,7 +61,15 @@ class TeachController extends Controller
     {
         $students = DB::table("students")
             ->where('classID', $classID)->get();
-        return view('teacher.diemdanh', ['students' => $students, 'schoolShiftID' => $schoolShiftID, 'subjectID' => $subjectID]);
+        $soTiengHoc = DB::table('attendance')
+            ->where('attendance.schoolShiftID',$schoolShiftID)
+            ->count();
+        $subject = DB::table('attendance')
+            ->join('schoolShift','attendance.schoolShiftID' , '=','schoolShift.id')
+            ->join('subjects','schoolShift.subjectID','=','subjects.id')
+            ->where('attendance.schoolShiftID',$schoolShiftID)
+            ->first();
+        return view('teacher.diemdanh', ['students' => $students, 'schoolShiftID' => $schoolShiftID, 'subjectID' => $subjectID,'soTiengHoc'=>$soTiengHoc,'subject'=>$subject]);
     }
 
     public function submitDiemDanh(Request $request)
@@ -117,6 +125,7 @@ class TeachController extends Controller
                 ]);
             }
         }
+
             return redirect()->route('teacher.TeachShift')
                 ->with('success', 'Đã lưu điểm danh thành công!');
     }
@@ -196,14 +205,24 @@ class TeachController extends Controller
     public function showChuyenCan($id)
     {
 
+        $uniqueShiftDetails = DB::table('schoolShiftDetail')
+            ->select('schoolShiftID', DB::raw('MIN(id) as id'))
+            ->groupBy('schoolShiftID');
+
         $chuyenCan = DB::table('student_attend_manage as sam')
             ->join('subjects as s', 'sam.subjectID', '=', 's.id')
             ->join('schoolShift as ss', 's.id', '=', 'ss.subjectID')
-            ->join('schoolShiftDetail as ssdt','ss.id','=' ,'ssdt.schoolShiftID')
-            ->join('students as std','sam.studentID','=' ,'std.id')
-            ->join('_shifts as _s','_s.id','=' ,'ssdt.shiftsID')
+            ->join('students as std', 'sam.studentID', '=', 'std.id')
+            ->joinSub($uniqueShiftDetails, 'uniqueShiftDetails', function ($join) {
+                $join->on('ss.id', '=', 'uniqueShiftDetails.schoolShiftID');
+            })
+            ->join('schoolShiftDetail as ssdt', 'uniqueShiftDetails.id', '=', 'ssdt.id')
+            ->join('_shifts as _s', '_s.id', '=', 'ssdt.shiftsID')
             ->where('sam.subjectID', $id)
+            ->select('sam.*', 's.*', 'ss.*', 'std.*', 'ssdt.*', '_s.*')
             ->get();
+
+
         if ($chuyenCan->isNotEmpty()) {
 
             $subjectTime = $chuyenCan->first()->subjectTime;

@@ -62,7 +62,7 @@
                 <tr>
                     <td>{{$key + 1}}</td>
                     <td>{{$cC->studentName}}</td>
-                    <td class="{{ $colorClass }}">{{ number_format($percentage, 2) }}%</td>
+                    <td class="{{ $colorClass }}">{{  number_format(100 - $percentage, 2) }}%</td>
                 </tr>
             @endforeach
 
