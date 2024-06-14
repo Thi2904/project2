@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Attendance;
 use App\Models\AttendDetail;
+use DateTime;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
@@ -76,6 +77,10 @@ class TeachController extends Controller
         return view('teacher.diemdanh', ['students' => $students, 'schoolShiftID' => $schoolShiftID, 'subjectID' => $subjectID,'soTiengHoc'=>$soTiengHoc,'subject'=>$subject]);
     }
 
+
+    /**
+     * @throws \Exception
+     */
     public function submitDiemDanh(Request $request)
     {
         $attendance = Attendance::create([
@@ -85,6 +90,11 @@ class TeachController extends Controller
             'date' => now(),
         ]);
 
+        $timeIn = new DateTime($request->input('time_in'));
+        $timeOut = new DateTime($request->input('time_out'));
+        $interval = $timeIn->diff($timeOut);
+        $hours = $interval->h + ($interval->i / 60);
+
         $statusCounts = [];
 
         foreach ($request->input('options') as $studentID => $status) {
@@ -93,6 +103,7 @@ class TeachController extends Controller
                 'studentID' => $studentID,
                 'status' => $status,
             ]);
+
             if (!isset($statusCounts[$studentID])) {
                 $statusCounts[$studentID] = [
                     'đi học' => 0,
@@ -101,22 +112,35 @@ class TeachController extends Controller
                     'trễ' => 0,
                 ];
             }
-            $statusCounts[$studentID][$status]++;
+
+            switch ($status) {
+                case 'đi học':
+                case 'nghỉ có phép':
+                    break;
+                case 'trễ':
+                    $statusCounts[$studentID]['trễ'] += $hours * (1/3);
+                    break;
+                case 'nghỉ không phép':
+                    $statusCounts[$studentID]['nghỉ không phép'] += $hours;
+                    break;
+            }
         }
+
         foreach ($statusCounts as $studentID => $counts) {
             $studentAttendance = DB::table('student_attend_manage')
                 ->where('studentID', $studentID)
                 ->where('subjectID', $request->input('subjectID'))
                 ->first();
+
             if ($studentAttendance) {
                 DB::table('student_attend_manage')
                     ->where('studentID', $studentID)
                     ->where('subjectID', $request->input('subjectID'))
                     ->update([
-                        'di_hoc' => $studentAttendance->{'di_hoc'} + $counts['đi học'],
-                        'nghi_co_phep' => $studentAttendance->{'nghi_co_phep'} + $counts['nghỉ có phép'],
-                        'nghi_khong_phep' => $studentAttendance->{'nghi_khong_phep'} + $counts['nghỉ không phép'],
-                        'tre' => $studentAttendance->{'tre'} + $counts['trễ'],
+                        'di_hoc' => $studentAttendance->di_hoc + $counts['đi học'],
+                        'nghi_co_phep' => $studentAttendance->nghi_co_phep + $counts['nghỉ có phép'],
+                        'nghi_khong_phep' => $studentAttendance->nghi_khong_phep + $counts['nghỉ không phép'],
+                        'tre' => $studentAttendance->tre + $counts['trễ'],
                     ]);
             } else {
                 DB::table('student_attend_manage')->insert([
@@ -129,15 +153,15 @@ class TeachController extends Controller
                 ]);
             }
         }
-            return redirect()->route('class.suadiemdanh',
-                [
-                'classID' => $request->input('classID'),
-                'schoolShiftID' => $request->input('schoolShiftID'),
-                'subjectID' => $request->input('subjectID'),
-                ])
-                ->with('success', 'Đã lưu điểm danh thành công!')
-                ;
+
+        return redirect()->route('class.suadiemdanh', [
+            'classID' => $request->input('classID'),
+            'schoolShiftID' => $request->input('schoolShiftID'),
+            'subjectID' => $request->input('subjectID'),
+        ])->with('success', 'Đã lưu điểm danh thành công!');
     }
+
+
 
     public function showLatestAttendance($classID, $schoolShiftID, $subjectID)
     {
@@ -171,11 +195,21 @@ class TeachController extends Controller
                    'soTiengHoc'=>$soTiengHoc]);
     }
 
+
+    /**
+     * @throws \Exception
+     */
     public function suadiemdanh(Request $request)
     {
         $attendID = $request->input('attendID');
         $attendanceData = $request->input('options');
         $subjectID = $request->input('subjectID');
+
+        $attendance = Attendance::find($attendID);
+        $timeIn = new DateTime($attendance->time_in);
+        $timeOut = new DateTime($attendance->time_out);
+        $interval = $timeIn->diff($timeOut);
+        $hours = $interval->h + ($interval->i / 60);
 
         foreach ($attendanceData as $studentID => $status) {
             $attendanceDetail = AttendDetail::where('attendID', $attendID)
@@ -194,10 +228,10 @@ class TeachController extends Controller
 
                 if ($studentAttendance) {
                     $updates = [
-                        'di_hoc' => $studentAttendance->{'di_hoc'} - ($currentStatus == 'đi học' ? 1 : 0) + ($status == 'đi học' ? 1 : 0),
-                        'nghi_co_phep' => $studentAttendance->{'nghi_co_phep'} - ($currentStatus == 'nghỉ có phép' ? 1 : 0) + ($status == 'nghỉ có phép' ? 1 : 0),
-                        'nghi_khong_phep' => $studentAttendance->{'nghi_khong_phep'} - ($currentStatus == 'nghỉ không phép' ? 1 : 0) + ($status == 'nghỉ không phép' ? 1 : 0),
-                        'tre' => $studentAttendance->{'tre'} - ($currentStatus == 'trễ' ? 1 : 0) + ($status == 'trễ' ? 1 : 0),
+                        'di_hoc' => $studentAttendance->di_hoc - ($currentStatus == 'đi học' ? 0 : 0) + ($status == 'đi học' ? 0 : 0),
+                        'nghi_co_phep' => $studentAttendance->nghi_co_phep - ($currentStatus == 'nghỉ có phép' ? 0 : 0) + ($status == 'nghỉ có phép' ? 0 : 0),
+                        'nghi_khong_phep' => $studentAttendance->nghi_khong_phep - ($currentStatus == 'nghỉ không phép' ? $hours : 0) + ($status == 'nghỉ không phép' ? $hours : 0),
+                        'tre' => $studentAttendance->tre - ($currentStatus == 'trễ' ? $hours * (1/3) : 0) + ($status == 'trễ' ? $hours * (1/3) : 0),
                     ];
 
                     DB::table('student_attend_manage')
@@ -208,23 +242,22 @@ class TeachController extends Controller
                     DB::table('student_attend_manage')->insert([
                         'studentID' => $studentID,
                         'subjectID' => $subjectID,
-                        'di_hoc' => ($status == 'đi học' ? 1 : 0),
-                        'nghi_co_phep' => ($status == 'nghỉ có phép' ? 1 : 0),
-                        'nghi_khong_phep' => ($status == 'nghỉ không phép' ? 1 : 0),
-                        'tre' => ($status == 'trễ' ? 1 : 0),
+                        'di_hoc' => ($status == 'đi học' ? 0 : 0),
+                        'nghi_co_phep' => ($status == 'nghỉ có phép' ? 0 : 0),
+                        'nghi_khong_phep' => ($status == 'nghỉ không phép' ? $hours : 0),
+                        'tre' => ($status == 'trễ' ? $hours * (1/3) : 0),
                     ]);
                 }
             }
         }
 
-
         return redirect()->back()->with('success', 'Sửa điểm danh thành công.');
     }
 
 
+
     public function showChuyenCan($id)
     {
-
         $uniqueShiftDetails = DB::table('schoolShiftDetail')
             ->select('schoolShiftID', DB::raw('MIN(id) as id'))
             ->groupBy('schoolShiftID');
@@ -239,21 +272,21 @@ class TeachController extends Controller
             ->join('schoolShiftDetail as ssdt', 'uniqueShiftDetails.id', '=', 'ssdt.id')
             ->join('_shifts as _s', '_s.id', '=', 'ssdt.shiftsID')
             ->where('sam.subjectID', $id)
-            ->select('sam.*', 's.*', 'ss.*', 'std.*', 'ssdt.*', '_s.*')
+            ->select('sam.*', 's.subjectName', 'std.studentName', '_s.*', 's.subjectTime')
             ->get();
 
-
         if ($chuyenCan->isNotEmpty()) {
-
-            $subjectTime = $chuyenCan->first()->subjectTime;
-
-            $tongSoBuoi = $subjectTime / 4;
+            $subjectTime = $chuyenCan->first()->subjectTime; // Lấy tổng số giờ môn học
         } else {
-
-            $tongSoBuoi = null;
+            $subjectTime = null;
         }
-        return view('teacher.chuyencanDetails', ['chuyenCan' => $chuyenCan,'tongSoBuoi'=> $tongSoBuoi]);
+
+        return view('teacher.chuyencanDetails', ['chuyenCan' => $chuyenCan, 'subjectTime' => $subjectTime]);
     }
+
+
+
+
     public function listChuyenCan()
     {
         $teacherID = session('teacherID', Auth::user()->id);
