@@ -24,23 +24,68 @@
     </ul>
 @endsection
 @section('content')
+    <div class="onTheContent">
+        <div class="addTime">
+            <div class="chonGio">
+                <h4>Chọn khung giờ điểm danh</h4>
+                <label>
+                    <select class="select-element" name="time_in">
+                        <option value="8:00">8:00</option>
+                        <option value="9:00">9:00</option>
+                        <option value="10:00">10:00</option>
+                        <option value="11:00">11:00</option>
+                    </select>
+                </label>
+                <span style="font-size: 25px">-</span>
+                <label>
+                    <select class="select-element" name="time_out">
+                        <option value="8:00">8:00</option>
+                        <option value="9:00">9:00</option>
+                        <option value="10:00">10:00</option>
+                        <option value="11:00">11:00</option>
+                    </select>
+                </label>
+            </div>
+        </div>
+        <div class="p-2 timeMinus">
+            <h5 class="p-2">Thông tin môn học</h5>
+            <table class="table table-bordered">
+                <tr>
+                    <th>Tên lớp</th>
+                    <td>D06K14</td>
+                </tr>
+                <tr>
+                    <th>Tên môn</th>
+                    <td>Java</td>
+                </tr>
+                <tr>
+                    <th>Thời gian còn lại</th>
+                    <td>{{$subject->subjectTime - ($soTiengHoc * 4)}}</td>
+                </tr>
+            </table>
+        </div>
+    </div>
     <div class="content">
         <div class="onTheTable">
             <div class="onTheTable_element">
                 <b style="color: var(--blue-hover)">Số lượng: </b>
-                <span>{{sizeof($students)}} </span>
+                <span id="total-students">{{sizeof($students)}} </span>
             </div>
             <div class="onTheTable_element">
                 <b style="color: #04cb04">Đi học: </b>
-                <span>{{sizeof($students)}}  </span>
+                <span id="di-hoc-count">{{sizeof($students)}}  </span>
             </div>
             <div class="onTheTable_element">
                 <b style="color: #dede20">Đi muộn: </b>
-                <span>0 </span>
+                <span id="tre-count">0 </span>
+            </div>
+            <div class="onTheTable_element">
+                <b style="color: purple">Nghỉ có phép: </b>
+                <span id="nghi-phep-count">0 </span>
             </div>
             <div class="onTheTable_element">
                 <b style="color: red">Nghỉ học: </b>
-                <span>0 </span>
+                <span id="nghi-count">0 </span>
             </div>
         </div>
         <table class="table table-bordered">

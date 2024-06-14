@@ -31,6 +31,7 @@ class TeachController extends Controller
         $todayName = $daysOfWeek[$today->dayOfWeek];
 
         $currentTime = $today->format('H:i:s');
+        $currentTimeToo = $today->format('Y-m-d H:i:s');
         $StudyShifts = DB::table('schoolShift')
             ->join('schoolShiftDetail', 'schoolShift.id', '=', 'schoolShiftDetail.schoolShiftID')
             ->join('_shifts', 'schoolShiftDetail.shiftsID', '=', '_shifts.id')
@@ -53,8 +54,11 @@ class TeachController extends Controller
             ->where('_shifts.time_in','<=', $currentTime)
             ->where('_shifts.time_out','>=', $currentTime)
             ->get();
-
-        return view('teacher.beforediemdanh', ['StudyShifts' => $StudyShifts]);
+//        $diemDanhSucc = DB::table('attendance')
+//            ->where('date',$today->toDateString())
+//            ->where('created_at','<=',$currentTimeToo)
+//            ->count();
+        return view('teacher.beforediemdanh', ['StudyShifts' => $StudyShifts,'currentTime'=> $currentTime]);
         }
 
     public function TeachShiftAttendance($classID, $schoolShiftID, $subjectID)
@@ -125,9 +129,14 @@ class TeachController extends Controller
                 ]);
             }
         }
-
-            return redirect()->route('teacher.TeachShift')
-                ->with('success', 'Đã lưu điểm danh thành công!');
+            return redirect()->route('class.suadiemdanh',
+                [
+                'classID' => $request->input('classID'),
+                'schoolShiftID' => $request->input('schoolShiftID'),
+                'subjectID' => $request->input('subjectID'),
+                ])
+                ->with('success', 'Đã lưu điểm danh thành công!')
+                ;
     }
 
     public function showLatestAttendance($classID, $schoolShiftID, $subjectID)
@@ -145,11 +154,21 @@ class TeachController extends Controller
                 'students.studentName',
                 'attend_detail.status')
             ->get();
+        $subject = DB::table('attendance')
+            ->join('schoolShift','attendance.schoolShiftID' , '=','schoolShift.id')
+            ->join('subjects','schoolShift.subjectID','=','subjects.id')
+            ->where('attendance.schoolShiftID',$schoolShiftID)
+            ->first();
+        $soTiengHoc = DB::table('attendance')
+            ->where('attendance.schoolShiftID',$schoolShiftID)
+            ->count();
         return view('teacher.suadiemdanh',
                ['students' => $students,
                 'schoolShiftID' => $schoolShiftID,
                    'subjectID' => $subjectID,
-                   'attendID' => $latestAttendID]);
+                   'attendID' => $latestAttendID,
+                   'subject'=> $subject,
+                   'soTiengHoc'=>$soTiengHoc]);
     }
 
     public function suadiemdanh(Request $request)
@@ -198,7 +217,8 @@ class TeachController extends Controller
             }
         }
 
-        return redirect()->back()->with('success', 'Attendance updated successfully.');
+
+        return redirect()->back()->with('success', 'Sửa điểm danh thành công.');
     }
 
 

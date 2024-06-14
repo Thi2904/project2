@@ -35,7 +35,7 @@ class SchoolShiftController extends Controller
                 )
                 ->paginate(3);
             if ($StudyShifts->isEmpty()) {
-                return redirect()->back()->with('warn', 'Không tìm thấy giảng viên.');
+                return redirect()->back()->with('warning', 'Không tìm thấy giảng viên.');
             }
 
         }
