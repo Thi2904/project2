@@ -16,6 +16,7 @@ return new class extends Migration
             $table->foreignId('schoolShiftID')->constrained('schoolShift','id');
             $table->time('time_in');
             $table->time('time_out');
+            $table->foreignId('teacherID')->constrained('teachers','id');
             $table->date('date');
             $table->timestamps();
         });

@@ -13,6 +13,7 @@ class Attendance extends Model
         'schoolShiftID',
         'time_in',
         'time_out',
+        'teacherID',
         'date'
     ];
 

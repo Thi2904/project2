@@ -98,6 +98,7 @@ class TeachController extends Controller
             'schoolShiftID' => $request->input('schoolShiftID'),
             'time_in' => $request->input('time_in'),
             'time_out' => $request->input('time_out'),
+            'teacherID' => $request->input('teacherID'),
             'date' => now(),
         ]);
 

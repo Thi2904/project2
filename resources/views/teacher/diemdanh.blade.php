@@ -21,7 +21,7 @@
 
 @section('content')
     <form action="{{ route('submit.diemdanh') }}" method="POST">
-
+        <input type="hidden" name="teacherID" value="{{ session('teacherID', Auth::user()->id) }}">
     <div class="onTheContent">
         <div class="addTime">
             <div class="chonGio">
