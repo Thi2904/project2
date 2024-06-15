@@ -15,12 +15,7 @@
                 <span>Chuyên cần</span>
             </a>
         </li>
-        <li>
-            <i class="fa-solid fa-retweet"></i>
-            <a href="">
-                <span>Dạy thay</span>
-            </a>
-        </li>
+
     </ul>
 @endsection
 @section('content')
@@ -104,10 +99,18 @@
                     <td>{{$StudyShift -> name}}</td>
                     <td>{{$StudyShift -> time_in}} - {{$StudyShift -> time_out}}</td>
                     <td class="chuaLinkDiemDanh" style="text-align: start">
-                        <a id="{{$StudyShift->subjectID}}" class="linkDiemDanh" href="{{route('class.showdiemdanh', ['classID' => $StudyShift->classID,'schoolShiftID' => $StudyShift->id,'subjectID' => $StudyShift->subjectID])}}">
-                            Điểm danh
-                        </a>
-                        <a class="linkSuaDiemDanh"  href="{{route('class.suadiemdanh', ['classID' => $StudyShift->classID,'schoolShiftID' => $StudyShift->id,'subjectID' => $StudyShift->subjectID])}}">Sửa điểm danh</a>
+                        @if(isset($checkHoc))
+                            <a hidden id="{{$StudyShift->subjectID}}" class="linkDiemDanh" href="{{route('class.showdiemdanh', ['classID' => $StudyShift->classID,'schoolShiftID' => $StudyShift->id,'subjectID' => $StudyShift->subjectID])}}">
+                                Điểm danh
+                            </a>
+                            <a class="linkSuaDiemDanh"  href="{{route('class.suadiemdanh', ['classID' => $StudyShift->classID,'schoolShiftID' => $StudyShift->id,'subjectID' => $StudyShift->subjectID])}}">Sửa điểm danh</a>
+                        @else
+                            <a  id="{{$StudyShift->subjectID}}" class="linkDiemDanh" href="{{route('class.showdiemdanh', ['classID' => $StudyShift->classID,'schoolShiftID' => $StudyShift->id,'subjectID' => $StudyShift->subjectID])}}">
+                                Điểm danh
+                            </a>
+                            <a hidden class="linkSuaDiemDanh"  href="{{route('class.suadiemdanh', ['classID' => $StudyShift->classID,'schoolShiftID' => $StudyShift->id,'subjectID' => $StudyShift->subjectID])}}">Sửa điểm danh</a>
+                        @endif
+
                     </td>
                 </tr>
             @empty

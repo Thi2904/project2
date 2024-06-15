@@ -15,12 +15,7 @@
                 <span>Chuyên cần</span>
             </a>
         </li>
-        <li>
-            <i class="fa-solid fa-retweet"></i>
-            <a href="">
-                <span>Dạy thay</span>
-            </a>
-        </li>
+
     </ul>
 @endsection
 @section('content')

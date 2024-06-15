@@ -18,6 +18,7 @@ class TeachController extends Controller
 
         $today = Carbon::now();
         $today->setTimezone(new \DateTimeZone('Asia/Ho_Chi_Minh'));
+        $currentTimeToo = $today->format('Y-m-d');
 
         $daysOfWeek = [
             0 => 'Chủ nhật',
@@ -32,7 +33,6 @@ class TeachController extends Controller
         $todayName = $daysOfWeek[$today->dayOfWeek];
 
         $currentTime = $today->format('H:i:s');
-        $currentTimeToo = $today->format('Y-m-d H:i:s');
         $StudyShifts = DB::table('schoolShift')
             ->join('schoolShiftDetail', 'schoolShift.id', '=', 'schoolShiftDetail.schoolShiftID')
             ->join('_shifts', 'schoolShiftDetail.shiftsID', '=', '_shifts.id')
@@ -55,11 +55,21 @@ class TeachController extends Controller
             ->where('_shifts.time_in','<=', $currentTime)
             ->where('_shifts.time_out','>=', $currentTime)
             ->get();
-//        $diemDanhSucc = DB::table('attendance')
-//            ->where('date',$today->toDateString())
-//            ->where('created_at','<=',$currentTimeToo)
-//            ->count();
-        return view('teacher.beforediemdanh', ['StudyShifts' => $StudyShifts,'currentTime'=> $currentTime]);
+        $checkHoc = DB::table('attendance')
+            ->join('schoolShift','attendance.schoolShiftID','=','schoolShift.id')
+            ->join('schoolShiftDetail','schoolShiftDetail.schoolShiftID','=','schoolShift.id')
+            ->join('_shifts','schoolShiftDetail.shiftsID','=','_shifts.id')
+            ->where('attendance.date',$currentTimeToo)
+            ->where('attendance.time_out','>',$currentTime)
+            ->first();
+
+        if ($checkHoc == null){
+            return view('teacher.beforediemdanh', ['StudyShifts' => $StudyShifts,'currentTime'=> $currentTime]);
+
+        }else{
+            return view('teacher.beforediemdanh', ['StudyShifts' => $StudyShifts,'currentTime'=> $currentTime,'checkHoc'=> $checkHoc]);
+
+        }
         }
 
     public function TeachShiftAttendance($classID, $schoolShiftID, $subjectID)
@@ -69,11 +79,12 @@ class TeachController extends Controller
         $soTiengHoc = DB::table('attendance')
             ->where('attendance.schoolShiftID',$schoolShiftID)
             ->count();
-        $subject = DB::table('attendance')
-            ->join('schoolShift','attendance.schoolShiftID' , '=','schoolShift.id')
-            ->join('subjects','schoolShift.subjectID','=','subjects.id')
-            ->where('attendance.schoolShiftID',$schoolShiftID)
+        $subject = DB::table('schoolShiftDetail')
+            ->join('schoolShift as sS','sS.id' , '=','schoolShiftDetail.schoolShiftID')
+            ->join('subjects','sS.subjectID','=','subjects.id')
+            ->where('schoolShiftDetail.schoolShiftID',$schoolShiftID)
             ->first();
+
         return view('teacher.diemdanh', ['students' => $students, 'schoolShiftID' => $schoolShiftID, 'subjectID' => $subjectID,'soTiengHoc'=>$soTiengHoc,'subject'=>$subject]);
     }
 
@@ -258,6 +269,8 @@ class TeachController extends Controller
 
     public function showChuyenCan($id)
     {
+
+
         $uniqueShiftDetails = DB::table('schoolShiftDetail')
             ->select('schoolShiftID', DB::raw('MIN(id) as id'))
             ->groupBy('schoolShiftID');
@@ -280,6 +293,7 @@ class TeachController extends Controller
         } else {
             $subjectTime = null;
         }
+
 
         return view('teacher.chuyencanDetails', ['chuyenCan' => $chuyenCan, 'subjectTime' => $subjectTime]);
     }

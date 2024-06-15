@@ -115,7 +115,15 @@ class AdminController extends Controller
             'gender' => 'required|string|max:255',
             'classID' => 'required|exists:classes,id'
         ]);
+        $std = DB::table('students')->where('classID',$request->input('classID'))->get();
+        foreach ($std as $st){
+            if($request->input('email') == $st->email){
+                return redirect()->back()->with('error', 'Email đã tồn tại vui lòng nhập mail khác.');
+            }elseif ($request->input('phoneNumber') == $st->phoneNumber){
+                return redirect()->back()->with('error', 'Số điện thoại đã tồn tại vui lòng nhập số điện thoại khác.');
 
+            }
+        }
         $student = Student::create($data);
         return redirect()->back()->with('success', 'Đã thêm học sinh mới thành công.');
     }

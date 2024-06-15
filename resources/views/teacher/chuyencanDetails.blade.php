@@ -15,12 +15,7 @@
                 <span>Chuyên cần</span>
             </a>
         </li>
-        <li>
-            <i class="fa-solid fa-retweet"></i>
-            <a href="">
-                <span>Dạy thay</span>
-            </a>
-        </li>
+
     </ul>
 @endsection
 @section('content')
@@ -65,7 +60,7 @@
                 <tr>
                     <td>{{ $key + 1 }}</td>
                     <td>{{ $cC->studentName }}</td>
-                    <td class="{{ $colorClass }}">{{ number_format($percentage, 2) }}%</td>
+                    <td class="{{ $colorClass }}">{{100 - number_format($percentage, 2) }}%</td>
                 </tr>
             @endforeach
             </tbody>

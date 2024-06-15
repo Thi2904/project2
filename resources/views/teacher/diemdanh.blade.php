@@ -15,12 +15,7 @@
                 <span>Chuyên cần</span>
             </a>
         </li>
-        <li>
-            <i class="fa-solid fa-retweet"></i>
-            <a href="">
-                <span>Dạy thay</span>
-            </a>
-        </li>
+
     </ul>
 @endsection
 
@@ -37,6 +32,12 @@
                         <option value="9:00">9:00</option>
                         <option value="10:00">10:00</option>
                         <option value="11:00">11:00</option>
+                        <option value="12:00">12:00</option>
+                        <option value="13:30">13:30</option>
+                        <option value="14:30">14:30</option>
+                        <option value="15:30">15:30</option>
+                        <option value="16:30">16:30</option>
+                        <option value="17:30">17:30</option>
                     </select>
                 </label>
                 <span style="font-size: 25px">-</span>
@@ -46,6 +47,12 @@
                         <option value="9:00">9:00</option>
                         <option value="10:00">10:00</option>
                         <option value="11:00">11:00</option>
+                        <option value="12:00">12:00</option>
+                        <option value="13:30">13:30</option>
+                        <option value="14:30">14:30</option>
+                        <option value="15:30">15:30</option>
+                        <option value="16:30">16:30</option>
+                        <option value="17:30">17:30</option>
                     </select>
                 </label>
             </div>

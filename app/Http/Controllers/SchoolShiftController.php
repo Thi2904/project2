@@ -164,27 +164,32 @@ class SchoolShiftController extends Controller
     }
     public function addSchoolShiftDetail(Request $request)
     {
-        try {
+
             $data = $request->validate([
                 "schoolShiftID" => "required|exists:schoolShift,id",
                 "dateInWeek" => "required|string|max:255",
                 "classroomID" => "required|exists:classroom,id",
                 "shiftsID" => "required|exists:_shifts,id",
             ]);
-
-            $schoolShiftDetail = SchoolShiftDetail::create($data);
-        } catch (\Illuminate\Validation\ValidationException $e) {
-            // Log lỗi xác thực
-            Log::error('Validation Error: ', $e->errors());
-            return response()->json(['error' => $e->errors()], 422);
-        } catch (\Exception $e) {
-            // Log các lỗi khác
-            Log::error('Error: ' . $e->getMessage());
-            return response()->json(['error' => 'An error occurred while creating the record.'], 500);
-        }
+            $checkData = DB::table('schoolShiftDetail')
+                ->where('schoolShiftID',$request->input('schoolShiftID'))
+                ->where('dateInWeek',$request->input('dateInWeek'))
+                ->where('classroomID',$request->input('classroomID'))
+                ->where('shiftsID',$request->input('shiftsID'))
+                ->count();
 
 
-        return redirect()->back()->with('success', 'Thêm ngày học thành công.');
+            if($checkData > 0){
+                return redirect()->back()->with('error', 'Ca học đã được xếp vui lòng chọn ca khác.');
+            }
+            else{
+                $schoolShiftDetail = SchoolShiftDetail::create($data);
+                return redirect()->back()->with('success', 'Thêm ngày học thành công.');
+
+            }
+
+
+
     }
     public function editSchoolShiftDetail(Request $request, SchoolShiftDetail $SchoolShift)
     {
