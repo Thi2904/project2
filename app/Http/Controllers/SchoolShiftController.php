@@ -211,7 +211,7 @@ class SchoolShiftController extends Controller
             ->where('ssd.schoolShiftID', $request->input('schoolShiftID'))
             ->where('ssd.dateInWeek', $request->input('dateInWeek'))
             ->where('ssd.classroomID', $request->input('classroomID'))
-            ->where('ssd.id', '!=', $SchoolShift->id) // Exclude the current shift being edited
+            ->where('ssd.id', '!=', $SchoolShift->id)
             ->where(function ($query) use ($newShift) {
                 $query->where(function ($query) use ($newShift) {
                     $query->where('s.time_in', '<', $newShift->time_out)
