@@ -171,10 +171,8 @@ class SchoolShiftController extends Controller
             "shiftsID" => "required|exists:_shifts,id",
         ]);
 
-        // Lấy thông tin ca học mới từ cơ sở dữ liệu
         $newShift = DB::table('_shifts')->where('id', $request->input('shiftsID'))->first();
 
-        // Kiểm tra xem ca học có bị trùng hoặc chồng lấn với các ca học hiện có không
         $conflictShifts = DB::table('schoolShiftDetail as ssd')
             ->join('_shifts as s', 'ssd.shiftsID', '=', 's.id')
             ->where('ssd.schoolShiftID', $request->input('schoolShiftID'))
@@ -206,12 +204,33 @@ class SchoolShiftController extends Controller
             "shiftsID" => "required|exists:_shifts,id",
         ]);
 
-        if ($SchoolShift->update($data)) {
-            return redirect()->back()->with('success', 'Sửa ngày học thành công.');
+        $newShift = DB::table('_shifts')->where('id', $request->input('shiftsID'))->first();
+
+        $conflictShifts = DB::table('schoolShiftDetail as ssd')
+            ->join('_shifts as s', 'ssd.shiftsID', '=', 's.id')
+            ->where('ssd.schoolShiftID', $request->input('schoolShiftID'))
+            ->where('ssd.dateInWeek', $request->input('dateInWeek'))
+            ->where('ssd.classroomID', $request->input('classroomID'))
+            ->where('ssd.id', '!=', $SchoolShift->id) // Exclude the current shift being edited
+            ->where(function ($query) use ($newShift) {
+                $query->where(function ($query) use ($newShift) {
+                    $query->where('s.time_in', '<', $newShift->time_out)
+                        ->where('s.time_out', '>', $newShift->time_in);
+                });
+            })
+            ->count();
+
+        if ($conflictShifts > 0) {
+            return redirect()->back()->with('error', 'Ca học đã được xếp hoặc bị chồng lấn. Vui lòng chọn ca khác.');
         } else {
-            return redirect()->back()->with('error', 'Sửa ngày học thất bại');
+            if ($SchoolShift->update($data)) {
+                return redirect()->back()->with('success', 'Sửa ngày học thành công.');
+            } else {
+                return redirect()->back()->with('error', 'Sửa ngày học thất bại');
+            }
         }
     }
+
     public function deleteSchoolShiftDetail(SchoolShiftDetail $SchoolShift)
     {
         $SchoolShift->delete();
