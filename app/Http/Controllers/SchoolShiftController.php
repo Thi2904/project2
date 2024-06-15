@@ -164,33 +164,39 @@ class SchoolShiftController extends Controller
     }
     public function addSchoolShiftDetail(Request $request)
     {
+        $data = $request->validate([
+            "schoolShiftID" => "required|exists:schoolShift,id",
+            "dateInWeek" => "required|string|max:255",
+            "classroomID" => "required|exists:classroom,id",
+            "shiftsID" => "required|exists:_shifts,id",
+        ]);
 
-            $data = $request->validate([
-                "schoolShiftID" => "required|exists:schoolShift,id",
-                "dateInWeek" => "required|string|max:255",
-                "classroomID" => "required|exists:classroom,id",
-                "shiftsID" => "required|exists:_shifts,id",
-            ]);
-            $checkData = DB::table('schoolShiftDetail')
-                ->where('schoolShiftID',$request->input('schoolShiftID'))
-                ->where('dateInWeek',$request->input('dateInWeek'))
-                ->where('classroomID',$request->input('classroomID'))
-                ->where('shiftsID',$request->input('shiftsID'))
-                ->count();
+        // Lấy thông tin ca học mới từ cơ sở dữ liệu
+        $newShift = DB::table('_shifts')->where('id', $request->input('shiftsID'))->first();
 
+        // Kiểm tra xem ca học có bị trùng hoặc chồng lấn với các ca học hiện có không
+        $conflictShifts = DB::table('schoolShiftDetail as ssd')
+            ->join('_shifts as s', 'ssd.shiftsID', '=', 's.id')
+            ->where('ssd.schoolShiftID', $request->input('schoolShiftID'))
+            ->where('ssd.dateInWeek', $request->input('dateInWeek'))
+            ->where('ssd.classroomID', $request->input('classroomID'))
+            ->where(function ($query) use ($newShift) {
+                $query->where(function ($query) use ($newShift) {
+                    $query->where('s.time_in', '<', $newShift->time_out)
+                        ->where('s.time_out', '>', $newShift->time_in);
+                });
+            })
+            ->count();
 
-            if($checkData > 0){
-                return redirect()->back()->with('error', 'Ca học đã được xếp vui lòng chọn ca khác.');
-            }
-            else{
-                $schoolShiftDetail = SchoolShiftDetail::create($data);
-                return redirect()->back()->with('success', 'Thêm ngày học thành công.');
-
-            }
-
-
-
+        if ($conflictShifts > 0) {
+            return redirect()->back()->with('error', 'Ca học đã được xếp hoặc bị chồng lấn. Vui lòng chọn ca khác.');
+        } else {
+            $schoolShiftDetail = SchoolShiftDetail::create($data);
+            return redirect()->back()->with('success', 'Thêm ngày học thành công.');
+        }
     }
+
+
     public function editSchoolShiftDetail(Request $request, SchoolShiftDetail $SchoolShift)
     {
         $data = $request->validate([

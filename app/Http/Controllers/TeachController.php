@@ -129,7 +129,7 @@ class TeachController extends Controller
                 case 'nghỉ có phép':
                     break;
                 case 'trễ':
-                    $statusCounts[$studentID]['trễ'] += $hours * (1/3);
+                    $statusCounts[$studentID]['trễ'] += $hours;
                     break;
                 case 'nghỉ không phép':
                     $statusCounts[$studentID]['nghỉ không phép'] += $hours;
@@ -171,6 +171,7 @@ class TeachController extends Controller
             'subjectID' => $request->input('subjectID'),
         ])->with('success', 'Đã lưu điểm danh thành công!');
     }
+
 
 
 
@@ -242,7 +243,7 @@ class TeachController extends Controller
                         'di_hoc' => $studentAttendance->di_hoc - ($currentStatus == 'đi học' ? 0 : 0) + ($status == 'đi học' ? 0 : 0),
                         'nghi_co_phep' => $studentAttendance->nghi_co_phep - ($currentStatus == 'nghỉ có phép' ? 0 : 0) + ($status == 'nghỉ có phép' ? 0 : 0),
                         'nghi_khong_phep' => $studentAttendance->nghi_khong_phep - ($currentStatus == 'nghỉ không phép' ? $hours : 0) + ($status == 'nghỉ không phép' ? $hours : 0),
-                        'tre' => $studentAttendance->tre - ($currentStatus == 'trễ' ? $hours * (1/3) : 0) + ($status == 'trễ' ? $hours * (1/3) : 0),
+                        'tre' => $studentAttendance->tre - ($currentStatus == 'trễ' ? $hours  : 0) + ($status == 'trễ' ? $hours : 0),
                     ];
 
                     DB::table('student_attend_manage')
@@ -256,7 +257,7 @@ class TeachController extends Controller
                         'di_hoc' => ($status == 'đi học' ? 0 : 0),
                         'nghi_co_phep' => ($status == 'nghỉ có phép' ? 0 : 0),
                         'nghi_khong_phep' => ($status == 'nghỉ không phép' ? $hours : 0),
-                        'tre' => ($status == 'trễ' ? $hours * (1/3) : 0),
+                        'tre' => ($status == 'trễ' ? $hours : 0),
                     ]);
                 }
             }
@@ -264,6 +265,7 @@ class TeachController extends Controller
 
         return redirect()->back()->with('success', 'Sửa điểm danh thành công.');
     }
+
 
 
 

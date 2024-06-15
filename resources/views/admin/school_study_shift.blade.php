@@ -177,7 +177,14 @@
                             <input name="schoolShiftID" type="hidden" value="{{$SchoolShift->schoolShiftID}}">
                             <div class="form-element">
                                 <label for="dateInWeek">Ngày học</label>
-                                <input name="dateInWeek" type="text" id="dateInWeek" placeholder="Nhập ngày học">
+                                <select class="select-element" name="dateInWeek" id="dateInWeek">
+                                    <option value="Thứ hai">Thứ hai</option>
+                                    <option value="Thứ ba">Thứ ba</option>
+                                    <option value="Thứ tư">Thứ tư</option>
+                                    <option value="Thứ năm">Thứ năm</option>
+                                    <option value="Thứ sáu">Thứ sáu</option>
+                                    <option value="Thứ bảy">Thứ bảy</option>
+                                </select>
                             </div>
 
                             <div class="form-element">

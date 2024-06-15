@@ -54,13 +54,13 @@
                     $totalTime = $cC->subjectTime;
                     $lateTime = $cC->tre; // Giờ trễ
                     $absentWithoutPermissionTime = $cC->nghi_khong_phep; // Giờ nghỉ không phép
-                    $percentage = ($lateTime  + $absentWithoutPermissionTime) / $totalTime * 100;
+                    $percentage = (($lateTime * (1/3)) + $absentWithoutPermissionTime) / $totalTime * 100;
                     $colorClass = $percentage > 50 ? 'red' : ($percentage > 20 ? 'yellow' : 'green');
                 @endphp
                 <tr>
                     <td>{{ $key + 1 }}</td>
                     <td>{{ $cC->studentName }}</td>
-                    <td class="{{ $colorClass }}">{{100 - number_format($percentage, 2) }}%</td>
+                    <td class="{{ $colorClass }}">{{ number_format($percentage, 2) }}%</td>
                 </tr>
             @endforeach
             </tbody>
