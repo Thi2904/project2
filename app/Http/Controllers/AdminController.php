@@ -33,15 +33,21 @@ class AdminController extends Controller
 
     public function addClass(Request $request)
     {
+
         $data = $request->validate([
             'className' => 'required|string|max:255',
             'grade' => 'required|string|max:255',
             'curriculumID' => 'required|exists:curriculum,id',
             'majorID' => 'required|exists:major,id'
         ]);
+        $class = DB::table('classes')->get();
+        foreach ($class as $cls) {
+            if ($request->input('className') === $cls->className && $request->input('grade') === $cls->grade) {
+                return redirect()->back()->with('error', 'Tên lớp đã tồn tại, vui lòng nhập lại!');
+            }
+        }
 
         $classes = Classes::create($data);
-
         return redirect()->back()->with('success', 'Đã thêm lớp thành công.');
     }
 
@@ -150,5 +156,23 @@ class AdminController extends Controller
             return redirect()->back()->with('success', 'Đã xóa sinh viên thành công.');
         }
 
+    }
+    public function getCTDT($majorID)
+    {
+        $layCTDT = DB::table('curriculum')->where('majorID',$majorID)->get();
+
+        if ($layCTDT->isEmpty()) {
+            $layCTDT = collect([['curriculumName' => 'Không tìm thấy CTDT của chuyên ngành']]);
+        }
+        return response()->json($layCTDT);
+    }
+    public function getEditCTDT($majorID)
+    {
+        $layCTDT = DB::table('curriculum')->where('majorID',$majorID)->get();
+
+        if ($layCTDT->isEmpty()) {
+            $layCTDT = collect([['curriculumName' => 'Không tìm thấy CTDT của chuyên ngành']]);
+        }
+        return response()->json($layCTDT);
     }
 }

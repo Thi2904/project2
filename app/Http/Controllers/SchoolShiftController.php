@@ -187,7 +187,7 @@ class SchoolShiftController extends Controller
             ->count();
 
         if ($conflictShifts > 0) {
-            return redirect()->back()->with('error', 'Ca học đã được xếp hoặc bị chồng lấn. Vui lòng chọn ca khác.');
+            return redirect()->back()->with('error', 'Ca học đã được xếp . Vui lòng chọn ca khác.');
         } else {
             $schoolShiftDetail = SchoolShiftDetail::create($data);
             return redirect()->back()->with('success', 'Thêm ngày học thành công.');

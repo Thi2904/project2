@@ -39,16 +39,16 @@ class DatabaseSeeder extends Seeder
         ]);
 
         DB::table("major")->insert([
-            "majorName" => "Dev"
+            "majorName" => "Lập trình máy tính"
         ]);
         DB::table("major")->insert([
-            "majorName" => "Des"
+            "majorName" => "Thiết kế đồ họa"
         ]);
         DB::table("major")->insert([
             "majorName" => "Marketing"
         ]);
         DB::table("major")->insert([
-            "majorName" => "Security"
+            "majorName" => "An ninh mạng"
         ]);
 
         DB::table('_shifts')->insert([

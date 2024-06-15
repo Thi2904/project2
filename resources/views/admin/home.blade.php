@@ -74,6 +74,7 @@
                 <div class="form-element">
                     <label for="className">Tên chuyên ngành</label>
                     <select class="select-element" name="majorID" id="majorID">
+                        <option value="-1">Chọn chuyên ngành</option>
                         @foreach($majors as $major)
                             <option value="{{ $major->id }}">
                                 {{ $major->majorName }}
@@ -84,11 +85,7 @@
                 <div class="form-element">
                     <label for="className">Chương trình học</label>
                     <select class="select-element" name="curriculumID" id="curriculumID">
-                        @foreach($curriculums as $curriculum)
-                            <option value="{{ $curriculum->id }}">
-                                {{ $curriculum->curriculumName }}
-                            </option>
-                        @endforeach
+                        <option value="0">Chọn chương trình đào tạo</option>
                     </select>
                 </div>
                 <div class="form-element">
@@ -152,9 +149,10 @@
                                 <label for="grade">Khóa</label>
                                 <input name="grade" value="{{$class->grade}}" type="text" id="grade" placeholder="Nhập khóa">
                             </div>
+                            <input hidden id="majorEditID" value="{{$class->majorID}}">
                             <div class="form-element">
                                 <label for="className">Chương trình học</label>
-                                <select class="select-element" name="curriculumID" id="curriculumID">
+                                <select class="select-element" name="curriculumID" id="curriculumEditID">
                                     @foreach($curriculums as $curriculum)
                                         <option value="{{ $curriculum->id }}" {{ $class->curriculumID == $curriculum->id ? 'selected' : '' }}>
                                             {{ $curriculum->curriculumName }}
@@ -205,4 +203,47 @@
 @section('fileJs')
     <script src="{{asset('bootstrap-5.0.2-dist/js/bootstrap.min.js')}}}"></script>
     <script src="{{asset('js/admin.js')}}"></script>
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $('#majorID').on('change', function() {
+                var majorID = $(this).val();
+                $('#curriculumID').empty();
+                if (majorID) {
+                    $.ajax({
+                        url: '/getCTDT/' + majorID,
+                        type: 'GET',
+                        dataType: 'json',
+                        success: function(data) {
+                            $.each(data, function(key, value) {
+                                $('#curriculumID').append('<option value="' + value.id + '">' + value.curriculumName + '</option>');
+                            });
+                        }
+                    });
+
+                } else {
+                    $('#curriculumID').append('<option value="">Chọn chương trình đào tạo</option>'); // Tùy chọn mặc định khi không có lớp học nào được chọn
+                }
+            });
+        });
+
+        $(document).ready(function() {
+            var majorID = $('#majorEditID').val();
+            if (majorID) {
+                $.ajax({
+                    url: '/getEditCTDT/' + majorID,
+                    type: 'GET',
+                    dataType: 'json',
+                    success: function(data) {
+                        $('#curriculumEditID').empty();
+                        $.each(data, function(key, value) {
+                            $('#curriculumEditID').append('<option value="' + value.id + '">' + value.curriculumName + '</option>');
+                        });
+                    }
+                });
+            }
+        });
+
+
+    </script>
+
 @endsection

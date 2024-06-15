@@ -43,8 +43,14 @@ class SubjectController extends Controller
             'curriculumVNName' => 'required|string|max:255',
             'majorID' => 'required|exists:major,id'
         ]);
+        $curiii = DB::table('curriculum')->get();
+        foreach ($curiii as $crii){
+            if(($request->input('curriculumName') === $crii->curriculumName || $request->input('curriculumCode') === $crii->curriculumCode || $request->input('curriculumVNName') === $crii->curriculumVNName) && $request->input('majorID') == $crii->majorID ){
+                return redirect()->back()->with('error', 'Chương trình đào tạo đã tồn tại vui lòng thêm chương trình đào tạo khác.');
+            }
+        }
         $curriculums = curriculums::create($data);
-        return redirect()->back()->with('success', 'Added new curriculum successfully.');
+        return redirect()->back()->with('success', 'Thêm chương trình đào tạo thành công.');
     }
 
     public function editCurriculum(Request $request, curriculums $curriculum)

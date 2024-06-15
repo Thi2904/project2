@@ -78,6 +78,11 @@ Route::get('/getTeachers/{classID}', [SchoolShiftController::class, 'getTeachers
 Route::get('/getEditSubjects/{classID}', [SchoolShiftController::class, 'getEditSubjects']);
 Route::get('/getEditTeachers/{classID}', [SchoolShiftController::class, 'getEditTeachers']);
 
+Route::get('/getCTDT/{majorID}', [AdminController::class, 'getCTDT']);
+Route::get('/getEditCTDT/{majorID}', [AdminController::class, 'getEditCTDT']);
+
+
+
 Route::get('/admin/showStudyShiftSchool/{StudyShift}', [\App\Http\Controllers\SchoolShiftController::class, 'showStudyShiftSchool'])->name('showStudyShiftSchool');
 Route::post('/addSchoolShiftDetail', [\App\Http\Controllers\SchoolShiftController::class,'addSchoolShiftDetail'])->name('addSchoolShiftDetail');
 Route::post('/editSchoolShiftDetail/{SchoolShift}', [\App\Http\Controllers\SchoolShiftController::class,'editSchoolShiftDetail'])->name('editSchoolShiftDetail');
