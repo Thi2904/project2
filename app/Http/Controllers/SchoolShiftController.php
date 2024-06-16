@@ -175,7 +175,6 @@ class SchoolShiftController extends Controller
 
         $conflictShifts = DB::table('schoolShiftDetail as ssd')
             ->join('_shifts as s', 'ssd.shiftsID', '=', 's.id')
-            ->where('ssd.schoolShiftID', $request->input('schoolShiftID'))
             ->where('ssd.dateInWeek', $request->input('dateInWeek'))
             ->where('ssd.classroomID', $request->input('classroomID'))
             ->where(function ($query) use ($newShift) {
@@ -208,7 +207,6 @@ class SchoolShiftController extends Controller
 
         $conflictShifts = DB::table('schoolShiftDetail as ssd')
             ->join('_shifts as s', 'ssd.shiftsID', '=', 's.id')
-            ->where('ssd.schoolShiftID', $request->input('schoolShiftID'))
             ->where('ssd.dateInWeek', $request->input('dateInWeek'))
             ->where('ssd.classroomID', $request->input('classroomID'))
             ->where('ssd.id', '!=', $SchoolShift->id)
