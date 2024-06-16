@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('schoolShift', function (Blueprint $table) {
             $table->id();
             $table->String("dateStart");
+            $table->integer("timeLeft")->default(0);
             $table->foreignId('subjectID')->constrained('subjects','id');
             $table->foreignId('classID')->constrained('classes','id');
             $table->foreignId('teacherID')->constrained('teachers','id');

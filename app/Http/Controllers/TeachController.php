@@ -78,9 +78,6 @@ class TeachController extends Controller
     {
         $students = DB::table("students")
             ->where('classID', $classID)->get();
-//        $soTiengHoc = DB::table('attendance')
-//            ->where('attendance.schoolShiftID',$schoolShiftID)
-//            ->count();
 
         $subject = DB::table('schoolShiftDetail')
             ->join('schoolShift as sS','sS.id' , '=','schoolShiftDetail.schoolShiftID')
@@ -112,12 +109,18 @@ class TeachController extends Controller
         $tIn = new DateTime($request->input('time_in'));
         $tOut = new DateTime($request->input('time_out'));
 
-        if(($tIn->diff($tOut))->h <= 0 || ($tIn->diff($tOut))->h > 4){
+        if (($tIn->diff($tOut))->h <= 0 || ($tIn->diff($tOut))->h > 4) {
             return redirect()->back()->with('error', 'Khung giờ chọn không hợp lệ !');
         }
+
         $today = Carbon::now();
         $today->setTimezone(new \DateTimeZone('Asia/Ho_Chi_Minh'));
         $currentTimeToo = $today->format('Y-m-d');
+
+        $timeIn = new DateTime($request->input('time_in'));
+        $timeOut = new DateTime($request->input('time_out'));
+        $interval = $timeIn->diff($timeOut);
+        $hours = $interval->h + ($interval->i / 60);
 
         $attendance = Attendance::create([
             'schoolShiftID' => $request->input('schoolShiftID'),
@@ -126,11 +129,6 @@ class TeachController extends Controller
             'teacherID' => $request->input('teacherID'),
             'date' => $currentTimeToo,
         ]);
-
-        $timeIn = new DateTime($request->input('time_in'));
-        $timeOut = new DateTime($request->input('time_out'));
-        $interval = $timeIn->diff($timeOut);
-        $hours = $interval->h + ($interval->i / 60);
 
         $statusCounts = [];
 
@@ -191,6 +189,10 @@ class TeachController extends Controller
             }
         }
 
+        DB::table('schoolShift')
+            ->where('id', $request->input('schoolShiftID'))
+            ->increment('timeLeft', $hours);
+
         return redirect()->route('class.suadiemdanh', [
             'classID' => $request->input('classID'),
             'schoolShiftID' => $request->input('schoolShiftID'),
@@ -198,6 +200,7 @@ class TeachController extends Controller
             'teachID' => $request->input('teacherID')
         ])->with('success', 'Đã lưu điểm danh thành công!');
     }
+
 
 
 
