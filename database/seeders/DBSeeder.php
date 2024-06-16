@@ -8,7 +8,8 @@ use Illuminate\Support\Facades\DB;
 class DBSeeder extends Seeder
 {
     public function run(): void
-    {DB::table('classroom')->insert([
+    {
+        DB::table('classroom')->insert([
         "classroomName" => 'Lab1',
         "infrastructure"=> '201',
         "floor" => '2'

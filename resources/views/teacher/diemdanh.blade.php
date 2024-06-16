@@ -70,7 +70,7 @@
                 </tr>
                 <tr>
                     <th>Thời gian còn lại</th>
-                    <td>{{ $subject->subjectTime - $soTiengHoc  - $hoursDifference }}</td>
+                    <td>{{ $subject->subjectTime -  $hoursDifference }}</td>
                 </tr>
             </table>
         </div>

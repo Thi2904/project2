@@ -103,12 +103,12 @@
                             <a hidden id="{{$StudyShift->subjectID}}" class="linkDiemDanh" href="{{route('class.showdiemdanh', ['classID' => $StudyShift->classID,'schoolShiftID' => $StudyShift->id,'subjectID' => $StudyShift->subjectID])}}">
                                 Điểm danh
                             </a>
-                            <a class="linkSuaDiemDanh"  href="{{route('class.suadiemdanh', ['classID' => $StudyShift->classID,'schoolShiftID' => $StudyShift->id,'subjectID' => $StudyShift->subjectID])}}">Sửa điểm danh</a>
+                            <a class="linkSuaDiemDanh"  href="{{route('class.suadiemdanh', ['classID' => $StudyShift->classID,'schoolShiftID' => $StudyShift->id,'subjectID' => $StudyShift->subjectID,'teachID'=>Auth::user()->id])}}">Sửa điểm danh</a>
                         @else
                             <a  id="{{$StudyShift->subjectID}}" class="linkDiemDanh" href="{{route('class.showdiemdanh', ['classID' => $StudyShift->classID,'schoolShiftID' => $StudyShift->id,'subjectID' => $StudyShift->subjectID])}}">
                                 Điểm danh
                             </a>
-                            <a hidden class="linkSuaDiemDanh"  href="{{route('class.suadiemdanh', ['classID' => $StudyShift->classID,'schoolShiftID' => $StudyShift->id,'subjectID' => $StudyShift->subjectID])}}">Sửa điểm danh</a>
+                            <a hidden class="linkSuaDiemDanh"  href="{{route('class.suadiemdanh', ['classID' => $StudyShift->classID,'schoolShiftID' => $StudyShift->id,'subjectID' => $StudyShift->subjectID,'teachID'=>Auth::user()->id])}}">Sửa điểm danh</a>
                         @endif
 
                     </td>

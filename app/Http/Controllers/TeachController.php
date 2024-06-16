@@ -18,6 +18,8 @@ class TeachController extends Controller
 
         $today = Carbon::now();
         $today->setTimezone(new \DateTimeZone('Asia/Ho_Chi_Minh'));
+        $currentTime = $today->format('H:i:s');
+
         $currentTimeToo = $today->format('Y-m-d');
 
         $daysOfWeek = [
@@ -76,9 +78,10 @@ class TeachController extends Controller
     {
         $students = DB::table("students")
             ->where('classID', $classID)->get();
-        $soTiengHoc = DB::table('attendance')
-            ->where('attendance.schoolShiftID',$schoolShiftID)
-            ->count();
+//        $soTiengHoc = DB::table('attendance')
+//            ->where('attendance.schoolShiftID',$schoolShiftID)
+//            ->count();
+
         $subject = DB::table('schoolShiftDetail')
             ->join('schoolShift as sS','sS.id' , '=','schoolShiftDetail.schoolShiftID')
             ->join('subjects','sS.subjectID','=','subjects.id')
@@ -94,7 +97,6 @@ class TeachController extends Controller
             'students' => $students,
             'schoolShiftID' => $schoolShiftID,
             'subjectID' => $subjectID,
-            'soTiengHoc' => $soTiengHoc,
             'subject' => $subject,
             'hoursDifference' => $hours
         ]);
@@ -113,12 +115,16 @@ class TeachController extends Controller
         if(($tIn->diff($tOut))->h <= 0 || ($tIn->diff($tOut))->h > 4){
             return redirect()->back()->with('error', 'Khung giờ chọn không hợp lệ !');
         }
+        $today = Carbon::now();
+        $today->setTimezone(new \DateTimeZone('Asia/Ho_Chi_Minh'));
+        $currentTimeToo = $today->format('Y-m-d');
+
         $attendance = Attendance::create([
             'schoolShiftID' => $request->input('schoolShiftID'),
             'time_in' => $request->input('time_in'),
             'time_out' => $request->input('time_out'),
             'teacherID' => $request->input('teacherID'),
-            'date' => now(),
+            'date' => $currentTimeToo,
         ]);
 
         $timeIn = new DateTime($request->input('time_in'));
@@ -226,6 +232,11 @@ class TeachController extends Controller
         $soTiengHoc = DB::table('attendance')
             ->where('attendance.schoolShiftID',$schoolShiftID)
             ->count();
+        $timeIn = new DateTime( DB::table('attendance')->where('id',$latestAttendID)->value('time_in')) ;
+        $timeOut = new DateTime(DB::table('attendance')->where('id',$latestAttendID)->value('time_out'));
+        $interval = $timeIn->diff($timeOut);
+        $hours = $interval->h + ($interval->i / 60);
+
         return view('teacher.suadiemdanh',
                ['students' => $students,
                 'schoolShiftID' => $schoolShiftID,
@@ -233,7 +244,8 @@ class TeachController extends Controller
                    'attendID' => $latestAttendID,
                    'subject'=> $subject,
                    'soTiengHoc'=>$soTiengHoc,
-                    'time' => $time]);
+                    'time' => $time,
+                    'hoursDifference'=> $hours]);
     }
 
 
