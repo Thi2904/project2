@@ -232,6 +232,7 @@
                             </select>
                         </div>
                         <input name="schoolShiftID" type="hidden" id="schoolShiftID" value="{{$StudyShift->schoolShift_id}}">
+                        <input name="teacherID" type="hidden" id="teacherID" value="{{$StudyShift->teacherID}}">
                         <div class="form-element">
                             <label for="shiftsID">Ca học</label>
                             <select class="select-element" name="shiftsID" id="shiftsID">
