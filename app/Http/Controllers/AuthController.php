@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
 
@@ -58,6 +59,16 @@ class AuthController extends Controller
 
     public function register(Request $request)
     {
+        $checkMailandPhone = DB::table('users')->get();
+
+        foreach ($checkMailandPhone as $cmp){
+            if($request->input('email') === $cmp->email){
+                return redirect()->route('showTeacher')->with('error', 'Email đã tồn tại vui lòng nhập mail khác');
+            }elseif ($request->input('phone') === $cmp->phone){
+                return redirect()->route('showTeacher')->with('error', 'Số điện thoại đã tồn tại, vui lòng nhập số khác');
+
+            }
+        }
 
         $data = $request->validate([
             'name' => 'required|string|max:255',
@@ -76,7 +87,7 @@ class AuthController extends Controller
 
         // Perform any additional actions or redirects as needed
 
-        return redirect()->route('admin.home')->with('success', 'Tạo tài khoản thành công');
+        return redirect()->route('showTeacher')->with('success', 'Tạo tài khoản thành công');
     }
 
     public function registerStudent(Request $request)

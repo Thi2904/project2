@@ -63,6 +63,7 @@ class TeachController extends Controller
             ->join('_shifts','schoolShiftDetail.shiftsID','=','_shifts.id')
             ->where('attendance.date',$currentTimeToo)
             ->where('attendance.time_out','>',$currentTime)
+            ->where('attendance.time_in','<',$currentTime)
             ->first();
 
         if ($checkHoc == null){
@@ -74,30 +75,56 @@ class TeachController extends Controller
         }
         }
 
-    public function TeachShiftAttendance($classID, $schoolShiftID, $subjectID)
-    {
-        $students = DB::table("students")
-            ->where('classID', $classID)->get();
+        public function TeachShiftAttendance($classID, $schoolShiftID, $subjectID,$teachID,$timeIn,$timeOut)
+        {
+            $latestAttendID = DB::table('attendance')
+                ->join('schoolShift', 'attendance.schoolShiftID', '=', 'schoolShift.id')
+                ->where('attendance.schoolShiftID', $schoolShiftID)
+                ->where('schoolShift.teacherID', $teachID)
+                ->orderBy('attendance.created_at', 'desc')
+                ->value('attendance.id');
 
-        $subject = DB::table('schoolShiftDetail')
-            ->join('schoolShift as sS','sS.id' , '=','schoolShiftDetail.schoolShiftID')
-            ->join('subjects','sS.subjectID','=','subjects.id')
-            ->where('schoolShiftDetail.schoolShiftID',$schoolShiftID)
-            ->first();
+            $students = DB::table("students")
+                ->where('classID', $classID)->get();
 
-        $timeIn = new DateTime(request()->input('time_in'));
-        $timeOut = new DateTime(request()->input('time_out'));
-        $interval = $timeIn->diff($timeOut);
-        $hours = $interval->h + ($interval->i / 60);
+            $subject = DB::table('schoolShiftDetail')
+                ->join('schoolShift as sS','sS.id' , '=','schoolShiftDetail.schoolShiftID')
+                ->join('subjects','sS.subjectID','=','subjects.id')
+                ->where('schoolShiftDetail.schoolShiftID',$schoolShiftID)
+                ->first();
 
-        return view('teacher.diemdanh', [
-            'students' => $students,
-            'schoolShiftID' => $schoolShiftID,
-            'subjectID' => $subjectID,
-            'subject' => $subject,
-            'hoursDifference' => $hours
-        ]);
-    }
+            $timeLeft = DB::table('schoolShift')->value('timeLeft');
+
+            $times = [
+                '8:00', '9:00', '10:00', '11:00', '12:00',
+                '13:30', '14:30', '15:30', '16:30', '17:30'
+            ];
+
+
+
+            try {
+                $timeIn = \Carbon\Carbon::createFromFormat('H:i:s', $timeIn);
+                $timeOut = \Carbon\Carbon::createFromFormat('H:i:s', $timeOut);
+            } catch (\Exception $e) {
+                // Trả về trang trước với thông báo lỗi
+                return back()->with('error', 'Invalid time format: ' . $e->getMessage());
+            }
+
+            // Lọc các thời gian nằm trong khoảng timeIn và timeOut
+            $filteredTimes = array_filter($times, function($time) use ($timeIn, $timeOut) {
+                $currentTime = \Carbon\Carbon::createFromFormat('H:i', $time);
+                return $currentTime >= $timeIn && $currentTime <= $timeOut;
+            });
+
+            return view('teacher.diemdanh', [
+                'students' => $students,
+                'schoolShiftID' => $schoolShiftID,
+                'subjectID' => $subjectID,
+                'subject' => $subject,
+                'timeLeft' => $timeLeft,
+                'filteredTimes' => $filteredTimes,
+            ]);
+        }
 
 
 
@@ -235,10 +262,8 @@ class TeachController extends Controller
         $soTiengHoc = DB::table('attendance')
             ->where('attendance.schoolShiftID',$schoolShiftID)
             ->count();
-        $timeIn = new DateTime( DB::table('attendance')->where('id',$latestAttendID)->value('time_in')) ;
-        $timeOut = new DateTime(DB::table('attendance')->where('id',$latestAttendID)->value('time_out'));
-        $interval = $timeIn->diff($timeOut);
-        $hours = $interval->h + ($interval->i / 60);
+        $timeLeft = DB::table('schoolShift')->value('timeLeft');
+
 
         return view('teacher.suadiemdanh',
                ['students' => $students,
@@ -248,7 +273,7 @@ class TeachController extends Controller
                    'subject'=> $subject,
                    'soTiengHoc'=>$soTiengHoc,
                     'time' => $time,
-                    'hoursDifference'=> $hours]);
+                    'timeLeft'=> $timeLeft]);
     }
 
 

@@ -89,7 +89,7 @@ Route::post('/editSchoolShiftDetail/{SchoolShift}', [\App\Http\Controllers\Schoo
 Route::delete('/deleteSchoolShiftDetail/{SchoolShift}', [SchoolShiftController::class, 'deleteSchoolShiftDetail'])->name('deleteSchoolShiftDetail');
 
 Route::get('/teacher/beforediemdanh', [\App\Http\Controllers\TeachController::class, 'TeachShift'])->name('teacher.TeachShift');
-Route::get('/teacher/diemdanh/{classID}/{schoolShiftID}/{subjectID}', [\App\Http\Controllers\TeachController::class, 'TeachShiftAttendance'])->name('class.showdiemdanh');
+Route::get('/teacher/diemdanh/{classID}/{schoolShiftID}/{subjectID}/{teachID}/{timeIn}/{timeOut}', [\App\Http\Controllers\TeachController::class, 'TeachShiftAttendance'])->name('class.showdiemdanh');
 Route::post('/submit-diemdanh', [\App\Http\Controllers\TeachController::class, 'submitDiemDanh'])->name('submit.diemdanh');
 Route::get('/teacher/suadiemdanh/{classID}/{schoolShiftID}/{subjectID}/{teachID}', [\App\Http\Controllers\TeachController::class, 'showLatestAttendance'])->name('class.suadiemdanh');
 Route::post('/suadiemdanh', [\App\Http\Controllers\TeachController::class, 'suadiemdanh'])->name('suadiemdanh');

@@ -100,12 +100,12 @@
                     <td>{{$StudyShift -> time_in}} - {{$StudyShift -> time_out}}</td>
                     <td class="chuaLinkDiemDanh" style="text-align: start">
                         @if(isset($checkHoc))
-                            <a hidden id="{{$StudyShift->subjectID}}" class="linkDiemDanh" href="{{route('class.showdiemdanh', ['classID' => $StudyShift->classID,'schoolShiftID' => $StudyShift->id,'subjectID' => $StudyShift->subjectID])}}">
+                            <a hidden id="{{$StudyShift->subjectID}}" class="linkDiemDanh" href="{{route('class.showdiemdanh', ['classID' => $StudyShift->classID,'schoolShiftID' => $StudyShift->id,'subjectID' => $StudyShift->subjectID,'teachID'=>Auth::user()->id,'timeIn'=>$StudyShift -> time_in,'timeOut'=> $StudyShift -> time_out])}}">
                                 Điểm danh
                             </a>
                             <a class="linkSuaDiemDanh"  href="{{route('class.suadiemdanh', ['classID' => $StudyShift->classID,'schoolShiftID' => $StudyShift->id,'subjectID' => $StudyShift->subjectID,'teachID'=>Auth::user()->id])}}">Sửa điểm danh</a>
                         @else
-                            <a  id="{{$StudyShift->subjectID}}" class="linkDiemDanh" href="{{route('class.showdiemdanh', ['classID' => $StudyShift->classID,'schoolShiftID' => $StudyShift->id,'subjectID' => $StudyShift->subjectID])}}">
+                            <a  id="{{$StudyShift->subjectID}}" class="linkDiemDanh" href="{{route('class.showdiemdanh', ['classID' => $StudyShift->classID,'schoolShiftID' => $StudyShift->id,'subjectID' => $StudyShift->subjectID,'teachID'=>Auth::user()->id,'timeIn'=>$StudyShift -> time_in,'timeOut'=> $StudyShift -> time_out])}}">
                                 Điểm danh
                             </a>
                             <a hidden class="linkSuaDiemDanh"  href="{{route('class.suadiemdanh', ['classID' => $StudyShift->classID,'schoolShiftID' => $StudyShift->id,'subjectID' => $StudyShift->subjectID,'teachID'=>Auth::user()->id])}}">Sửa điểm danh</a>

@@ -49,7 +49,7 @@
                 </tr>
                 <tr>
                     <th>Thời gian còn lại</th>
-                    <td>{{$subject->subjectTime -  $hoursDifference}}</td>
+                    <td>{{$subject->subjectTime -  $timeLeft}}</td>
                 </tr>
             </table>
         </div>
