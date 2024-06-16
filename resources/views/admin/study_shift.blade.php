@@ -248,7 +248,7 @@
                             <select class="select-element" name="classroomID" id="classroomID">
                                 @foreach($rooms as $room)
                                     <option value="{{ $room->id }}">
-                                        {{ $room -> infrastructure }} - {{ $room -> floor }}
+                                        {{ $room -> classroomName }} - {{ $room -> infrastructure }} - {{ $room -> floor }}
                                     </option>
                                 @endforeach
                             </select>

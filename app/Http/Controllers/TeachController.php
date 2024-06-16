@@ -85,8 +85,21 @@ class TeachController extends Controller
             ->where('schoolShiftDetail.schoolShiftID',$schoolShiftID)
             ->first();
 
-        return view('teacher.diemdanh', ['students' => $students, 'schoolShiftID' => $schoolShiftID, 'subjectID' => $subjectID,'soTiengHoc'=>$soTiengHoc,'subject'=>$subject]);
+        $timeIn = new DateTime(request()->input('time_in'));
+        $timeOut = new DateTime(request()->input('time_out'));
+        $interval = $timeIn->diff($timeOut);
+        $hours = $interval->h + ($interval->i / 60);
+
+        return view('teacher.diemdanh', [
+            'students' => $students,
+            'schoolShiftID' => $schoolShiftID,
+            'subjectID' => $subjectID,
+            'soTiengHoc' => $soTiengHoc,
+            'subject' => $subject,
+            'hoursDifference' => $hours
+        ]);
     }
+
 
 
     /**

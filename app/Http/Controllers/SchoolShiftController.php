@@ -171,22 +171,35 @@ class SchoolShiftController extends Controller
             "shiftsID" => "required|exists:_shifts,id",
         ]);
 
+        $schoolShift = DB::table('schoolShift')->where('id', $request->input('schoolShiftID'))->first();
         $newShift = DB::table('_shifts')->where('id', $request->input('shiftsID'))->first();
 
-        $conflictShifts = DB::table('schoolShiftDetail as ssd')
+        $classConflictShifts = DB::table('schoolShiftDetail as ssd')
+            ->join('schoolShift as ss', 'ssd.schoolShiftID', '=', 'ss.id')
             ->join('_shifts as s', 'ssd.shiftsID', '=', 's.id')
+            ->where('ss.classID', $schoolShift->classID)
             ->where('ssd.dateInWeek', $request->input('dateInWeek'))
-            ->where('ssd.classroomID', $request->input('classroomID'))
             ->where(function ($query) use ($newShift) {
-                $query->where(function ($query) use ($newShift) {
-                    $query->where('s.time_in', '<', $newShift->time_out)
-                        ->where('s.time_out', '>', $newShift->time_in);
-                });
+                $query->where('s.time_in', '<', $newShift->time_out)
+                    ->where('s.time_out', '>', $newShift->time_in);
             })
             ->count();
 
-        if ($conflictShifts > 0) {
-            return redirect()->back()->with('error', 'Ca học đã được xếp . Vui lòng chọn ca khác.');
+        $roomConflictShifts = DB::table('schoolShiftDetail as ssd')
+            ->join('schoolShift as ss', 'ssd.schoolShiftID', '=', 'ss.id')
+            ->join('_shifts as s', 'ssd.shiftsID', '=', 's.id')
+            ->where('ssd.classroomID', $request->input('classroomID'))
+            ->where('ssd.dateInWeek', $request->input('dateInWeek'))
+            ->where(function ($query) use ($newShift) {
+                $query->where('s.time_in', '<', $newShift->time_out)
+                    ->where('s.time_out', '>', $newShift->time_in);
+            })
+            ->count();
+
+        if ($classConflictShifts > 0) {
+            return redirect()->back()->with('error', 'Ca học đã được xếp cho lớp này vào ngày và giờ này. Vui lòng chọn ca khác.');
+        } elseif ($roomConflictShifts > 0) {
+            return redirect()->back()->with('error', 'Phòng học đã được xếp vào ngày và giờ này cho lớp khác. Vui lòng chọn phòng học hoặc thời gian khác.');
         } else {
             $schoolShiftDetail = SchoolShiftDetail::create($data);
             return redirect()->back()->with('success', 'Thêm ngày học thành công.');
@@ -203,23 +216,37 @@ class SchoolShiftController extends Controller
             "shiftsID" => "required|exists:_shifts,id",
         ]);
 
+        $schoolShift = DB::table('schoolShift')->where('id', $request->input('schoolShiftID'))->first();
         $newShift = DB::table('_shifts')->where('id', $request->input('shiftsID'))->first();
 
-        $conflictShifts = DB::table('schoolShiftDetail as ssd')
+        $classConflictShifts = DB::table('schoolShiftDetail as ssd')
+            ->join('schoolShift as ss', 'ssd.schoolShiftID', '=', 'ss.id')
             ->join('_shifts as s', 'ssd.shiftsID', '=', 's.id')
+            ->where('ss.classID', $schoolShift->classID)
             ->where('ssd.dateInWeek', $request->input('dateInWeek'))
-            ->where('ssd.classroomID', $request->input('classroomID'))
             ->where('ssd.id', '!=', $SchoolShift->id)
             ->where(function ($query) use ($newShift) {
-                $query->where(function ($query) use ($newShift) {
-                    $query->where('s.time_in', '<', $newShift->time_out)
-                        ->where('s.time_out', '>', $newShift->time_in);
-                });
+                $query->where('s.time_in', '<', $newShift->time_out)
+                    ->where('s.time_out', '>', $newShift->time_in);
             })
             ->count();
 
-        if ($conflictShifts > 0) {
-            return redirect()->back()->with('error', 'Ca học đã được xếp hoặc bị chồng lấn. Vui lòng chọn ca khác.');
+        $roomConflictShifts = DB::table('schoolShiftDetail as ssd')
+            ->join('schoolShift as ss', 'ssd.schoolShiftID', '=', 'ss.id')
+            ->join('_shifts as s', 'ssd.shiftsID', '=', 's.id')
+            ->where('ssd.classroomID', $request->input('classroomID'))
+            ->where('ssd.dateInWeek', $request->input('dateInWeek'))
+            ->where('ssd.id', '!=', $SchoolShift->id)
+            ->where(function ($query) use ($newShift) {
+                $query->where('s.time_in', '<', $newShift->time_out)
+                    ->where('s.time_out', '>', $newShift->time_in);
+            })
+            ->count();
+
+        if ($classConflictShifts > 0) {
+            return redirect()->back()->with('error', 'Ca học đã được xếp cho lớp này vào ngày và giờ này. Vui lòng chọn ca khác.');
+        } elseif ($roomConflictShifts > 0) {
+            return redirect()->back()->with('error', 'Phòng học đã được xếp vào ngày và giờ này cho lớp khác. Vui lòng chọn phòng học hoặc thời gian khác.');
         } else {
             if ($SchoolShift->update($data)) {
                 return redirect()->back()->with('success', 'Sửa ngày học thành công.');
