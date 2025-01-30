@@ -1,14 +1,19 @@
 
 var clickCount = 0;
+var dropDowmTeacher = document.querySelector('#dropDowmTeacher')
 document.querySelector(".show_logout")
     .addEventListener("click",function (){
         var popupElement =  document.querySelector('.drop_down');
         if (clickCount === 0) {
             popupElement.classList.remove("drop_downActive");
+            dropDowmTeacher.classList.remove('fa-caret-down')
+            dropDowmTeacher.classList.add('fa-caret-up')
             clickCount++;
-            console.log(clickCount)
         }else{
             popupElement.classList.add("drop_downActive");
+            dropDowmTeacher.classList.add('fa-caret-down');
+            dropDowmTeacher.classList.remove('fa-caret-up');
+
             clickCount = 0;
         }
     });

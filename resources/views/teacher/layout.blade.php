@@ -21,7 +21,7 @@
 <body>
 <div class="row main_content">
     <div id="sidebar" class="bg-main col-lg-2">
-        <div class="side-menuTop">
+        <div class="side-menuTop mt-2" >
             <i class="fa-solid fa-house"></i>
             <a href="">
                 <span>BKAHUB</span>
@@ -60,7 +60,7 @@
 
                 <div class="avatar" style="text-align: end; margin-right: 12px">
                     <b style="color: #0a53be; margin-right: 2px">{{\Illuminate\Support\Facades\Auth::user()->name}}</b>
-                    <span style="font-size: 20px" class="show_logout"><i class="fa-solid fa-caret-down"></i></span>
+                    <span style="font-size: 20px" class="show_logout"><i id="dropDowmTeacher" class="fa-solid fa-caret-down"></i></span>
                     <div class="drop_down drop_downActive mt-2">
                         <form style="margin-right: 0" method="post" action="{{route('logout')}}">
                             @csrf

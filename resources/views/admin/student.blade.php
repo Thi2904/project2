@@ -10,31 +10,54 @@
             </a>
         </li>
 
-        <li class="sidebarActive">
-            <a href="{{route('admin.student')}}">
+        <li class="sidebarActive" style="display: flex;">
+
+            <a style="width: 90% !important;" href="{{route('admin.student')}}">
                 <i class='bx bxs-user' ></i>
-                <span class="text">Sinh Viên</span>
+                <span   class="text">Sinh Viên </span>
             </a>
+{{--            <i style="margin-top: 10px" id="student_dropDown" class='bx bxs-chevron-down' ></i>--}}
+
         </li>
-        <li>
+
+{{--        <ul class="listStudentAction" >--}}
+{{--            <li  style="color: black;padding: 4px">--}}
+{{--                <a href="#">--}}
+{{--                    <i class='bx bxs-file-plus'></i>--}}
+{{--                    <span>Thêm sinh viên với file excel</span>--}}
+{{--                </a>--}}
+{{--            </li>--}}
+{{--        </ul>--}}
+        <li class="">
             <a href="{{route('showSpecialized')}}">
                 <i class='bx bxl-slack' ></i>
                 <span class="text">Chuyên ngành và CTDT</span>
             </a>
         </li>
-        <li>
-            <a href="{{route('studyShift')}}">
+        <li class="" style="display: flex">
+            <a style="width: 90% !important;" href="{{route('studyShift')}}">
                 <i class='bx bxs-calendar' ></i>
                 <span class="text">Ca học</span>
             </a>
+            <i style="margin-top: 10px" id="calender_dropDown" class='bx bxs-chevron-down' ></i>
+
         </li>
+
+        <ul class="listCalenderAction" >
+            <li  style="color: black ; padding: 4px">
+                <a href="#">
+                    <i class='bx bxs-calendar-check'></i>
+                    <span>Quản lý ca học</span>
+                </a>
+            </li>
+        </ul>
+
         <li>
             <a href="{{route('showTeacher')}}">
                 <i class='bx bxs-graduation'></i>
                 <span class="text">Giảng viên</span>
             </a>
         </li>
-
     </ul>
 @endsection
 @section('tro')
@@ -160,23 +183,45 @@
                     <td>{{ $class->grade }}</td>
                     <td>{{$stuCount[$key]-> student_count}}</td>
                     <td>
-                        <button id="{{$class->id}}" data-popup-id="{{$class->id}}" class="show-add button-add-student">Thêm sinh viên</button>
+                        <div class="" style="display: flex; ">
+                            <button style="margin: 0 5px" id="{{$class->id}}" data-popup-id="{{$class->id}}" class="show-add button-add-student"><b>Thêm sinh viên thủ công</b></button>
+                            <button style="margin: 0 5px" id="buttonChooseExcel{{$class->id}}" data-excel-id="{{$class->id}}" class="show-add-excel button-excel-student"><b>Thêm sinh viên với file excel</b></button>
+                        </div>
+                        <div id="popupExcel-{{$class->id}}" class="popup">
+                            <div class="close-btn">&times;</div>
+                            <form class="form-excel" action="/upload" method="post" enctype="multipart/form-data">
+                                <h2>Thêm sinh viên với file excel</h2>
+                                <div class="form-element">
+                                    <input style="display: none" type="file" id="fileInput" name="file">
+                                </div>
+                                <div style="margin-bottom: 12px" class="drop-zone" id="dropZone">Kéo và thả tệp vào đây hoặc nhấp để chọn tệp</div>
+                                <span  class="form-messageExcel"></span>
+                                <button style="margin-top: 12px;margin-left: 50px" class="button-add-student" type="submit">Tải lên</button>
+                            </form>
+
+                        </div>
                         <div id="popup-{{$class->id}}" class="popup">
                             <div class="close-btn">&times;</div>
-                            <form action="{{ route('addStudent')}}" method="POST">
+                            <form class="formAddStudent" action="{{ route('addStudent')}}" method="POST">
                                 @csrf
                                 <input type="hidden" id="{{ $class->id }}" name="classID" value="{{ $class->id }}">
-                                <h2 class="nameAction">Thêm sinh viên</h2>
+                                <h2 class="nameAction">Thêm sinh viên </h2>
                                 <div class="form-element">
                                     <label for="studentName">Tên</label>
-                                    <input name="studentName" type="text" id="studentName" placeholder="Nhập tên">
-                                </div><div class="form-element">
+                                    <input class="form-control form-control-lg" name="studentName" type="text" id="studentName" placeholder="Nhập tên">
+                                    <span class="form-message"></span>
+                                </div>
+                                <div class="form-element">
                                     <label for="email">Email</label>
-                                    <input name="email" type="text" id="email" placeholder="Nhập Email">
+                                    <input class="form-control form-control-lg" name="email" type="text" id="email" placeholder="Nhập Email">
+                                    <span class="form-message"></span>
+
                                 </div>
                                 <div class="form-element">
                                     <label for="phoneNumber">Số điện thoại</label>
-                                    <input name="phoneNumber" type="text" id="phoneNumber" placeholder="Nhập số điện thoại">
+                                    <input class="form-control form-control-lg" name="phoneNumber" type="text" id="phoneNumber" placeholder="Nhập số điện thoại">
+                                    <span class="form-message"></span>
+
                                 </div>
                                 <div class="form-element">
                                     <label for="gender"> Giới tính </label>
@@ -200,6 +245,23 @@
 
 @endsection('content')
 @section('fileJs')
+    <script src="{{asset('js/validator.js')}}"></script>
+    <script>
+        Validator({
+            form : '.formAddStudent',
+            formGroupSelector: '.form-element',
+            errorSelector : '.form-message',
+            rules: [
+                Validator.isRequired('#studentName', ' Vui lòng nhập tên đầy đủ của sinh viên'),
+                Validator.isRequired('#phoneNumber', ' Vui lòng nhập số điện thoại của sinh viên'),
+                Validator.isRequired('#email', ' Vui lòng nhập email của của sinh viên'),
+                Validator.isEmail('#email'),
+            ],
+
+        });
+    </script>
+
     <script src="{{asset('js/student.js')}}"></script>
+
 @endsection
 

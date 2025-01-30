@@ -41,7 +41,7 @@ Route::get('/login', [\App\Http\Controllers\AuthController::class,'viewLogin'])-
 Route::post('/register',[\App\Http\Controllers\AuthController::class,'register'])->name('register');
 Route::get('/registerStudent', [\App\Http\Controllers\AuthController::class,'viewRegis'])->name('registerView');
 Route::post('/registerStudent',[\App\Http\Controllers\AuthController::class,'registerStudent'])->name('registerStudent');
-Route::post('/login', [\App\Http\Controllers\AuthController::class,'login']);
+Route::post('/login', [\App\Http\Controllers\AuthController::class,'login'])->name('loginAction');
 Route::post('/logout', [\App\Http\Controllers\AuthController::class,'logout'])->name('logout');
 
 Route::post('/addClass', [AdminController::class, 'addClass'])->name('addClass');

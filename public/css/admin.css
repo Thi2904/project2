@@ -667,7 +667,7 @@ body.dark {
     transform: translate(-50%,-50%) slace(1.25);
     width: 380px;
     padding: 20px 30px;
-    background: #3C91E6;
+    background: #fff;
     box-shadow: 2px 2px 5px 5px rgba(0,0,0,0.15);
     border-radius: 10px;
     transition: top 0ms ease-in-out 200ms,
@@ -698,7 +698,7 @@ body.dark {
 }
 .popup form h2{
     text-align: center;
-    color: #222;
+    color: var(--blue);
     margin: 10px 0 20px;
     font-size: 25px;
 }
@@ -715,7 +715,7 @@ body.dark {
     width: 100%;
     padding: 10px;
     outline: none;
-    border: 1px solid #aaa;
+    border: 1px solid var(--blue);
     border-radius: 5px;
 }
 .popup form .form-element input[type="date"]{
@@ -724,7 +724,7 @@ body.dark {
     width: 100%;
     padding: 10px;
     outline: none;
-    border: 1px solid #aaa;
+    border: 1px solid var(--blue);
     border-radius: 5px;
 }
 .popup form .form-element button{
@@ -733,7 +733,7 @@ body.dark {
     border: none;
     outline: none;
     font-size: 16px;
-    background: #222;
+    background: var(--blue);
     color: #f5f5f5;
     border-radius: 10px;
     cursor: pointer;
@@ -747,7 +747,7 @@ body.dark {
     transform: translate(-50%,-50%) slace(1.25);
     width: 380px;
     padding: 20px 30px;
-    background: #3C91E6;
+    background: #fff;
     box-shadow: 2px 2px 5px 5px rgba(0,0,0,0.15);
     border-radius: 10px;
     transition: top 0ms ease-in-out 200ms,
@@ -778,7 +778,7 @@ body.dark {
 }
 .popup-edit form h2{
     text-align: center;
-    color: #222;
+    color: var(--blue);
     margin: 10px 0 20px;
     font-size: 25px;
 }
@@ -795,7 +795,7 @@ body.dark {
     width: 100%;
     padding: 10px;
     outline: none;
-    border: 1px solid #aaa;
+    border: 1px solid var(--blue);
     border-radius: 5px;
 }
 .popup-edit form .form-element input[type="date"]{
@@ -804,7 +804,7 @@ body.dark {
     width: 100%;
     padding: 10px;
     outline: none;
-    border: 1px solid #aaa;
+    border: 1px solid var(--blue);
     border-radius: 5px;
 }
 .popup-edit form .form-element button{
@@ -813,7 +813,7 @@ body.dark {
     border: none;
     outline: none;
     font-size: 16px;
-    background: #222;
+    background: var(--blue);
     color: #f5f5f5;
     border-radius: 10px;
     cursor: pointer;
@@ -827,7 +827,7 @@ body.dark {
     transform: translate(-50%,-50%) slace(1.25);
     width: 380px;
     padding: 20px 30px;
-    background: #3C91E6;
+    background: #fff;
     box-shadow: 2px 2px 5px 5px rgba(0,0,0,0.15);
     border-radius: 10px;
     transition: top 0ms ease-in-out 200ms,
@@ -858,7 +858,7 @@ body.dark {
 }
 .popupAdd form h2{
     text-align: center;
-    color: #222;
+    color: var(--blue);
     margin: 10px 0 20px;
     font-size: 25px;
 }
@@ -875,7 +875,7 @@ body.dark {
     width: 100%;
     padding: 10px;
     outline: none;
-    border: 1px solid #aaa;
+    border: 1px solid var(--blue);
     border-radius: 5px;
 }
 .popupAdd form .form-element input[type="date"]{
@@ -884,7 +884,7 @@ body.dark {
     width: 100%;
     padding: 10px;
     outline: none;
-    border: 1px solid #aaa;
+    border: 1px solid var(--blue);
     border-radius: 5px;
 }
 .popupAdd form .form-element button{
@@ -893,7 +893,7 @@ body.dark {
     border: none;
     outline: none;
     font-size: 16px;
-    background: #222;
+    background: var(--blue);
     color: #f5f5f5;
     border-radius: 10px;
     cursor: pointer;
@@ -1008,7 +1008,7 @@ body.dark {
     transform: translate(-50%,-50%) slace(1.25);
     width: 380px;
     padding: 20px 30px;
-    background: #3C91E6;
+    background: #fff;
     box-shadow: 2px 2px 5px 5px rgba(0,0,0,0.15);
     border-radius: 10px;
     transition: top 0ms ease-in-out 200ms,
@@ -1039,7 +1039,7 @@ body.dark {
 }
 .popup_add form h2{
     text-align: center;
-    color: #222;
+    color: var(--blue);
     margin: 10px 0 20px;
     font-size: 25px;
 }
@@ -1056,7 +1056,7 @@ body.dark {
     width: 100%;
     padding: 10px;
     outline: none;
-    border: 1px solid #aaa;
+    border: 1px solid var(--blue);
     border-radius: 5px;
 }
 .popup_add form .form-element button{
@@ -1065,14 +1065,14 @@ body.dark {
     border: none;
     outline: none;
     font-size: 16px;
-    background: #222;
+    background: var(--blue);
     color: #f5f5f5;
     border-radius: 10px;
     cursor: pointer;
 }
 .sidebarActive{
     height: 50px;
-    width: 400px;
+    /*width: 400px;*/
     background: #3C91E6!important;
 
 }
@@ -1138,7 +1138,7 @@ textarea {
 }
 
 textarea:focus {
-    border-color: #007bff; /* Màu viền khi ô input được focus */
+    border-color: #00ff00; /* Màu viền khi ô input được focus */
     box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
     outline: none; /* Loại bỏ đường viền xung quanh khi focus */
 }
@@ -1174,6 +1174,22 @@ textarea:focus {
     color: white;
 }
 
+.button-excel-student{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 40px;
+    width: 200px;
+    background: #0fb60f;
+    border-radius: 5px;
+    border: none;
+    color: white;
+}
+
+.button-excel-student:hover{
+    opacity: 0.8;
+    color: white;
+}
 
 .overlay {
     display: none;
@@ -1192,7 +1208,7 @@ textarea:focus {
     width: 100%;
     padding: 10px;
     outline: none;
-    border: 1px solid #aaa;
+    border: 1px solid var(--blue)!important;
     border-radius: 5px;
 }
 
@@ -1203,4 +1219,61 @@ textarea:focus {
     font-size: 13px; /* Kích thước chữ của các tùy chọn */
 
 }
+.listStudentAction {
+    /*background: #3C91E6;*/
+    max-height: 0;
+    color: black;
+    overflow: hidden; /* Đảm bảo nội dung không bị tràn */
+    width:100%;
+    transition: max-height 0.3s linear; /* Chuyển động mượt mà */
+}
 
+.listStudentAction.action {
+    max-height: 100px; /* Giá trị lớn hơn chiều cao nội dung */
+}
+
+.form-element.invalid .form-control {
+    border-color: red!important;
+    font-size: 13px;
+}
+
+.form-element.invalid .form-message {
+    border-color: #e70000 !important;
+    color: #E70000FF;
+    font-size: 13px;
+
+}
+
+.listCalenderAction {
+    /*background: #3C91E6;*/
+    max-height: 0;
+    color: black;
+    overflow: hidden; /* Đảm bảo nội dung không bị tràn */
+    width:100%;
+    transition: max-height 0.3s linear; /* Chuyển động mượt mà */
+}
+
+.listCalenderAction.action {
+    max-height: 100px; /* Giá trị lớn hơn chiều cao nội dung */
+}
+.drop-zone {
+    border: 2px dashed #cccccc;
+    border-radius: 10px;
+    padding: 20px;
+    text-align: center;
+    cursor: pointer;
+    margin-top: 20px;
+}
+.drop-zone.invalid{
+    border: 2px dashed red;
+}
+.drop-zone.hover {
+    background-color: #f1f1f1;
+}
+
+.form-messageExcel .invalid  {
+    border-color: #e70000 !important;
+    color: #E70000FF;
+    font-size: 13px;
+
+}

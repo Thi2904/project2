@@ -147,31 +147,35 @@
             <div class="order">
                 <div id="popup_addTeacher" class="popupAdd">
                     <div class="close-btn">&times;</div>
-                    <h3 style="text-align: center">Tạo tài khoản giảng viên</h3>
-                    <form method="post" action="{{route('register')}}">
+                    <h3 style="text-align: center; color: var(--blue)">Tạo tài khoản giảng viên</h3>
+                    <form id="form_1" method="post" action="{{route('register')}}">
                         @csrf
                         <input type="hidden" name="role" value="teacher">
                         <div class="form-element">
                             <label class="form-label" for="form2Example37">Họ và tên</label>
                             <input type="text" name="name" id="form2Example37" placeholder="Họ và tên" class="form-control form-control-lg" />
+                            <span class="form-message"></span>
                         </div>
                         <div class="form-element">
                             <label class="form-label" for="form2Example27">Số điện thoại</label>
                             <input type="text" name="phone" id="form2Example27" placeholder="Số điện thoại" class="form-control form-control-lg" />
+                            <span class="form-message"></span>
                         </div>
                         <div class="form-element">
-                            <label class="form-label" for="form2Example7">Địa chỉ</label>
-                            <input type="text" name="address" id="form2Example7" placeholder="Địa chỉ" class="form-control form-control-lg" />
+                            <label class="form-label" for="formAddress1">Địa chỉ</label>
+                            <input type="text" name="address" id="formAddress1" placeholder="Địa chỉ" class="form-control form-control-lg" />
+                            <span class="form-message"></span>
                         </div>
                         <div class="form-element">
                             <label class="form-label" for="form2Example1">Địa chỉ email</label>
                             <input name="email" type="text" id="form2Example1" placeholder="Địa chỉ email" class="form-control form-control-lg" />
+                            <span class="form-message"></span>
                         </div>
 
                         <div class="form-element">
-                            <label class="form-label"  for="form2Example27">Mật khẩu</label>
-                            <input name="password"  type="text" placeholder="Mật khẩu" id="form2Example27" class="form-control form-control-lg" />
-
+                            <label class="form-label"  for="formPassWord1">Mật khẩu</label>
+                            <input name="password"  type="text" placeholder="Mật khẩu" id="formPassWord1" class="form-control form-control-lg" />
+                            <span class="form-message"></span>
                         </div>
 
                         <div class="form-element">
@@ -180,6 +184,54 @@
                         </div>
 
                     </form>
+                    <script src="{{asset('js/validator.js')}}"></script>
+                    <script>
+                        Validator({
+                            form : '#form_1',
+                            formGroupSelector: '.form-element',
+                            errorSelector : '.form-message',
+                            rules: [
+                                Validator.isRequired('#form2Example37', ' Vui lòng nhập tên đầy đủ của giảng viên'),
+                                Validator.isRequired('#form2Example27', ' Vui lòng nhập số điện thoại của giảng viên'),
+                                Validator.isRequired('#formAddress1', ' Vui lòng nhập địa chỉ của giảng viên'),
+                                Validator.isRequired('#form2Example1', ' Vui lòng nhập email của của giảng viên'),
+                                Validator.isEmail('#form2Example1'),
+                                Validator.isRequired('#formPassWord1', ' Vui lòng nhập mật khẩu của giảng viên'),
+                                Validator.minLength('#formPassWord1', 8)
+                                // Validator.isRequired('#password_confirmation', ' Vui lòng nhập lại mật khẩu của bạn'),
+                                // Validator.isConfirmed('#password_confirmation' , function(){
+                                //     return document.querySelector('#form-1 #password').value;
+                                // },'Mật khẩu nhập vào không chính xác')
+
+                            ],
+
+                        });
+                    </script>
+                    <script>
+                        function generateRandomPassword() {
+                            // Tạo các ký tự có thể sử dụng
+                            var chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+
+                            var password = "";
+                            // Tạo một vòng lặp để chọn ngẫu nhiên các ký tự từ chuỗi chars
+                            for (var i = 0; i < 8; i++) {
+                                var randomIndex = Math.floor(Math.random() * chars.length);
+                                password += chars[randomIndex];
+                            }
+
+                            return password;
+                        }
+                        var addTeacher = document.querySelector("#show_addTeacher")
+                        addTeacher.addEventListener("click",function () {
+                            document.querySelector(".popupAdd").classList.add("active")
+                            overlay.style.display = 'block';
+                        });
+                        document.querySelector(".popupAdd .close-btn")
+                            .addEventListener("click",function (){
+                                document.querySelector(".popupAdd").classList.remove("active");
+                                overlay.style.display = 'none';
+                            });
+                    </script>
                 </div>
                 @yield('content')
             </div>
@@ -192,19 +244,6 @@
 </section>
 
 
-<script>
-
-    var addTeacher = document.querySelector("#show_addTeacher")
-    addTeacher.addEventListener("click",function () {
-        document.querySelector(".popupAdd").classList.add("active")
-        overlay.style.display = 'block';
-    });
-    document.querySelector(".popupAdd .close-btn")
-        .addEventListener("click",function (){
-            document.querySelector(".popupAdd").classList.remove("active");
-            overlay.style.display = 'none';
-    });
-</script>
 </body>
 </html>
 

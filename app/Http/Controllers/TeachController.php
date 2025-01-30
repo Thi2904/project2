@@ -62,10 +62,9 @@ class TeachController extends Controller
             ->join('schoolShiftDetail','schoolShiftDetail.schoolShiftID','=','schoolShift.id')
             ->join('_shifts','schoolShiftDetail.shiftsID','=','_shifts.id')
             ->where('attendance.date',$currentTimeToo)
-            ->where('attendance.time_out','>',$currentTime)
-            ->where('attendance.time_in','<',$currentTime)
+            ->where('_shifts.time_out','>',$currentTime)
+            ->where('_shifts.time_in','<',$currentTime)
             ->first();
-
         if ($checkHoc == null){
             return view('teacher.beforediemdanh', ['StudyShifts' => $StudyShifts,'currentTime'=> $currentTime]);
 

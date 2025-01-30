@@ -10,31 +10,47 @@
             </a>
         </li>
 
-        <li class="">
-            <a href="{{route('admin.student')}}">
+        <li style="display: flex;">
+
+            <a style="width: 90% !important;" href="{{route('admin.student')}}">
                 <i class='bx bxs-user' ></i>
-                <span class="text">Sinh Viên</span>
+                <span   class="text">Sinh Viên </span>
             </a>
+{{--            <i style="margin-top: 10px" id="student_dropDown" class='bx bxs-chevron-down' ></i>--}}
+
         </li>
+
+
         <li class="sidebarActive">
             <a href="{{route('showSpecialized')}}">
                 <i class='bx bxl-slack' ></i>
                 <span class="text">Chuyên ngành và CTDT</span>
             </a>
         </li>
-        <li>
-            <a href="{{route('studyShift')}}">
+        <li style="display: flex">
+            <a style="width: 90% !important;" href="{{route('studyShift')}}">
                 <i class='bx bxs-calendar' ></i>
                 <span class="text">Ca học</span>
             </a>
+            <i style="margin-top: 10px" id="calender_dropDown" class='bx bxs-chevron-down' ></i>
+
         </li>
+
+        <ul class="listCalenderAction" >
+            <li  style="color: black ; padding: 4px">
+                <a href="#">
+                    <i class='bx bxs-calendar-check'></i>
+                    <span>Quản lý ca học</span>
+                </a>
+            </li>
+        </ul>
+
         <li>
             <a href="{{route('showTeacher')}}">
                 <i class='bx bxs-graduation'></i>
                 <span class="text">Giảng viên</span>
             </a>
         </li>
-
     </ul>
 @endsection
 @section('tro')
@@ -152,7 +168,7 @@
                     <td><a href="{{ route('showCurriculum', ['major' => $major->id]) }}">{{ $major->majorName }}</a></td>
                     <td>{{$mjs[$key] -> curriculums_count}}</td>
                     <td style="display: flex;">
-                        <button id="{{ $major->id }}" data-popup-id="{{$major->id}}" class="show-add button-add-student">Thêm CTDT</button>
+                        <button id="{{ $major->id }}" data-popup-id="{{$major->id}}" class="show-add button-add-student"><b>Thêm CTDT</b></button>
                         <div class="head list_student">
                             <div id="popup-{{$major->id}}" class="popup">
                                 <div class="close-btn">&times;</div>

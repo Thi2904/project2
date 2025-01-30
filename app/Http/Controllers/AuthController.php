@@ -38,11 +38,11 @@ class AuthController extends Controller
             $user = Auth::user();
             switch ($user -> role){
                 case "admin":
-                    return redirect()->route("admin.home");
+                    return redirect()->route("admin.home")->with('success','Đăng nhập thành công');
                     break;
                 case "teacher":
                     session(['teacherID' => $user->id]);
-                    return redirect()->route("teacher.TeachShift");
+                    return redirect()->route("teacher.TeachShift")->with('success','Đăng nhập thành công');
                     break;
                 case "student":
                     session(['studentID' => $user->id]);

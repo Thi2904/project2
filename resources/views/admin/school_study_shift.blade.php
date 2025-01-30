@@ -2,7 +2,6 @@
 
 @section('title', 'Product Details')
 @section('sidebar_top')
-
     <ul class="side-menu top">
         <li class="">
             <a href="{{route('admin.home')}}">
@@ -11,24 +10,41 @@
             </a>
         </li>
 
-        <li class="">
-            <a href="{{route('admin.student')}}">
+        <li style="display: flex;">
+
+            <a style="width: 90% !important;" href="{{route('admin.student')}}">
                 <i class='bx bxs-user' ></i>
-                <span class="text">Sinh Viên</span>
+                <span   class="text">Sinh Viên </span>
             </a>
+{{--            <i style="margin-top: 10px" id="student_dropDown" class='bx bxs-chevron-down' ></i>--}}
+
         </li>
-        <li>
+
+
+        <li class="">
             <a href="{{route('showSpecialized')}}">
                 <i class='bx bxl-slack' ></i>
                 <span class="text">Chuyên ngành và CTDT</span>
             </a>
         </li>
-        <li class="sidebarActive">
-            <a href="{{route('studyShift')}}">
-                <i class='bx bxs-calendar' ></i>
+        <li class="sidebarActive" style="display: flex">
+            <a style="width: 90% !important;" href="{{route('studyShift')}}">
+                <i style="z-index: 10000!important;" class='bx bxs-calendar' ></i>
                 <span class="text">Ca học</span>
             </a>
+            <i style="margin-top: 10px" id="calender_dropDown" class='bx bxs-chevron-down' ></i>
+
         </li>
+
+        <ul class="listCalenderAction" >
+            <li  style="color: black ; padding: 4px">
+                <a href="#">
+                    <i class='bx bxs-calendar-check'></i>
+                    <span>Quản lý ca học</span>
+                </a>
+            </li>
+        </ul>
+
         <li>
             <a href="{{route('showTeacher')}}">
                 <i class='bx bxs-graduation'></i>

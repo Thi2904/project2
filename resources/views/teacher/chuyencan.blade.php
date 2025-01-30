@@ -57,7 +57,7 @@
                     <td style="text-align: start"><a class="linkDiemDanh"  href="{{route('class.showChuyenCan', ['subjectID' => $StudyShift->subjectID])}}">Xem chuyên cần</a></td>
                 </tr>
             @empty
-                <tr><td colspan="4">Hiện tại không có lịch học nên không thêm xem chuyên cần</td></tr>
+                <tr><td colspan="4">Hiện tại không có lịch học nên không thể xem chuyên cần</td></tr>
             @endforelse
             </tbody>
 

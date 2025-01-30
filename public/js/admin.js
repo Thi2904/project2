@@ -130,3 +130,44 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 });
+// var studentDrop = document.querySelector('#student_dropDown');
+// var listStudentAction = document.querySelector('.listStudentAction');
+// var checkstudentDrop = false;
+// document.addEventListener('DOMContentLoaded', function() {
+//     studentDrop.addEventListener('click', function() {
+//         if (checkstudentDrop) {
+//             listStudentAction.classList.remove('action');
+//             studentDrop.classList.add('bxs-chevron-down');
+//             studentDrop.classList.remove('bx-chevron-up');
+//         } else {
+//             listStudentAction.classList.add('action');
+//             studentDrop.classList.remove('bxs-chevron-down');
+//             studentDrop.classList.add('bx-chevron-up');
+//         }
+//
+//         checkstudentDrop = !checkstudentDrop; // Cập nhật trạng thái của checkstudentDrop
+//
+//     });
+// });
+
+
+
+var calenderDrop = document.querySelector('#calender_dropDown');
+var listCalenderAction = document.querySelector('.listCalenderAction');
+var checkCalendertDrop = false;
+document.addEventListener('DOMContentLoaded', function() {
+    calenderDrop.addEventListener('click', function() {
+        if (checkCalendertDrop) {
+            listCalenderAction.classList.remove('action');
+            calenderDrop.classList.add('bxs-chevron-down');
+            calenderDrop.classList.remove('bx-chevron-up');
+        } else {
+            listCalenderAction.classList.add('action');
+            calenderDrop.classList.remove('bxs-chevron-down');
+            calenderDrop.classList.add('bx-chevron-up');
+        }
+
+        checkCalendertDrop = !checkCalendertDrop; // Cập nhật trạng thái của checkstudentDrop
+
+    });
+});
